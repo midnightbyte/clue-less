@@ -1,6 +1,7 @@
 # clue-less
 To set up:
-go to download dir and run npm install
+go to download dir 
+run npm install
 
 To run:
 npm start
