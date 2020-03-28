@@ -1,4 +1,6 @@
 # clue-less
+Requires nodejs installation first.
+
 To set up:
 
 go to download dir 
