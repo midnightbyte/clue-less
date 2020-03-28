@@ -13,8 +13,12 @@ npm start
 
 Project will be running on localhost:3000
 
-To see changes dynamically install nodemon and start using nodemon:
+To see changes dynamically:
+
+install nodemon
 
 npm install nodemon -g
+
+to use nodemon:
 
 nodemon start
