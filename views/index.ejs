@@ -25,14 +25,22 @@
 </body>
 <% include partials/script %>
 </html>
+<button class="addPlayer">addPlayer</button>
+<button class="removePlayer">removePlayer</button>
 <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
 <script>
 var socket = io();
 // NOTE: Something like this to send messages to server
-socket.emit('createGame')
-
-socket.emit('addPlayer', {
-  username: 'username',
-  person: 'person'
-})
+$('.addPlayer').click(function() {
+  socket.emit('addPlayer', {
+    username: 'username',
+    person: 'person'
+  })
+});
+$('.removePlayer').click(function() {
+  socket.emit('removePlayer', {
+    username: 'username',
+    person: 'person'
+  })
+});
 </script>

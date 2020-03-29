@@ -14,7 +14,7 @@ var server = require('http').Server(app);
 var io = require('socket.io')(server, {});
 server.listen(1234);
 
-var game = require('./server/game')(io)
+var game = require('./server/player')(io)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
