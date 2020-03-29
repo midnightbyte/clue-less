@@ -25,6 +25,7 @@
 </body>
 <% include partials/script %>
 </html>
+<!-- NOTE: This needs to send data via a form (username, person) -->
 <button class="addPlayer">addPlayer</button>
 <button class="removePlayer">removePlayer</button>
 <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
@@ -38,9 +39,9 @@ $('.addPlayer').click(function() {
   })
 });
 $('.removePlayer').click(function() {
-  socket.emit('removePlayer', {
-    username: 'username',
-    person: 'person'
-  })
+  socket.emit('removePlayer')
 });
+socket.on('notify', function(data) {
+  alert(data.message)
+})
 </script>

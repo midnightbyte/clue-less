@@ -5,7 +5,18 @@ exports = module.exports = function(io){
 
     socket.on('addPlayer', function(data) {
       console.log(socket.id + ': addPlayer');
-      playerService.addPlayer(socket.id);
+      // NOTE: Currently no server side verification if the connection is already a player
+      playerService.addPlayer(socket);
+    });
+
+    socket.on('removePlayer', function(data) {
+      console.log(socket.id + ': removePlayer');
+      playerService.removePlayer(socket);
+    });
+
+    socket.on('notifyPlayer', function(data) {
+      console.log(socket.id + ': removePlayer');
+      playerService.notifyPlayer(socket, message);
     });
 
     socket.on('createLobby', function() {
@@ -17,37 +28,36 @@ exports = module.exports = function(io){
       // NOTE: Used to join lobby, will need server side verification that the lobby exists
     });
 
-    socket.on('removePlayer', function(data) {
-      console.log(socket.id + ': removePlayer');
-      playerService.removePlayer(socket.id)
-    });
-
     socket.on('disconnect', function() {
       console.log(socket.id + ': disconnect');
-      playerService.removePlayer(socket.id)
+      playerService.removePlayer(socket)
     });
   });
 }
 
 setInterval(function() {
-  console.log('\nCurrently connected:');
-  console.log(playerService.players)
+  console.log('\nConnected players:');
+  for (var player in playerService.players) {
+    console.log(playerService.players[player].id)
+  }
 }, 2500)
 
 class PlayerService {
   constructor() {
+    // NOTE: This is a dictionary of sockets, it'd be nice if it used the player's name as the key
     this.players = {};
   }
 
-  addPlayer(id) {
-    this.players[id] = id;
+  addPlayer(socket) {
+    // NOTE: Again, it'd be nice if it used the player's name as the key
+    this.players[socket.id] = socket;
   }
 
-  removePlayer(id) {
-    delete this.players[id];
+  removePlayer(socket) {
+    delete this.players[socket.id];
   }
 
-  alertPlayer(id) {
-    
+  notifyPlayer(from, to, message) {
+    // NOTE: This needs to be able to send messages
   }
 }
