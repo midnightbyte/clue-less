@@ -9,6 +9,13 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
+// server setup
+var server = require('http').Server(app);
+var io = require('socket.io')(server, {});
+server.listen(1234);
+
+var game = require('./server/player')(io)
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
