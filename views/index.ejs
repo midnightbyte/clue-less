@@ -26,12 +26,18 @@
 <% include partials/script %>
 </html>
 <!-- NOTE: This needs to send data via a form (username, person) -->
-<button class="addPlayer">addPlayer</button>
+<button class="createGame">createGame</button><br>
+<input class="Name" type="text" name="Name" value="Name">
+<input type="color" name="Color" value="color">
+<button class="addPlayer">addPlayer</button><br>
 <button class="removePlayer">removePlayer</button>
 <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
 <script>
 var socket = io();
 // NOTE: Something like this to send messages to server
+$('.createGame').click(function() {
+  socket.emit('createLobby');
+});
 $('.addPlayer').click(function() {
   socket.emit('addPlayer', {
     username: 'username',

@@ -1,9 +1,13 @@
+var player = require('./player')
 // NOTE: Nothing is calling this at the moment
 
 class GameService {
   constructor() {
+    this.gameId = "ABCD"
     this.players = {}
   }
+}
+
 
   addPlayer(player) {
     this.players[player.name] = player;
@@ -74,7 +78,15 @@ class Room extends Clue {
   }
 }
 
-const COLORS = {
+function shuffle(a) {
+    for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+}
+
+const PERSONS = {
   "scarlet": {
     "name": "Miss Scarlet",
     "location": "hall_lounge"
@@ -100,7 +112,6 @@ const COLORS = {
     "location": "ballroom_kitchen"
   }
 }
-
 const WEAPONS = [
   "candlestick",
   "knife",
@@ -109,7 +120,6 @@ const WEAPONS = [
   "lead_pipe",
   "wrench"
 ]
-
 const ROOMS = {
   "study": {
     "paths": ["study_hall", "study_library", "kitchen"]
@@ -139,7 +149,6 @@ const ROOMS = {
     "paths": ["ballroom_kitchen", "dining_room_kitchen", "study"]
   }
 }
-
 const HALLWAYS = {
   "study_hall": {
     "paths": ["study", "hall"]
@@ -177,12 +186,4 @@ const HALLWAYS = {
   "dining_room_kitchen": {
     "paths": ["dining_room", "kitchen"]
   }
-}
-
-function shuffle(a) {
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
 }
