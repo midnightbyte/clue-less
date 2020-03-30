@@ -10,12 +10,11 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 // server setup
-var server = require('http').Server(app);
-var io = require('socket.io')(server, {});
-server.listen(1234);
+var s = require('http').Server(app);
+var io = require('socket.io')(s, {});
+s.listen(1234);
 
-var player = require('./server/player')(io)
-//var game = require('./server/game')(io)
+var server = require('./server/server')(io)
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
