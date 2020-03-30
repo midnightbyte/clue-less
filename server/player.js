@@ -1,3 +1,4 @@
+const { uuid } = require('uuidv4');
 exports = module.exports = function(io){
   playerService = new PlayerService();
   io.sockets.on('connection', function(socket) {
@@ -57,7 +58,6 @@ class PlayerService {
   }
 
   addPlayer(socket, name) {
-    console.log('add player')
     this.players[socket.id] = new Player(socket, name);
     console.log(this.players[socket.id].name);
   }
@@ -68,7 +68,7 @@ class PlayerService {
   }
 
   createLobby(socket) {
-    this.joinLobby(socket, socket.id);
+    this.joinLobby(socket, uuid());
   }
 
   removePlayer(socket) {
