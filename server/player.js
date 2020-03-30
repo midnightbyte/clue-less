@@ -49,6 +49,7 @@ class Player {
     this.name = name
     this.socket = socket;
     this.lobby = undefined;
+    this.person = undefined;
   }
 }
 
@@ -63,7 +64,9 @@ class PlayerService {
   }
 
   joinLobby(socket, lobby) {
+    console.log(socket)
     socket.join(lobby);
+    console.log(socket)
     this.players[socket.id].lobby = lobby;
   }
 
@@ -77,6 +80,19 @@ class PlayerService {
 
   leaveLobby(socket) {
     socket.leave(this.players[socket.id].lobby);
-    this.removePlayer(socket)
+    this.removePlayer(socket);
+  }
+
+  addPerson(socket, color) {
+    this.players[socket.id].person = new Person(color, this.players[socket.id].name);
+  }
+
+  startGame(socket) {
+    let lobby = this.players[socket.id].lobby
+    let players =
+    for (socketId in io.in(lobby).clients) {
+      players[socketId] = this.players[socketId]
+    }
+    new GameService(lobby, players)
   }
 }
