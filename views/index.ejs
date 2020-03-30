@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
   <% include partials/head %>
-
 </head>
 <body>
 <% include partials/menu %>
@@ -18,9 +17,7 @@
       <p>Maybe number of players waiting here</p>
     </div>
     <div class="col-sm-4">
-      <h1>Server connections</h1>
-      <h3>Player - Lobby</h3>
-      <div id="server"></div>
+      <p>Maybe number something</p>
     </div>
   </div>
 </div>
@@ -30,35 +27,17 @@
 <input class="lobby" type="text" placeholder="Lobby">
 <button class="createLobby">createLobby</button>
 <button class="joinLobby">joinLobby</button>
+<button class="startGame">startGame</button>
 </html>
 <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
 <script>
 var socket = io();
 $('.createLobby').click(function() {
   let name = $('.name').val()
-  socket.emit('createLobby', {
-    name: name
-  });
+  socket.emit('createLobby');
 });
 $('.joinLobby').click(function() {
-  let name = $('.name').val()
-  let lobby = $('.lobby').val()
-  socket.emit('joinLobby', {
-    name: name,
-    lobby: lobby
-  });
-});
-socket.on('players', function(data) {
-  if (data.players == {}) {
-    content = "";
-  }
-  else {
-    console.log(data.players)
-    content = ""
-    for (var player in data.players) {
-      content += player + " - " + data.players[player] + "<br>"
-    }
-  }
-  $('#server').html(content);
+  let lobbyId = $('.lobby').val()
+  socket.emit('joinLobby', lobbyId);
 });
 </script>
