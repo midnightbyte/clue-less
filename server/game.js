@@ -1,68 +1,69 @@
-var player = require('./player')
-// NOTE: Nothing is calling this at the moment
-
 class GameService {
-  constructor() {
-    this.gameId = "ABCD"
-    this.players = {}
-  }
-}
+  constructor(lobby, players) {
+    this.lobby = lobby;
+    this.players = players;
 
-
-  addPlayer(player) {
-    this.players[player.name] = player;
-  }
-
-  remove_player(player) {
-    delete this.players[players.name];
-  }
-
-  start_game() {
-    this.gameId =
-
-    for (var person in PERSONS) {
-      this.persons.push(new Person(person, PERSONS['name'], PERSONS['location']));
+    for (var color in PERSONS) {
+      this.persons.push(new Person(color));
+    }
+    for (var [id, player] of Object.entries(this.players)) {
+      this.persons[player.person.id] = player.person;
     }
     for (var weapon in WEAPONS) {
       this.weapons.push(new Weapon(weapon));
     }
     for (var room in ROOMS) {
-      this.rooms.push(new Room(room, room['paths']));
+      this.rooms.push(new Room(room));
     }
 
-    this.person = this.persons.pop();
-    this.weapon = this.weapons.pop();
-    this.room = this.rooms.pop();
+    this.person = shuffle(this.persons).pop();
+    this.weapon = shuffle(this.weapons).pop();
+    this.room = shuffle(this.rooms).pop();
 
     this.clues = this.persons + this.weapons + this.rooms;
 
-    for (var player in players) {
+    for (var [id, player] of Object.entries(this.players)) {
       if (!this.clues.length) {
         break;
       }
-      player.clues.push(this.clues.pop());
+      player.person.clues.push(this.clues.pop());
     }
-
-    this.board =
-
-
   }
+}
 
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
 }
 
 class Clue {
+<<<<<<< Updated upstream
   constructor(id) {}
     this.id = id;
+=======
+  constructor(id) {
+    this.id = id;
+  }
+>>>>>>> Stashed changes
 }
 
 class Person extends Clue {
-  constructor(id, name, location) {
-    super(id);
+  constructor(color, name, location) {
+    super(color);
     this.name = name;
-    this.location = location;
+    this.location = PERSONS[color]["location"];
 
-    this.clues = null;
+    this.clues = undefined;
+    this.checklist = undefined;
   }
+
 }
 
 class Weapon extends Clue {
@@ -72,9 +73,9 @@ class Weapon extends Clue {
 }
 
 class Room extends Clue {
-  constructor(id, paths) {
+  constructor(id) {
     super(id);
-    this.paths = paths;
+    this.paths = [...ROOMS, ...HALLWAYS][id]["paths"];
   }
 }
 

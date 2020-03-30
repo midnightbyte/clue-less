@@ -1,3 +1,4 @@
+const { uuid } = require('uuidv4');
 exports = module.exports = function(io){
   playerService = new PlayerService();
   io.sockets.on('connection', function(socket) {
@@ -48,6 +49,7 @@ class Player {
     this.name = name
     this.socket = socket;
     this.lobby = undefined;
+    this.person = undefined;
   }
 }
 
@@ -57,18 +59,19 @@ class PlayerService {
   }
 
   addPlayer(socket, name) {
-    console.log('add player')
     this.players[socket.id] = new Player(socket, name);
     console.log(this.players[socket.id].name);
   }
 
   joinLobby(socket, lobby) {
+    console.log(socket)
     socket.join(lobby);
+    console.log(socket)
     this.players[socket.id].lobby = lobby;
   }
 
   createLobby(socket) {
-    this.joinLobby(socket, socket.id);
+    this.joinLobby(socket, uuid());
   }
 
   removePlayer(socket) {
@@ -77,6 +80,19 @@ class PlayerService {
 
   leaveLobby(socket) {
     socket.leave(this.players[socket.id].lobby);
-    this.removePlayer(socket)
+    this.removePlayer(socket);
+  }
+
+  addPerson(socket, color) {
+    this.players[socket.id].person = new Person(color, this.players[socket.id].name);
+  }
+
+  startGame(socket) {
+    let lobby = this.players[socket.id].lobby
+    let players =
+    for (socketId in io.in(lobby).clients) {
+      players[socketId] = this.players[socketId]
+    }
+    new GameService(lobby, players)
   }
 }
