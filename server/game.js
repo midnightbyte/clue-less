@@ -1,4 +1,3 @@
-var player = require('./player')
 // NOTE: Nothing is calling this at the moment
 
 class GameService {
@@ -6,8 +5,6 @@ class GameService {
     this.gameId = "ABCD"
     this.players = {}
   }
-}
-
 
   addPlayer(player) {
     this.players[player.name] = player;
@@ -18,8 +15,6 @@ class GameService {
   }
 
   start_game() {
-    this.gameId =
-
     for (var person in PERSONS) {
       this.persons.push(new Person(person, PERSONS['name'], PERSONS['location']));
     }
@@ -42,12 +37,7 @@ class GameService {
       }
       player.clues.push(this.clues.pop());
     }
-
-    this.board =
-
-
   }
-
 }
 
 class Clue {
@@ -76,14 +66,6 @@ class Room extends Clue {
     super(id);
     this.paths = paths;
   }
-}
-
-function shuffle(a) {
-    for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-    }
-    return a;
 }
 
 const PERSONS = {
