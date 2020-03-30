@@ -42,7 +42,7 @@ class GameService {
 
 class Clue {
   constructor(id) {}
-    this.id = id;
+   // this.id = id;
 }
 
 class Person extends Clue {
