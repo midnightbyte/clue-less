@@ -14,7 +14,7 @@ class GameService {
   }
 
   start_game() {
-    this.gameId =
+   // this.gameId = null;
 
     for (var person in PERSONS) {
       this.persons.push(new Person(person, PERSONS['name'], PERSONS['location']));
@@ -39,7 +39,7 @@ class GameService {
       player.clues.push(this.clues.pop());
     }
 
-    this.board =
+   // this.board = null;
 
 
   }
@@ -48,7 +48,7 @@ class GameService {
 
 class Clue {
   constructor(id) {}
-    this.id = id;
+   // this.id = id;
 }
 
 class Person extends Clue {
