@@ -18,30 +18,47 @@
       <p>Maybe number of players waiting here</p>
     </div>
     <div class="col-sm-4">
-      <p>Maybe messages here</p>
+      <h1>Server connections</h1>
+      <h3>Player - Lobby</h3>
+      <div id="server"></div>
     </div>
   </div>
 </div>
 </body>
 <% include partials/script %>
+<input class="name" type="text" placeholder="Name">
+<input class="lobby" type="text" placeholder="Lobby">
+<button class="createLobby">createLobby</button>
+<button class="joinLobby">joinLobby</button>
 </html>
-<!-- NOTE: This needs to send data via a form (username, person) -->
-<button class="addPlayer">addPlayer</button>
-<button class="removePlayer">removePlayer</button>
 <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
 <script>
 var socket = io();
-// NOTE: Something like this to send messages to server
-$('.addPlayer').click(function() {
-  socket.emit('addPlayer', {
-    username: 'username',
-    person: 'person'
-  })
+$('.createLobby').click(function() {
+  let name = $('.name').val()
+  socket.emit('createLobby', {
+    name: name
+  });
 });
-$('.removePlayer').click(function() {
-  socket.emit('removePlayer')
+$('.joinLobby').click(function() {
+  let name = $('.name').val()
+  let lobby = $('.lobby').val()
+  socket.emit('joinLobby', {
+    name: name,
+    lobby: lobby
+  });
 });
-socket.on('notify', function(data) {
-  alert(data.message)
-})
+socket.on('players', function(data) {
+  if (data.players == {}) {
+    content = "";
+  }
+  else {
+    console.log(data.players)
+    content = ""
+    for (var player in data.players) {
+      content += player + " - " + data.players[player] + "<br>"
+    }
+  }
+  $('#server').html(content);
+});
 </script>
