@@ -4,23 +4,27 @@ exports = module.exports = function(io){
     console.log(socket.id + ': connect')
 
     socket.on('createLobby', function(data) {
-      playerService.addPlayer(socket, data.name);
-      let lobbyId = playerService.createLobby();
-      playerService.joinLobby(socket, lobbyId);
       console.log(socket.id + ': createLobby');
+      playerService.addPlayer(socket, data.name);
+      let lobby = playerService.createLobby();
+      playerService.joinLobby(socket, lobby);
     });
     socket.on('joinLobby', function(data) {
       console.log(socket.id + ': joinLobby');
+      playerService.addPlayer(socket, data.name);
+      let lobby = data.lobby;
+      playerService.joinLobby(socket, lobby);
     });
 
-    socket.on('removePlayer', function(data) {
+    socket.on('leaveLobby', function(data) {
+      console.log(socket.id + ': joinLobby');
+      playerService.leaveLobby(socket);
+      playerService.removePlayer(socket);
+    })
+
+    socket.on('removePlayer', function() {
       console.log(socket.id + ': removePlayer');
       playerService.removePlayer(socket);
-    });
-
-    socket.on('notifyPlayer', function(data) {
-      console.log(socket.id + ': removePlayer');
-      playerService.notifyPlayer(socket, message);
     });
 
     socket.on('disconnect', function() {
@@ -33,14 +37,14 @@ exports = module.exports = function(io){
 setInterval(function() {
   console.log('\nConnected players:');
   for (var player in playerService.players) {
-    console.log(player)
+    console.log(playerService.players[player].name + ' - ' + playerService.players[player].lobby)
   }
 }, 2500)
 
 class Player {
-  constructor(name, socket) {
-    self.name = name
-    self.socket = socket;
+  constructor(socket, name) {
+    this.name = name
+    this.socket = socket;
     this.lobby = undefined;
   }
 }
@@ -50,18 +54,28 @@ class PlayerService {
     this.players = {}
   }
 
-  addPlayer(name, socket) {
-    this.players[socket.id] = new Player(name, socket);
+  addPlayer(socket, name) {
+    console.log('add player')
+    this.players[socket.id] = new Player(socket, name);
+    console.log(this.players[socket.id].name);
   }
 
   createLobby() {
-    let lobbyId = (Math.random()+1).toString(36).slice(2, 4);
-    return lobbyId;
+    let lobby = (Math.random()+1).toString(36).slice(2, 6);
+    return lobby;
   }
 
-  joinLobby(socket, lobbyId) {
-    this.player[socket.id].lobby = lobbyId
+  joinLobby(socket, lobby) {
+    socket.join('lobby');
+    this.players[socket.id].lobby = lobby;
   }
 
-  removePlayer()
+  leaveLobby(socket) {
+    socket.leave(this.players[socket.id].lobby);
+    removePlayer(socket)
+  }
+
+  removePlayer(socket) {
+    delete this.players[socket.id];
+  }
 }

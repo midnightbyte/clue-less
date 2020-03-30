@@ -25,27 +25,26 @@
 </body>
 <% include partials/script %>
 </html>
-<!-- NOTE: This needs to send data via a form (username, person) -->
-<button class="createGame">createGame</button><br>
-<input class="name" type="text" name="Name" value="Name">
-<button class="addPlayer">addPlayer</button><br>
-<button class="removePlayer">removePlayer</button>
+<input class="name" type="text" value="Name">
+<input class="lobby" type="text" value="Lobby">
+<button class="createLobby">createLobby</button>
+<button class="joinLobby">joinLobby</button>
 <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
 <script>
 var socket = io();
 // NOTE: Something like this to send messages to server
-$('.createGame').click(function() {
-  socket.emit('createLobby');
+$('.createLobby').click(function() {
+  let name = $('.name').val()
+  socket.emit('createLobby', {
+    name: name
+  });
 });
-$('.addPlayer').click(function() {
-  socket.emit('addPlayer', {
-    username: $('.name').val();
-  })
+$('.joinLobby').click(function() {
+  let name = $('.name').val()
+  let lobby = $('.lobby').val()
+  socket.emit('joinLobby', {
+    name: name,
+    lobby: lobby
+  });
 });
-$('.removePlayer').click(function() {
-  socket.emit('removePlayer')
-});
-socket.on('notify', function(data) {
-  alert(data.message)
-})
 </script>
