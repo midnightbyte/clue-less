@@ -27,6 +27,7 @@ class PlayerService {
   }
 
   joinLobby(socket, lobbyId) {
+    console.log(lobbyId);
     let player = this.players[socket.id];
     player.lobby = lobbyId;
     this.lobbies[lobbyId].addPlayer(socket, player);
@@ -41,11 +42,12 @@ class PlayerService {
 
   }
 
-  emitData() {
+  emitPlayers() {
     let data = {};
     for (var [id, player] of Object.entries(this.players)) {
       data[player.id] = player.lobby;
     }
+    // data = this.lobbies;
     return data;
   }
 }

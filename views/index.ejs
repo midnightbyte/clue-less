@@ -23,7 +23,6 @@
 </div>
 </body>
 <% include partials/script %>
-<input class="name" type="text" placeholder="Name">
 <input class="lobby" type="text" placeholder="Lobby">
 <button class="createLobby">createLobby</button>
 <button class="joinLobby">joinLobby</button>
@@ -33,11 +32,13 @@
 <script>
 var socket = io();
 $('.createLobby').click(function() {
-  let name = $('.name').val()
   socket.emit('createLobby');
 });
 $('.joinLobby').click(function() {
   let lobbyId = $('.lobby').val()
-  socket.emit('joinLobby', lobbyId);
+  console.log(lobbyId);
+  socket.emit('joinLobby', {
+    lobbyId: lobbyId
+  });
 });
 </script>

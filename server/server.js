@@ -1,6 +1,4 @@
 var PlayerService = require('./playerService');
-var GameService = require('./gameService');
-var GameState = require('./gameState');
 
 exports = module.exports = function(io){
   playerService = new PlayerService();
@@ -14,6 +12,7 @@ exports = module.exports = function(io){
     });
     socket.on('joinLobby', function(data) {
       console.log(socket.id + ': joinLobby');
+      console.log(data.lobbId);
       playerService.joinLobby(socket, data.lobbyId);
     });
     socket.on('leaveLobby', function(data) {
@@ -27,6 +26,7 @@ exports = module.exports = function(io){
   });
 
   setInterval(function() {
-    console.log(playerService.emitData())
+    console.log('\nPlayers:');
+    console.log(playerService.emitPlayers());
   }, 2500)
 }
