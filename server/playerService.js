@@ -47,7 +47,6 @@ class PlayerService {
     for (var [id, player] of Object.entries(this.players)) {
       data[player.id] = player.lobby;
     }
-    // data = this.lobbies;
     return data;
   }
 }

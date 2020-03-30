@@ -1,10 +1,10 @@
 class GameState {
-  constructor() {
+  constructor(players) {
 
   }
 
   update() {
-    
+
   }
 }
 
