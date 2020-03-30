@@ -18,17 +18,19 @@
       <p>Maybe number of players waiting here</p>
     </div>
     <div class="col-sm-4">
-      <p>Maybe messages here</p>
+      <h1>Server connections</h1>
+      <h3>Player - Lobby</h3>
+      <div id="server"></div>
     </div>
   </div>
 </div>
 </body>
 <% include partials/script %>
-</html>
-<input class="name" type="text" value="Name">
-<input class="lobby" type="text" value="Lobby">
+<input class="name" type="text" placeholder="Name">
+<input class="lobby" type="text" placeholder="Lobby">
 <button class="createLobby">createLobby</button>
 <button class="joinLobby">joinLobby</button>
+</html>
 <script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
 <script>
 var socket = io();
@@ -46,5 +48,18 @@ $('.joinLobby').click(function() {
     name: name,
     lobby: lobby
   });
+});
+socket.on('players', function(data) {
+  if (data.players == {}) {
+    content = "";
+  }
+  else {
+    console.log(data.players)
+    content = ""
+    for (var player in data.players) {
+      content += player + " - " + data.players[player] + "<br>"
+    }
+  }
+  $('#server').html(content);
 });
 </script>
