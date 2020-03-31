@@ -16,7 +16,7 @@ exports = module.exports = function(io){
       playerService.joinLobby(socket, data.lobbyId);
     });
     socket.on('login', function(data) {
-      console.log('in io login');
+      io.sockets.emit('login', { playername: data.playername, playercharacter: data.playercharacter});
       playerService.createPlayer(data.playername, data.playercharacter);
     });
     socket.on('leaveLobby', function(data) {

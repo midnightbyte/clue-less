@@ -14,11 +14,11 @@ class PlayerService {
   }
 
   destroyPlayer(socket) {
-    let player = this.players[socket.id];
-    if (player.lobby != undefined) {
-      leaveLobby(socket);
-    }
-    delete this.players[socket.id];
+    // let player = this.players[socket.id];
+    // if (player.lobby !== undefined) {
+    //   leaveLobby(socket);
+    // }
+    // delete this.players[socket.id];
   }
 
   createLobby() {

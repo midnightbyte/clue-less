@@ -16,10 +16,13 @@
       <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#loginDialog">Login</button>
     </div>
     <div class="col-sm-4">
-      <p>Waiting for players ...</p>
+      <p>Players</p>
+      <section id="playerslist">
+        <section id="playerstream"></section>
+      </section>
     </div>
     <div class="col-sm-4">
-      <p>Maybe number something</p>
+      <p>&nbsp;</p>
     </div>
   </div>
 </div>
@@ -68,9 +71,12 @@
 
 <% include partials/script %>
 <script>
+
+  let newplayerlist = $("#playerstream");
+
   $(function() {
-    const socket = io();
-    const output = document.querySelector('.players');
+
+    var socket = io.connect('http://localhost:3000');
 
     // handle create lobby click
     $('.createLobby').click(function() {
@@ -101,8 +107,14 @@
       let pname = $('#playername').val();
       let pcharacter = $('#playercharacter option:selected').val();
       socket.emit('login', { playername: pname, playercharacter: pcharacter});
+
       return false;
     });
+
+    socket.on("login", (data) => {
+      console.log(data);
+      newplayerlist.append("<p>" + data.playername + " has joined as " + data.playercharacter + "</p>")
+    })
 
   });
 
