@@ -17,9 +17,7 @@
     </div>
     <div class="col-sm-4">
       <p>Players</p>
-      <section id="playerslist">
-        <section id="playerstream"></section>
-      </section>
+      <section id="playerslist"></section>
     </div>
     <div class="col-sm-4">
       <p>&nbsp;</p>
@@ -72,11 +70,9 @@
 <% include partials/script %>
 <script>
 
-  let newplayerlist = $("#playerstream");
+  let newplayerlist = $("#playerslist");
+  var socket = io.connect('http://localhost:3000');
 
-  $(function() {
-
-    var socket = io.connect('http://localhost:3000');
 
     // handle create lobby click
     $('.createLobby').click(function() {
@@ -106,17 +102,21 @@
       e.preventDefault();
       let pname = $('#playername').val();
       let pcharacter = $('#playercharacter option:selected').val();
-      socket.emit('login', { playername: pname, playercharacter: pcharacter});
+      let loginInfo = { playername: pname, playercharacter: pcharacter}
+      socket.emit('login', loginInfo);
 
-      return false;
     });
 
-    socket.on("login", (data) => {
+    socket.on('login', (data) => {
       console.log(data);
       newplayerlist.append("<p>" + data.playername + " has joined as " + data.playercharacter + "</p>")
-    })
+    });
 
-  });
+    socket.on('message', function(message) {
+      alert('server message: ' + message);
+    });
+
+
 
 </script>
 </body>
