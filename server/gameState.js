@@ -1,11 +1,9 @@
 class GameState {
   constructor(players) {
 	  this.playersList = players;
+	  this.turnQueue = [];
+	  this.turnPhases = [];
   }
-
-//  this.playersList = [];
-//  this.turnQueue = [];
-//  this.turnPhases = [];
 
   checkActivePlayer(){
 	  return this.turnQueue[0];
