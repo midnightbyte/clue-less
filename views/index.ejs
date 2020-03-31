@@ -11,8 +11,9 @@
 
   <div class="row">
     <div class="col-sm-4">
-      <p>Maybe game/user locations here.</p>
-
+      <p>Join a game! Login here.</p>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#loginDialog">Login</button>
     </div>
     <div class="col-sm-4">
       <p>Maybe number of players waiting here</p>
@@ -22,24 +23,72 @@
     </div>
   </div>
 </div>
-</body>
-<% include partials/script %>
+
+
+
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <form id="loginForm">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Join a Game</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="username">Enter your Name</label>
+          <input class="form-control" id="username" required placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+          <label for="selectCharacter">Select a Character</label>
+          <select id="selectCharacter" name="Character" class="form-control">
+            <option value="MissScarlet">Miss Scarlet</option>
+            <option value="ColonelMustard">Colonel Mustard</option>
+            <option value="MrsWhite">Mrs. White</option>
+            <option value="MrGreen">Mr. Green</option>
+            <option value="MrsPeacock">Mrs. Peacock</option>
+            <option value="ProfessorPlum">Professor Plum</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
+        <input type="submit" value="login" class="btn btn-primary">
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
 <input class="lobby" type="text" placeholder="Lobby">
 <button class="createLobby">createLobby</button>
 <button class="joinLobby">joinLobby</button>
 <button class="startGame">startGame</button>
-</html>
-<script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+
+<% include partials/script %>
 <script>
-var socket = io();
-$('.createLobby').click(function() {
-  socket.emit('createLobby');
-});
-$('.joinLobby').click(function() {
-  let lobbyId = $('.lobby').val()
-  console.log(lobbyId);
-  socket.emit('joinLobby', {
-    lobbyId: lobbyId
+
+  $('.createLobby').click(function() {
+    socket.emit('createLobby');
   });
-});
+  $('.joinLobby').click(function() {
+    let lobbyId = $('.lobby').val()
+    console.log(lobbyId);
+    socket.emit('joinLobby', {
+      lobbyId: lobbyId
+    });
+  });
+
+  $('#loginDialog').dialog({
+    modal: true,
+    overlay: {
+      opacity: 0.7,
+      background: "black"
+    }
+  });
 </script>
+</body>
+</html>
