@@ -7,9 +7,10 @@ class PlayerService {
     this.lobbies = {};
   }
 
-  createPlayer(socket) {
-    let player = new Player(socket);
-    this.players[player.id] = player;
+  createPlayer(name, character) {
+    let player = new Player(name, character);
+    //this.players[player.id] = player;
+    this.players.add(player);
   }
 
   destroyPlayer(socket) {
@@ -44,8 +45,10 @@ class PlayerService {
 
   emitPlayers() {
     let data = {};
+
     for (var [id, player] of Object.entries(this.players)) {
       data[player.id] = player.lobby;
+
     }
     return data;
   }

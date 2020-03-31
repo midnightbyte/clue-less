@@ -42,7 +42,7 @@ a {
   background-color: white;
   border-radius: 15px;
 }
-.modal-header, h4, .close {
+.modal-header {
   background-color: #1abc9c;
   color:white !important;
   text-align: center;

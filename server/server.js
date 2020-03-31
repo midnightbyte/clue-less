@@ -4,7 +4,7 @@ exports = module.exports = function(io){
   playerService = new PlayerService();
   io.sockets.on('connection', function(socket) {
     console.log(socket.id + ': connect');
-    playerService.createPlayer(socket);
+   // playerService.createPlayer(socket);
     socket.on('createLobby', function(data) {
       console.log(socket.id + ': createLobby');
       let lobby = playerService.createLobby();
@@ -14,6 +14,10 @@ exports = module.exports = function(io){
       console.log(socket.id + ': joinLobby');
       console.log(data.lobbId);
       playerService.joinLobby(socket, data.lobbyId);
+    });
+    socket.on('login', function(data) {
+      console.log('in io login');
+      playerService.createPlayer(data.playername, data.playercharacter);
     });
     socket.on('leaveLobby', function(data) {
       console.log(socket.id + ': joinLobby');

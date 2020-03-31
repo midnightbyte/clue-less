@@ -16,7 +16,7 @@
       <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#loginDialog">Login</button>
     </div>
     <div class="col-sm-4">
-      <p>Maybe number of players waiting here</p>
+      <p>Waiting for players ...</p>
     </div>
     <div class="col-sm-4">
       <p>Maybe number something</p>
@@ -24,26 +24,23 @@
   </div>
 </div>
 
-
-
-
 <!-- Login Modal -->
 <div class="modal fade" id="loginDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
   <div class="modal-dialog modal-sm" role="document">
     <div class="modal-content">
-      <form id="loginForm">
+      <form id="playerLogin">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title" id="myModalLabel">Join a Game</h4>
       </div>
       <div class="modal-body">
         <div class="form-group">
-          <label for="username">Enter your Name</label>
-          <input class="form-control" id="username" required placeholder="Enter your name">
+          <label for="playername">Enter your Name</label>
+          <input class="form-control" id="playername" name="playername" required placeholder="Enter your name">
         </div>
         <div class="form-group">
-          <label for="selectCharacter">Select a Character</label>
-          <select id="selectCharacter" name="Character" class="form-control">
+          <label for="playercharacter">Select a Character</label>
+          <select id="playercharacter" name="playercharacter" class="form-control">
             <option value="MissScarlet">Miss Scarlet</option>
             <option value="ColonelMustard">Colonel Mustard</option>
             <option value="MrsWhite">Mrs. White</option>
@@ -62,33 +59,53 @@
   </div>
 </div>
 
-
+<!--
 <input class="lobby" type="text" placeholder="Lobby">
 <button class="createLobby">createLobby</button>
 <button class="joinLobby">joinLobby</button>
 <button class="startGame">startGame</button>
+-->
 
 <% include partials/script %>
 <script>
+  $(function() {
+    const socket = io();
+    const output = document.querySelector('.players');
 
-  $('.createLobby').click(function() {
-    socket.emit('createLobby');
-  });
-  $('.joinLobby').click(function() {
-    let lobbyId = $('.lobby').val()
-    console.log(lobbyId);
-    socket.emit('joinLobby', {
-      lobbyId: lobbyId
+    // handle create lobby click
+    $('.createLobby').click(function() {
+      socket.emit('createLobby');
     });
+
+    // handle join lobby click
+    $('.joinLobby').click(function() {
+      let lobbyId = $('.lobby').val();
+      console.log(lobbyId);
+      socket.emit('joinLobby', {
+        lobbyId: lobbyId
+      });
+    });
+
+    // handle login dialog open
+    $('#loginDialog').dialog({
+      modal: true,
+      overlay: {
+        opacity: 0.7,
+        background: "black"
+      }
+    });
+
+    // handle login dialog submit
+    $('#playerLogin').submit(function(e){
+      e.preventDefault();
+      let pname = $('#playername').val();
+      let pcharacter = $('#playercharacter option:selected').val();
+      socket.emit('login', { playername: pname, playercharacter: pcharacter});
+      return false;
+    });
+
   });
 
-  $('#loginDialog').dialog({
-    modal: true,
-    overlay: {
-      opacity: 0.7,
-      background: "black"
-    }
-  });
 </script>
 </body>
 </html>
