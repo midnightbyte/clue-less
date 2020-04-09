@@ -28,5 +28,6 @@ exports = module.exports = function(io){
   setInterval(function() {
     console.log('\nPlayers:');
     console.log(playerService.emitPlayers());
+    io.emit('players', playerService.emitPlayers())
   }, 2500)
 }

@@ -41,4 +41,7 @@ $('.joinLobby').click(function() {
     lobbyId: lobbyId
   });
 });
+socket.on('players', function(data) {
+  console.log(data)
+});
 </script>
