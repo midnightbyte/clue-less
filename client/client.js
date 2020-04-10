@@ -1,1 +1,8 @@
-// TODO: Frontend API
+createLobby()
+
+joinLobby(lobbyId)
+  socket.emit(ack)
+
+ack = function(data) {
+  
+}
