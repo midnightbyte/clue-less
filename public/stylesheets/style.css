@@ -1,6 +1,7 @@
 body {
   padding: 50px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-image: url('../images/bamboo.jpg');
 }
 
 a {
@@ -19,14 +20,41 @@ a {
   padding-top: 15px;
   padding-bottom: 15px;
   border: 0;
-  border-radius: 0;
+  border-radius: 15px;
   margin-bottom: 0;
   font-size: 12px;
   letter-spacing: 5px;
+
+  background-color: black;
 }
 .navbar-nav  li a:hover {
   color: #1abc9c !important;
 }
 .active>a {
   color: #1abc9c !important;;
+}
+
+.navbar-default .navbar-brand {
+  color: #1abc9c;
+}
+
+.navbar-default .navbar-nav>.active>a, .navbar-default .navbar-nav>.active>a:focus, .navbar-default .navbar-nav>.active>a:hover {
+  background-color: white;
+  border-radius: 15px;
+}
+.modal-header {
+  background-color: #1abc9c;
+  color:white !important;
+  text-align: center;
+  font-size: 30px;
+}
+.modal-footer {
+  background-color: #f9f9f9;
+}
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  transform: translate(-50%, -50%);
 }

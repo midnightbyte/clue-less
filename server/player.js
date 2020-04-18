@@ -1,3 +1,5 @@
+const defaultValues = require('./constants');
+
 class Player {
   constructor(socket) {
     this.socket = socket;
@@ -56,4 +58,3 @@ Player.disconnect = function(socket) {
   delete player;
 }
 
-module.exports = Player;

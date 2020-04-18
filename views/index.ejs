@@ -5,43 +5,115 @@
 </head>
 <body>
 <% include partials/menu %>
-<h3 align-left><%= page %></h3>
+
+<h3 align-left><%= title %></h3>
 <div class="container-fluid bg-3 text-center">
 
   <div class="row">
     <div class="col-sm-4">
-      <p>Maybe game/user locations here.</p>
-
+      <p>Join a game! Login here.</p>
+      <!-- Button trigger modal -->
+      <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#loginDialog">Login</button>
     </div>
     <div class="col-sm-4">
-      <p>Maybe number of players waiting here</p>
+      <p>Players</p>
+      <section id="playerslist"></section>
     </div>
     <div class="col-sm-4">
-      <p>Maybe number something</p>
+      <p>&nbsp;</p>
     </div>
   </div>
 </div>
-</body>
-<% include partials/script %>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginDialog" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <form id="playerLogin">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Join a Game</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="playername">Enter your Name</label>
+          <input class="form-control" id="playername" name="playername" required placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+          <label for="playercharacter">Select a Character</label>
+          <select id="playercharacter" name="playercharacter" class="form-control">
+            <option value="MissScarlet">Miss Scarlet</option>
+            <option value="ColonelMustard">Colonel Mustard</option>
+            <option value="MrsWhite">Mrs. White</option>
+            <option value="MrGreen">Mr. Green</option>
+            <option value="MrsPeacock">Mrs. Peacock</option>
+            <option value="ProfessorPlum">Professor Plum</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <input type="button" class="btn btn-default" data-dismiss="modal" value="Close">
+        <input type="submit" value="login" class="btn btn-primary">
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!--
 <input class="lobby" type="text" placeholder="Lobby">
 <button class="createLobby">createLobby</button>
 <button class="joinLobby">joinLobby</button>
 <button class="startGame">startGame</button>
-</html>
-<script src="https://cdn.jsdelivr.net/npm/socket.io-client@2/dist/socket.io.js"></script>
+-->
+
+<% include partials/script %>
 <script>
-var socket = io();
-$('.createLobby').click(function() {
-  socket.emit('createLobby');
-});
-$('.joinLobby').click(function() {
-  let lobbyId = $('.lobby').val()
-  console.log(lobbyId);
-  socket.emit('joinLobby', {
-    lobbyId: lobbyId
-  });
-});
-socket.on('players', function(data) {
-  console.log(data)
-});
+  let newplayerlist = $("#playerslist");
+  var socket = io.connect('http://localhost:3000');
+
+
+    // handle create lobby click
+    $('.createLobby').click(function() {
+      socket.emit('createLobby');
+    });
+
+    // handle join lobby click
+    $('.joinLobby').click(function() {
+      let lobbyId = $('.lobby').val();
+      console.log(lobbyId);
+      socket.emit('joinLobby', {
+        lobbyId: lobbyId
+      });
+    });
+
+    // handle login dialog open
+    $('#loginDialog').dialog({
+      modal: true,
+      overlay: {
+        opacity: 0.7,
+        background: "black"
+      }
+    });
+
+    // handle login dialog submit
+    $('#playerLogin').submit(function(e){
+      e.preventDefault();
+      let pname = $('#playername').val();
+      let pcharacter = $('#playercharacter option:selected').val();
+      let loginInfo = { playername: pname, playercharacter: pcharacter}
+      socket.emit('login', loginInfo);
+
+    });
+
+    socket.on('login', (data) => {
+      console.log(data);
+      newplayerlist.append("<p>" + data.playername + " has joined as " + data.playercharacter + "</p>")
+    });
+
+    socket.on('message', function(message) {
+      alert('server message: ' + message);
+    });
 </script>
+</body>
+</html>

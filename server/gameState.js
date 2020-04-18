@@ -31,10 +31,6 @@ class GameState {
 
     this.messages = []
   }
-
-  clues() {
-
-  }
 }
 
 module.exports = GameState;

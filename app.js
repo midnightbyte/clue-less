@@ -10,11 +10,9 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 // server setup
-var s = require('http').Server(app);
-var io = require('socket.io')(s, {});
-s.listen(1234);
+let io = require('socket.io').listen(server);
 
-var server = require('./server/server')(io)
+var server = require('./server/server')(io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -46,3 +44,5 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+//Thomas: testing a commit
