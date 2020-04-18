@@ -1,28 +1,35 @@
+MOVE
+SUGGEST
+SUGGEST_RESPONSE
+ACCUSE_END
+
+const CONSTANTS = require('./constants.json')
+
+
 class GameState {
   constructor(players) {
-	  this.playersList = players;
-	  this.turnQueue = [];
-	  this.turnPhases = [];
-  }
+    this.players = {}
 
-  checkActivePlayer(){
-	  return this.turnQueue[0];
-  }
+    this.currentPlayer = undefined
 
-  checkTurnPhase(){
-	  return this.turnPhases[0];
-  }
+    this.turnList = []
+    this.turnStatus = undefined
 
-  shiftTurnPhase(){
-	  this.turnPhases.push(this.turnPhases.shift());
-  }
+    this.currentSuggestion = undefined
+    this.currentSuggestionResponse = undefined
 
-  changeActivePlayer(){
-	  this.turnQueue.push(this.turnQueue.shift());
-  }
+    this.active = true
+    this.winner = undefined
 
-  update() {
+    this.persons = {}
+    this.weapons = {}
+    this.rooms = {}
 
+    this.clues = {}
+
+    this.spaces
+
+    this.messages = []
   }
 }
 

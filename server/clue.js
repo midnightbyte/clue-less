@@ -1,31 +1,50 @@
+const CONSTANTS = require('./constants.json')
+const PERSONS = CONSTANTS["person"]
+const SPACES = {...CONSTANTS["rooms"],...CONSTANTS["hallways"]}
+
 class Clue {
   constructor(id) {
     this.id = id;
   }
 }
 
-class Person extends Clue {
-  constructor(color, name, location) {
-    super(color);
-    this.name = name;
-    this.location = PERSONS[color]["location"];
-
-    this.clues = [];
-    this.checklist = undefined;
-  }
-}
-
 class Weapon extends Clue {
-  constructor(id) {
-    super(id);
+  constructor(weapon) {
+    super(weapon);
   }
 }
 
 class Room extends Clue {
-  constructor(id) {
-    super(id);
-    this.paths = {...ROOMS, ...HALLWAYS}[id]["paths"];
+  constructor(room, isHallway) {
+    super(room);
+    this.paths = SPACES[room]["paths"]
   }
 }
+
+class Hallway {
+
+}
+
+class Person extends Clue {
+  constructor(color, name=undefined) {
+    super(color);
+    this.color = color
+    if (username) {
+      this.name = name;
+    }
+    this.username = PERSONS[color]["name"];
+    this.location = PERSONS[color]["location"];
+
+    this.clues = [];
+    this.seen = [];
+    this.checklist = undefined;
+  }
+
+  move(space) {
+    player.location = SPACES[space]
+  }
+}
+
+Person.connect(socket)
 
 module.exports = Clue;
