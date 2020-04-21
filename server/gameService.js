@@ -22,6 +22,7 @@ class GameService {
     this.gameState = new GameState(this.players);
     let currentPlayer = this.gameState.currentPlayer
     this.io.to(currentPlayer.socket.id).emit(this.gameState.turnStatus);
+    this.io.to(this.id).emit(GAME_STATE, this.gameState);
     // XXX: MESSAGE
   }
 
@@ -90,6 +91,7 @@ class GameService {
       this.gameState.turnStatus = ACCUSE_OR_END;
       this.io.to(player.socket.id).emit(this.gameState.turnStatus);
     }
+    this.io.to(this.id).emit(GAME_STATE, this.gameState);
     // XXX: MESSAGE
   }
 
@@ -104,6 +106,7 @@ class GameService {
           this.gameState.turnStatus = AWAIT_RESPONSE;
           this.io.to(player.socket.id).emit(this.gameState.turnStatus);
           this.io.to(this.gameState.currentSuggestionResponder.socket.id).emit(RESPOND, this.currentSuggestion);
+          this.io.to(this.id).emit(GAME_STATE, this.gameState);
           // XXX: MESSAGE
           return;
         }
@@ -112,6 +115,7 @@ class GameService {
     }
     this.gameState.turnStatus = ACCUSE_OR_END;
     this.io.to(player.socket.id).emit(this.gameState.turnStatus);
+    this.io.to(this.id).emit(GAME_STATE, this.gameState);
     // XXX: MESSAGE
   }
 
@@ -123,6 +127,7 @@ class GameService {
     this.gameState.currentPlayer.person.seen.push(clue);
     this.gameState.turnStatus = ACCUSE_OR_END;
     this.io.to(this.gameState.currentPlayer).emit(this.gameState.turnStatus);
+    this.io.to(this.id).emit(GAME_STATE, this.gameState);
     // XXX: MESSAGE
   }
 
@@ -132,6 +137,7 @@ class GameService {
     if (person in this.gameState.solution && weapon in this.gameState.solution && room in this.gameState.solution) {
       // XXX: MESSAGE
     	this.gameState.winner = player;
+      this.io.to(this.id).emit(GAME_STATE, this.gameState);
       endGame();
     }
     else {
@@ -146,6 +152,7 @@ class GameService {
     this.gameState.nextCurrentPlayer()
     this.gameState.turnStatus = MOVE
     this.io.to(this.gameState.currentPlayer).emit(this.gameState.turnStatus);
+    this.io.to(this.id).emit(GAME_STATE, this.gameState);
   }
 
   handleSendMessage(player, to, message) {
