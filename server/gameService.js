@@ -21,9 +21,10 @@ class GameService {
   }
 
   handleMove(player, space) {
-    // TODO: Validate gameState.turnStatus == MOVE;
-    // TODO: Validate gameState.currentPlayer == player;
-    // TODO: Validate space in gameState.spaces;
+	_validateTurnStatus(MOVE);
+	_validateCurrentPlayer(player);
+	_validateSpace(space); 
+	_validateSpaceInPlayerLoc(space);
     // TODO: Validate space in player.person.location.paths;
 
     movePerson(player.person, gameState.spaces[space])
@@ -36,8 +37,9 @@ class GameService {
   }
 
   handleSuggestion(player, person, weapon, room) {
-    // TODO: Validate gameState.turnStatus == SUGGEST;
-    // TODO: Validate gameState.currentPlayer == player;
+	
+	_validateTurnStatus(SUGGEST);
+	_validateCurrentPlayer(player);
     // TODO: Validate person in gameState.persons;
     // TODO: Validate weapon in gameState.weapons;
     // TODO: Validate room in gameState.rooms;
@@ -50,8 +52,8 @@ class GameService {
   }
 
   handleSuggestionResponse(player, clue) {
-    // TODO: Validate gameState.turnStatus == SUGGEST_RESPONSE;
-    // TODO: Validate gameState.currentPlayer == player;
+	_validateTurnStatus(SUGGEST_RESPONSE);
+	_validateCurrentPlayer(player);
     // TODO: Validate clue in gameState.clues;
 
     player.person.seen.push(clue)
@@ -59,8 +61,8 @@ class GameService {
   }
 
   handleAccusation(player, person, weapon, room) {
-    // TODO: Validate gameState.turnStatus == ACCUSE_END;
-    // TODO: Validate gameState.currentPlayer == player;
+	_validateTurnStatus(ACCUSE_END);
+	_validateCurrentPlayer(player);
     // TODO: Validate person in gameState.persons;
     // TODO: Validate weapon in gameState.weapons;
     // TODO: Validate room in gameState.rooms;
@@ -105,6 +107,39 @@ class GameService {
     	}
     }
   }
+  
+  	_validateTurnStatus(turnStatus){
+		if(this.gameState.turnStatus != turnStatus) 
+		  throw "invalid turn status";
+	 }
+  
+	_validateCurrentPlayer(player){
+		if(this.gameState.currentPlayer != player) 
+		  throw "invalid current player";
+	 }
+	
+	_validateSpace(space){
+		// TODO: Validate space in gameState.spaces;
+	}
+	_validateSpaceInPlayerLoc(space){
+	    // TODO: Validate space in player.person.location.paths;
+	}
+	
+	_validatePerson(person){
+	    // TODO: Validate person in gameState.persons;
+	}
+	
+	_validateWeapon(weapon){
+	    // TODO: Validate weapon in gameState.weapons;
+	}
+
+	_validateRoom(room){
+	    // TODO: Validate room in gameState.rooms;
+	}
+
+	_validatePlayerInRoom(room){
+	    // TODO: Validate player.person.location in gameState.rooms[room]
+	}
 }
 
 module.exports = GameService;
