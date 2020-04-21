@@ -1,6 +1,5 @@
-var PlayerService = require('./playerService');
-let ClientPlayer = require('../client/clientPlayer');
-
+let PlayerService = require('./playerService');
+let Player = require('./player');
 
 module.exports = function(io){
   let playerService = new PlayerService();
@@ -8,12 +7,7 @@ module.exports = function(io){
     Player.connect(socket, playerService);
 
     socket.on('disconnect', function() {
-      Player.disconnect(socket);
+      Player.disconnect(socket, playerService);
     });
   });
-
-
-
-  setInterval(function() {
-  }, 2500)
 }

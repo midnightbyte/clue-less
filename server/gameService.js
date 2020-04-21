@@ -1,4 +1,6 @@
 var GameState = require('./gameState');
+let Message = require('./message');
+let CONSTANTS = require('./constants');
 import { v4 as uuidv4 } from 'uuid';
 
 class GameService {
@@ -18,7 +20,10 @@ class GameService {
     this.players.splice(this.players.indexOf(player), 1);
   }
 
-  startGame() {
+  handleStartGame() {
+    // TODO: Validate all players have a person
+    // TODO: Validate this.players > 1;
+    
     this.gameState = new GameState(this.players);
     let currentPlayer = this.gameState.currentPlayer
     this.io.to(currentPlayer.socket.id).emit(this.gameState.turnStatus);
@@ -149,7 +154,7 @@ class GameService {
 
     this.gameState.currentPlayer.person.seen.push(clue);
     this.gameState.turnStatus = ACCUSE_OR_END;
-    this.io.to(this.gameState.currentPlayer).emit(this.gameState.turnStatus);
+    this.io.to(this.gameState.currentPlayer.socket.id).emit(this.gameState.turnStatus);
     this.io.to(this.id).emit(GAME_STATE, this.gameState);
     
     // XXX: MESSAGE
@@ -189,16 +194,23 @@ class GameService {
     
     this.gameState.nextCurrentPlayer()
     this.gameState.turnStatus = MOVE
-    this.io.to(this.gameState.currentPlayer).emit(this.gameState.turnStatus);
+    this.io.to(this.gameState.currentPlayer.socket.id).emit(this.gameState.turnStatus);
     this.io.to(this.id).emit(GAME_STATE, this.gameState);
   }
 
   handleSendMessage(player, to, message) {
-    // TODO:
+    // TODO: Validate to in this.players;
+
+    let message = PlayerMessage(player, to, message);
+    sendMessage(message);
   }
 
   sendMessage(message) {
-    // TODO:
+    if(message.to) {
+      this.io.to(message.to.socket.id).emit(MESSAGE, message);
+    } else {
+      this.io.to(this.id).emit(MESSAGE, message);
+    }
   }
 }
 

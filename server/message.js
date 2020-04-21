@@ -17,3 +17,5 @@ class PlayerMessage extends Message{
     this.from = from;
   }
 }
+
+module.exports = Message;
