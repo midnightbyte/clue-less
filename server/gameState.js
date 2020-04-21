@@ -12,8 +12,10 @@ class GameState {
     this.active = true
     this.winner = undefined
     this.turnStatus = MOVE
+
     this.currentSuggestion = undefined
     this.currentSuggestionResponse = undefined
+    this.currentSuggestionResponder = undefined
 
     this.clues = {}
     this.persons = {}
@@ -97,6 +99,9 @@ class GameState {
       this.players[playerCounter].person.clues.push(clue)
     }
   }
+  nextCurrentPlayer() {
+    this.turnList.push(this.turnList.shift());
+    this.currentPlayer = this.turnList[0];
   }
 }
 
