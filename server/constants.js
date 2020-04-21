@@ -102,5 +102,6 @@ const HALLWAYS = {
 
 const MOVE = "move"
 const SUGGEST = "suggest"
-const SUGGEST_RESPONSE = "suggest_response"
-const ACCUSE_END = "accuse_end"
+const AWAIT_RESPONSE = "await_response"
+const RESPOND = "respond"
+const ACCUSE_OR_END = "accuse_or_end"
