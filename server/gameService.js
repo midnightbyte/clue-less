@@ -107,13 +107,13 @@ class GameService {
     this.io.to(this.id).emit(GAME_STATE, this.gameState);
     
     // XXX: MESSAGE
-	let playerMoveMessage = ServerMessage(player + " has moved to the " + space + ".");
+	let playerMoveMessage = ServerMessage(player + "(" + player.person.name + ") has moved to the " + space + ".");
 	sendMessage(playerMoveMessage);
   }
 
   suggest(player, person, weapon, room) {
 	// XXX: MESSAGE
-	let suggestMessage = ServerMessage(player + "(" + player.person + ") has suggested " + person + " in the " + room + "with the " + weapon + ".");
+	let suggestMessage = ServerMessage(player + "(" + player.person.name + ") has suggested " + person + " in the " + room + "with the " + weapon + ".");
 	sendMessage(suggestMessage);
 	
 	this.gameState.currentSuggestion = [person, weapon, room];
@@ -128,13 +128,13 @@ class GameService {
           this.io.to(this.id).emit(GAME_STATE, this.gameState);
           
           // XXX: MESSAGE
-          let revealMessage = ServerMessage(otherPlayer + "("  + otherPlayer.person + ") revealed a clue to " + this.gameState.currentPlayer + ".");
+          let revealMessage = ServerMessage(otherPlayer + "("  + otherPlayer.person.name + ") revealed a clue to " + this.gameState.currentPlayer + ".");
           sendMessage(revealMessage);
           
           return;
         }
         
-        let noMatchMessage = ServerMessage(otherPlayer + " did not reveal a clue.");
+        let noMatchMessage = ServerMessage(otherPlayer + "("  + otherPlayer.person.name + ") did not reveal a clue.");
         sendMessage(noMatchMessage);
       }
     }
@@ -143,7 +143,7 @@ class GameService {
     this.io.to(this.id).emit(GAME_STATE, this.gameState);
     
     // XXX: MESSAGE
-    let endSuggestionMessage = ServerMessage(player + "'s (" + player.person + ") suggestion has ended.");
+    let endSuggestionMessage = ServerMessage(player + "'s (" + player.person.name + ") suggestion has ended.");
     sendMessage(endSuggestionMessage);
   }
 
@@ -158,18 +158,18 @@ class GameService {
     this.io.to(this.id).emit(GAME_STATE, this.gameState);
     
     // XXX: MESSAGE
-    let revealMessage = ServerMessage(this.gameState.currentPlayer, player + " revealed their " + clue + " clue.");
+    let revealMessage = ServerMessage(this.gameState.currentPlayer, player + "(" + player.person.name + ") revealed their " + clue + " clue.");
     sendMessage(revealMessage);
   }
 
   accuse(player, person, weapon, room) {
 	// XXX: MESSAGE
-    let accuseMessage = ServerMessage(player + "(" + player.person + ") has accused " + person + " in the " + room + "with the " + weapon + ".");
+    let accuseMessage = ServerMessage(player + "(" + player.person.name + ") has accused " + person + " in the " + room + "with the " + weapon + ".");
     sendMessage(accuseMessage);
 
     if (person in this.gameState.solution && weapon in this.gameState.solution && room in this.gameState.solution) {
     	// XXX: MESSAGE
-      let winnerMessage = ServerMessage(player + "(" + player.person + ") has won!");
+      let winnerMessage = ServerMessage(player + "(" + player.person.name + ") has won!");
       sendMessage(winnerMessage);
       
       this.gameState.winner = player;
@@ -178,7 +178,7 @@ class GameService {
     }
     else {
       // XXX: MESSAGE
-      let loserMessage = ServerMessage(player + "(" + player.person + ") has lost.");
+      let loserMessage = ServerMessage(player + "(" + player.person.name + ") has lost.");
       sendMessage(loserMessage);
       
       // TODO: DELETE PLAYER FROM GAME
@@ -189,7 +189,7 @@ class GameService {
 
   endTurn(player) {
 	// XXX: MESSAGE
-    let endTurnMessage = ServerMessage(player + "(" + player.person + ") has ended their turn.");
+    let endTurnMessage = ServerMessage(player + "(" + player.person.name + ") has ended their turn.");
     sendMessage(endTurnMessage);
     
     this.gameState.nextCurrentPlayer()
