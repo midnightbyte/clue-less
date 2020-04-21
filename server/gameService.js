@@ -1,8 +1,9 @@
 var GameState = require('./gameState');
+import { v4 as uuidv4 } from 'uuid';
 
 class GameService {
-  constructor(playerService, io) {
-    this.id = //TODO: UUID
+  constructor(playerService) {
+    this.id = uuidv4();
     this.players = []
     this.io = io;
   }

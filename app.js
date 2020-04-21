@@ -10,7 +10,9 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 // server setup
-var io = require('socket.io').listen(1234);
+var s = require('http').Server(app);
+var io = require('socket.io')(s, {});
+s.listen(1234);
 var ioserver = require('./server/server')(io);
 
 

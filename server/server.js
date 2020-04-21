@@ -3,18 +3,12 @@ let ClientPlayer = require('../client/clientPlayer');
 
 
 module.exports = function(io){
+  let playerService = new PlayerService();
+  io.sockets.on('connection', function(socket) {
+    Player.connect(socket, playerService);
 
-  playerService = new PlayerService();
-
-  io.on('connection', function(socket) {
-    socket.on('joined', function(data) {
-      socket.emit('playerJoined', 'a player has joined');
-    });
-    socket.on('login', function(playername, character) {
-      console.log(playername + ' has joined as ' + character);
-      socket.clientPlayer = new ClientPlayer(playername, character);
-      playerService.players.push(socket.clientPlayer);
-      socket.emit('playerLogin', socket.clientPlayer);
+    socket.on('disconnect', function() {
+      Player.disconnect(socket);
     });
   });
 

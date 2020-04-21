@@ -9,7 +9,7 @@ class Player {
   }
 
   handleCreateGame() {
-    playerService.games[gameService.id] = gameService;
+    this.playerService.games[gameService.id] = gameService;
 
   }
 
@@ -30,7 +30,7 @@ class Player {
   }
 
   createGame() {
-    let gameService = new GameService();
+    let gameService = new GameService(this.playerService);
     player.joinGame(gameService);
     return true;
   }
@@ -51,7 +51,7 @@ class Player {
   }
 }
 
-Player.connect = function(socket) {
+Player.connect = function(socket, playerService) {
   let player = new Player(socket, playerService)
   playerService.players[socket.id] = player
 
@@ -87,7 +87,10 @@ Player.connect = function(socket) {
     gameService.handleCreatePerson(player, data.to, data.message)
   })
 
-  socket.on('gameState')
+  // FIXME:
+  socket.on('gameState', function(response) {
+    ack(player.gameService.gameState);
+  })
 }
 
 Player.disconnect = function(socket) {
