@@ -55,6 +55,13 @@ class GameState {
       this.persons[person] = new Person(person, personName, personLocation);
       this.clues[person] = this.persons[person];
     }
+
+    for (player in this.players) {
+      let playerPerson = player.person
+      playerPerson.location = this.spaces[playerPerson.id]
+      this.persons[playerPerson.id] = playerPerson;
+    }
+
     for (var weapon in WEAPONS) {
       this.weapons[weapon] = new Weapon(weapon);
       this.clues[weapon] = this.weapons[weapon];
