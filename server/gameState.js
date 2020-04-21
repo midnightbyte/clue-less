@@ -5,7 +5,6 @@ class GameState {
   constructor(players) {
     this.players = players
 
-    // Establish turn list and randomize order
     this.turnList = players
     shuffle(this.turnList)
     this.currentPlayer = this.turnList[0]
@@ -16,60 +15,81 @@ class GameState {
     this.currentSuggestion = undefined
     this.currentSuggestionResponse = undefined
 
+    this.clues = {}
     this.persons = {}
     this.weapons = {}
     this.rooms = {}
 
-    for (var person in PERSONS) {
-      this.persons.push(new Person(person));
-    }
-    for (var [id, player] of Object.entries(this.players)) {
-      this.persons[player.person.id] = player.person;
-    }
-    for (var weapon in WEAPONS) {
-      this.weapons.push(new Weapon(weapon));
-    }
-    for (var room in ROOMS) {
-      this.rooms.push(new Room(room));
-    }
-
-    for (player in this.players) {
-      this.player
-    }
-    this.playerLocations = [] //map from player indeces to position on game board
-    for (var i = this.players.length - 1; i >= 0; i--) {
-        this.playerLocations[i] = this.persons[this.players[i].person].location
-    }
+    this.spaces = {}
 
     this.messages = []
 
-    var personsList = this.persons.keys()
-    var weaponsList = this.weapons.keys()
-    var roomsList = this.rooms.keys()
-    shuffle(weapons_list)
-    shuffle(persons_list)
-    shuffle(rooms_list)
+    _setupSpaces();
 
-    this.solution = {//the correct solution to the game
-        'person': personsList.pop()
-        'weapon': weaponsList.pop()
-        'room': roomsList.pop()
+    _setupClues();
+
+    _dealClues();
+  }
+
+  _setupSpaces() {
+    for (var room in ROOMS) {
+      this.spaces[room] = new RoomSpace(room);
+    }
+    for (var hallway in HALLWAYS) {
+      this.spaces[hallway] = new HallwaySpace(hallway);
     }
 
-    var clue_list = [].concat(weapons_list).concat(persons_list).concat(rooms_list)
+    SPACES = {...ROOMS, ...HALLWAYS}
 
-
-
-    this.clues = [] //list of lists; clues[i] is the list of clues dealt to player i
-    for (var i = this.players.length - 1; i >= 0; i--) {
-        clues.push([])
+    for (var space in this.spaces) {
+      for (var path in SPACES[space].paths) {
+        this.spaces[space].paths.push(this.spaces[path])
+      }
     }
-    var counter = 0
-    for (var i = clue_list.length - 1; i >= 0; i--) {//deal out all the remaining clue cards
-        clues[counter].push(clue_list[i])
-        counter = counter + 1
-        if (counter >= this.players.length) {counter = 0}
+  }
+
+  _setupClues() {
+    for (var person in PERSONS) {
+      let personName = PERSONS[person].name;
+      let personLocation = this.spaces[PERSONS[person].location];
+      this.persons[person] = new Person(person, personName, personLocation);
+      this.clues[person] = this.persons[person];
     }
+    for (var weapon in WEAPONS) {
+      this.weapons[weapon] = new Weapon(weapon);
+      this.clues[weapon] = this.weapons[weapon];
+    }
+    for (var room in ROOMS) {
+      let roomLocation = this.spaces[room];
+      this.rooms[room] = new Room(room, roomLocation);
+      this.clues[room] = this.rooms[room];
+    }
+  }
+
+  _dealClues() {
+    let personsList = Object.keys(this.persons)
+    let weaponsList = Object.keys(this.weapons)
+    let roomsList = Object.keys(this.rooms)
+    shuffle(personsList)
+    shuffle(weaponsList)
+    shuffle(roomsList)
+
+    this.solution = {
+        "person": this.clues[personsList.pop()]
+        "weapon": this.clues[weaponsList.pop()]
+        "room": this.clues[roomsList.pop()]
+    }
+
+    let clueList = [];
+    clueList.concat(personsList).concat(weaponsList).concat(roomsList)
+    shuffle(clueList)
+
+    playerCounter = 0;
+    while (clueList.length) {
+      let clue = this.clues[clueList.pop()]
+      this.players[playerCounter].person.clues.push(clue)
+    }
+  }
   }
 }
 
