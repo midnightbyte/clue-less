@@ -20,7 +20,7 @@ class Room extends Clue {
 class Person extends Clue {
   constructor(person, location=undefined, name) {
     super(person, location);
-    this.name = name
+    this.name = name;
 
     this.clues = [];
     this.seen = [];
