@@ -1,5 +1,5 @@
 const CONSTANTS = require('./constants.json')
-const PERSONS = CONSTANTS["person"]
+const PERSONS = CONSTANTS["persons"]
 const SPACES = {...CONSTANTS["rooms"],...CONSTANTS["hallways"]}
 
 class Clue {
@@ -34,6 +34,7 @@ class Person extends Clue {
     }
     this.username = PERSONS[color]["name"];
     this.location = PERSONS[color]["location"];
+    this.hasLost = false;
 
     this.clues = [];
     this.seen = [];

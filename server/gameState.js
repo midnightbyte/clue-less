@@ -26,6 +26,7 @@ class GameState {
     this.rooms = {}
 
     this.clues = {}
+    this.solution = {}
 
     this.spaces
 
