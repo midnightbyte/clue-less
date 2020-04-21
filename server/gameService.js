@@ -20,7 +20,10 @@ class GameService {
     this.players.splice(this.players.indexOf(player), 1);
   }
 
-  startGame() {
+  handleStartGame() {
+    // TODO: Validate all players have a person
+    // TODO: Validate this.players > 1;
+    
     this.gameState = new GameState(this.players);
     let currentPlayer = this.gameState.currentPlayer
     this.io.to(currentPlayer.socket.id).emit(this.gameState.turnStatus);

@@ -1,4 +1,5 @@
 const CONSTANTS = require('./constants');
+const PlayerService = require('./playerService');
 
 class Player {
   constructor(socket, playerService) {
@@ -65,6 +66,10 @@ Player.connect = function(socket, playerService) {
     player.handleCreatePerson(data.name, data.color)
   })
 
+  socket.on('startGame', function() {
+    gameService.handleStartGame();
+  })
+
 
   socket.on('move', function(data) {
     gameService.handleMovePerson(player, data.space);
@@ -86,17 +91,14 @@ Player.connect = function(socket, playerService) {
   socket.on('sendMessage', function(data) {
     gameService.handleCreatePerson(player, data.to, data.message)
   })
-
-  // FIXME:
-  socket.on('gameState', function(response) {
-    ack(player.gameService.gameState);
-  })
 }
 
-Player.disconnect = function(socket) {
+Player.disconnect = function(socket, playerService) {
   let player = playerService.players[socket.id]
   if (player.game != undefined) {
     this.leaveGame(socket);
   }
   delete player;
 }
+
+module.exports = Player;
