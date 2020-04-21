@@ -21,7 +21,7 @@ class GameService {
   }
 
   handleMove(player, space) {
-    // TODO: Validate gameState.turnState == MOVE;
+    // TODO: Validate gameState.turnStatus == MOVE;
     // TODO: Validate gameState.currentPlayer == player;
     // TODO: Validate space in gameState.spaces;
     // TODO: Validate space in player.person.location.paths;
@@ -29,14 +29,14 @@ class GameService {
     movePerson(player.person, gameState.spaces[space])
 
     if (player.person.location in gameState.rooms) {
-      gameState.turnState = SUGGEST;
+      gameState.turnStatus = SUGGEST;
     } else {
-      gameState.turnState = ACCUSE_END;
+      gameState.turnStatus = ACCUSE_END;
     }
   }
 
   handleSuggestion(player, person, weapon, room) {
-    // TODO: Validate gameState.turnState == SUGGEST;
+    // TODO: Validate gameState.turnStatus == SUGGEST;
     // TODO: Validate gameState.currentPlayer == player;
     // TODO: Validate person in gameState.persons;
     // TODO: Validate weapon in gameState.weapons;
@@ -46,20 +46,20 @@ class GameService {
 		move(gameState.persons[person], gameState.rooms[room])
 		suggest(player, gameState.persons[person], gameState.weapons[weapon], gameState.rooms[room]);
 
-    gameState.turnState = SUGGEST_RESPONSE;
+    gameState.turnStatus = SUGGEST_RESPONSE;
   }
 
   handleSuggestionResponse(player, clue) {
-    // TODO: Validate gameState.turnState == SUGGEST_RESPONSE;
+    // TODO: Validate gameState.turnStatus == SUGGEST_RESPONSE;
     // TODO: Validate gameState.currentPlayer == player;
     // TODO: Validate clue in gameState.clues;
 
     player.person.seen.push(clue)
-    gameState.turnState = ACCUSE_END
+    gameState.turnStatus = ACCUSE_END
   }
 
   handleAccusation(player, person, weapon, room) {
-    // TODO: Validate gameState.turnState == ACCUSE_END;
+    // TODO: Validate gameState.turnStatus == ACCUSE_END;
     // TODO: Validate gameState.currentPlayer == player;
     // TODO: Validate person in gameState.persons;
     // TODO: Validate weapon in gameState.weapons;
@@ -71,7 +71,7 @@ class GameService {
 
   handleEndTurn(player) {
     gameState.turnList.push(gameState.turnList.shift())
-    gameState.turnState = MOVE
+    gameState.turnStatus = MOVE
   }
 
   movePerson(person, space) {
@@ -91,7 +91,7 @@ class GameService {
   }
 
   suggestionResponse(player, clue) {
-
+    // TODO:
   }
 
   accuse(player, person, weapon, room) {
