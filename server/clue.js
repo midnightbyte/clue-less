@@ -6,7 +6,7 @@ class Clue {
 }
 
 class Weapon extends Clue {
-  constructor(weapon, location) {
+  constructor(weapon, location=undefined) {
     super(weapon);
   }
 }
@@ -18,9 +18,8 @@ class Room extends Clue {
 }
 
 class Person extends Clue {
-  constructor(color, location, name) {
-    super(color, location);
-    this.color = color
+  constructor(person, location=undefined, name) {
+    super(person, location);
     this.name = name
 
     this.clues = [];
