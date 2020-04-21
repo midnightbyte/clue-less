@@ -3,7 +3,7 @@ var GameState = require('./gameState');
 class GameService {
   constructor(playerService) {
     this.id = //TODO: SOMETHING
-    this.players = {}
+    this.players = []
 
   }
 
@@ -18,7 +18,7 @@ class GameService {
   }
 
   startGame() {
-    this.gameState = new GameState();
+    this.gameState = new GameState(this.players);
   }
 
   //
