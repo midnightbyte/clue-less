@@ -10,9 +10,9 @@ var usersRouter = require('./routes/users');
 var app = express();
 
 // server setup
-let io = require('socket.io').listen(server);
+var io = require('socket.io').listen(1234);
+var ioserver = require('./server/server')(io);
 
-var server = require('./server/server')(io);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

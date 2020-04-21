@@ -20,7 +20,8 @@
       <section id="playerslist"></section>
     </div>
     <div class="col-sm-4">
-      <p>&nbsp;</p>
+      <p>Messages</p>
+      <ul id="messages"></ul>
     </div>
   </div>
 </div>
@@ -69,21 +70,51 @@
 
 <% include partials/script %>
 <script>
-  let newplayerlist = $("#playerslist");
-  var socket = io.connect('http://localhost:3000');
 
+    let playerData;
 
-    // handle create lobby click
-    $('.createLobby').click(function() {
-      socket.emit('createLobby');
-    });
+    $(document).ready(function(){
+      let socket = io.connect('http://localhost:1234');
+      socket.on('connect', function(data) {
+        socket.emit('joined', 'player has joined');
+      });
 
-    // handle join lobby click
-    $('.joinLobby').click(function() {
-      let lobbyId = $('.lobby').val();
-      console.log(lobbyId);
-      socket.emit('joinLobby', {
-        lobbyId: lobbyId
+      // handle create lobby click
+      $('.createLobby').click(function() {
+        socket.emit('createLobby');
+      });
+
+      // handle join lobby click
+      $('.joinLobby').click(function() {
+        let lobbyId = $('.lobby').val();
+        console.log(lobbyId);
+        socket.emit('joinLobby', {
+          lobbyId: lobbyId
+        });
+      });
+
+      // handle player join
+      socket.on('playerJoined', function(msg){
+        displayGameMessage(msg);
+      });
+
+      // handle login dialog submit
+      $('#playerLogin').submit(function(e){
+        e.preventDefault();
+        let pname = $('#playername').val();
+        let pcharacter = $('#playercharacter option:selected').val();
+        let loginInfo = { playername: pname, playercharacter: pcharacter}
+        socket.emit('login', pname, pcharacter);
+        $('#loginDialog .close').click();
+      });
+
+      socket.on('playerLogin', (data) => {
+        console.log(data.playername);
+        $('#playerslist').append("<p>" + data.playername + " has joined as " + data.character + "</p>")
+      });
+
+      socket.on('message', function(message) {
+        alert('server message: ' + message);
       });
     });
 
@@ -96,24 +127,15 @@
       }
     });
 
-    // handle login dialog submit
-    $('#playerLogin').submit(function(e){
-      e.preventDefault();
-      let pname = $('#playername').val();
-      let pcharacter = $('#playercharacter option:selected').val();
-      let loginInfo = { playername: pname, playercharacter: pcharacter}
-      socket.emit('login', loginInfo);
 
-    });
+    // handle game messages
+    function displayGameMessage (msg) {
+      msg = '<li>' + msg + '</li>';
+      $('#messages').append(msg);
+      //window.scrollTo(0, document.body.scrollHeight);
+    }
 
-    socket.on('login', (data) => {
-      console.log(data);
-      newplayerlist.append("<p>" + data.playername + " has joined as " + data.playercharacter + "</p>")
-    });
 
-    socket.on('message', function(message) {
-      alert('server message: ' + message);
-    });
 </script>
 </body>
 </html>
