@@ -1,5 +1,6 @@
 var GameState = require('./gameState');
-let Message = require('./message')
+let Message = require('./message');
+let CONSTANTS = require('./constants');
 import { v4 as uuidv4 } from 'uuid';
 
 class GameService {
