@@ -4,7 +4,6 @@ class GameService {
   constructor(playerService) {
     this.id = //TODO: SOMETHING
     this.players = []
-
   }
 
   addPlayer(player) {
@@ -19,127 +18,93 @@ class GameService {
 
   startGame() {
     this.gameState = new GameState(this.players);
-    main();
-  }
-
-  main(){
-	  while(gameState.winner==undefined && gameState.active==true){
-		currentPlayer = gameState.turnList.shift();
-	  	if(currentPlayer.person.hasLost==false){
-	  		gameState.turnState = MOVE;
-	  		//prompt movement command and handle move
-	  		gameState.turnState = SUGGEST;
-	  		//prompt for an optional suggestion and handle
-	  		gameState.turnState = ACCUSE;
-	  		//prompt for an optional accusation and handle
-	  	}
-	  	gameState.turnList.push(currentPlayer);
-	 }
-	  
-	 if(gameState.winner != undefined){
-		 //send message to players announcing winner
-		 //end game method?
-	 }
   }
 
   handleMove(player, space) {
-    gameState.turnState == MOVE;
-    gameState.currentPlayer == player;
-    space in gameState.spaces;
-    !(space in gameState.persons.map(function(person) {
-    	return person.location 
-    }))
+    // TODO: Validate gameState.turnStatus == MOVE;
+    // TODO: Validate gameState.currentPlayer == player;
+    // TODO: Validate space in gameState.spaces;
+    // TODO: Validate space in player.person.location.paths;
+
+    movePerson(player.person, gameState.spaces[space])
 
     if (player.person.location in gameState.rooms) {
-      gameState.turnState = SUGGEST
+      gameState.turnStatus = SUGGEST;
     } else {
-      gameState.turnState = ACCUSE
+      gameState.turnStatus = ACCUSE_END;
     }
-
-    player.person.move(space)
   }
-  
+
   handleSuggestion(player, person, weapon, room) {
-	if (gameState.turnState==SUGGEST && gameState.currentPlayer==player) {
-	  if (person in gameState.persons && player.person.location==room && room in gameState.rooms && weapon in gameState.weapons){
-		  move(gameState.persons[person], gameState.rooms[room])
-		  suggest(player, gameState.persons[person], gameState.weapons[weapon], gameState.rooms[room]);
-	  }
-	}
+    // TODO: Validate gameState.turnStatus == SUGGEST;
+    // TODO: Validate gameState.currentPlayer == player;
+    // TODO: Validate person in gameState.persons;
+    // TODO: Validate weapon in gameState.weapons;
+    // TODO: Validate room in gameState.rooms;
+    // TODO: Validate player.person.location in gameState.rooms[room]
+
+		move(gameState.persons[person], gameState.rooms[room])
+		suggest(player, gameState.persons[person], gameState.weapons[weapon], gameState.rooms[room]);
+
+    gameState.turnStatus = SUGGEST_RESPONSE;
   }
 
   handleSuggestionResponse(player, clue) {
+    // TODO: Validate gameState.turnStatus == SUGGEST_RESPONSE;
+    // TODO: Validate gameState.currentPlayer == player;
+    // TODO: Validate clue in gameState.clues;
 
     player.person.seen.push(clue)
-    gameState.turnState = ACCUSE
+    gameState.turnStatus = ACCUSE_END
   }
 
   handleAccusation(player, person, weapon, room) {
-	if (gameState.turnState==ACCUSE && gameState.currentPlayer==player) {
-		if (person in gameState.persons && room in gameState.rooms && weapon in gameState.weapons){
-			accuse(player, gameState.persons[person], gameState.weapons[weapon], gameState.rooms[room]);
-		}
-	}
+    // TODO: Validate gameState.turnStatus == ACCUSE_END;
+    // TODO: Validate gameState.currentPlayer == player;
+    // TODO: Validate person in gameState.persons;
+    // TODO: Validate weapon in gameState.weapons;
+    // TODO: Validate room in gameState.rooms;
+
+  	accuse(player, gameState.persons[person], gameState.weapons[weapon], gameState.rooms[room]);
+    handleEndTurn(player)
   }
 
   handleEndTurn(player) {
-    gameState.turnState = MOVE
+    gameState.turnList.push(gameState.turnList.shift())
+    gameState.turnStatus = MOVE
   }
 
   movePerson(person, space) {
 	  person.location=space
   }
 
-  suggest(Player, Person, Weapon, Room) {
-	  gameState.currentSuggestion = [Person, Weapon, Room];
-	  playersToCheck = [];
-	  
-	  for(i=1;i<gameState.turnList.length;i++){ 
-	  	playersToCheck.push(gameState.turnlist[i]);
-	  }
-	  
-	  matchFound=false
-	  
-	  //loop through players
-	  while (playersToCheck.length>0 && matchFound==false){
-		 playerToCheck = playersToCheck.shift;
-		 
-		 //clues matching suggestion are stored in an array
-		 matchingClues = [];
-		 if(Room in playerToCheck.person.clues){
-			 matchingClues.push(Room);
-		 }
-		 if(Weapon in playerToCheck.person.clues){
-			 matchingClues.push(Weapon);
-		 }
-		 if(Person in playerToCheck.person.clues){
-			 matchingClues.push(Person);
-		 }
-		 
-		 if(matchingClues.length>0){
-			 matchFound=true;
-		 	//Somehow prompt player to pick at most one card to reveal
-		 }
-	 }
+  suggest(Player, person, weapon, room) {
+	  gameState.currentSuggestion = [person, weapon, room];
+
+    for (player in gameState.turnList) {
+      for (clue in gameState.currentSuggestion) {
+        if(player.person.clues.includes(clue)) {
+          // TODO: SOCKET SUGGEST
+        }
+      }
+    }
   }
 
   suggestionResponse(player, clue) {
-	  
+    // TODO:
   }
 
   accuse(player, person, weapon, room) {
-    if (person in gameState.solution && weapon in gameState.solution && room in gameState.solution){
+    if (person in gameState.solution && weapon in gameState.solution && room in gameState.solution) {
     	gameState.winner = player;
     }
-    else{
+    else {
     	player.person.hasLost = true;
     	if(!(player.person.location in gameState.rooms)){
-    		//need to move player to nearest room if they're in a hallway
+    		// TODO: SOCKET ACCUSE
     	}
     }
   }
-
-
 }
 
 module.exports = GameService;
