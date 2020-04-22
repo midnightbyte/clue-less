@@ -57,39 +57,95 @@ Player.connect = function(socket, playerService) {
   playerService.players[socket.id] = player
 
   socket.on('createGame', function() {
-    player.createLobby()
+    try {
+      player.createLobby();
+      playerService.io.to(socket.id).emit('createGameResponse', true);
+    } catch (error) {
+      playerService.io.to(socket.id).emit('createGameResponse', err);
+    }
   })
   socket.on('joinGame', function(data) {
-    player.handleJoinGame(data.gameId)
+    try {
+      player.handleJoinGame(data.gameId);
+      playerService.io.to(socket.id).emit('joinGameResponse', true);
+    } catch (error) {
+      playerService.io.to(socket.id).emit('joinGameResponse', err);
+    }
   })
   socket.on('createPerson', function(data) {
-    player.handleCreatePerson(data.name, data.color)
+    try {
+      player.handleCreatePerson(data.name, data.color)
+      playerService.io.to(socket.id).emit('createPersonResponse', true);
+    } catch (error) {
+      playerService.io.to(socket.id).emit('createPersonResponse', err);
+    }
   })
 
   socket.on('startGame', function() {
-    gameService.handleStartGame();
+    try {
+      gameService.handleStartGame();
+      playerService.io.to(socket.id).emit('startGameResponse', true);
+    } catch (error) {
+      playerService.io.to(socket.id).emit('startGameResponse', err);
+    }
   })
 
 
   socket.on('move', function(data) {
-    gameService.handleMovePerson(player, data.space);
+
+    try {
+      gameService.handleMovePerson(player, data.space);
+      playerService.io.to(socket.id).emit('moveResponse', true);
+    } catch (error) {
+      playerService.io.to(socket.id).emit('startGameResponse', err);
+    }
   })
   socket.on('suggest', function(data) {
-    gameService.handleSuggestion(player, data.person, data.weapon, data.room);
+
+    try {
+      gameService.handleSuggestion(player, data.person, data.weapon, data.room);
+      playerService.io.to(socket.id).emit('suggestResponse', true);
+    } catch (error) {
+      playerService.io.to(socket.id).emit('suggestResponse', err);
+    }
   })
   socket.on('accuse', function(data) {
-    gameService.handleAccusation(player, data.person, data.weapon, data.room);
+
+    try {
+      gameService.handleAccusation(player, data.person, data.weapon, data.room);
+      playerService.io.to(socket.id).emit('accuseResponse', true);
+    } catch (error) {
+      playerService.io.to(socket.id).emit('accuseResponse', err);
+    }
   })
   socket.on('endTurn', function() {
-    gameService.handleEndTurn();
+
+    try {
+      gameService.handleEndTurn();
+      playerService.io.to(socket.id).emit('endTurnResponse', true);
+    } catch (error) {
+      playerService.io.to(socket.id).emit('endTurnResponse', err);
+    }
   })
 
   socket.on('respond', function(data) {
-    gameService.handleCreatePerson(player, data.clue)
+
+    try {
+      gameService.handleCreatePerson(player, data.clue)
+      playerService.io.to(socket.id).emit('respondResponse', true);
+    } catch (error) {
+      playerService.io.to(socket.id).emit('respondResponse', err);
+    }
   })
 
   socket.on('sendMessage', function(data) {
-    gameService.handleCreatePerson(player, data.to, data.message)
+
+    try {
+      gameService.handleCreatePerson(player, data.to, data.message)
+      playerService.io.to(socket.id).emit('sendMessageResponse', true);
+    } catch (error) {
+      playerService.io.to(socket.id).emit('sendMessageResponse', err);
+    }
   })
 }
 
