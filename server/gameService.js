@@ -1,10 +1,11 @@
 var GameState = require('./gameState');
-let Message = require('./message');
-let CONSTANTS = require('./constants');
-import { v4 as uuidv4 } from 'uuid';
 
 class GameService {
   constructor(playerService) {
+<<<<<<< HEAD
+    this.id = //TODO: SOMETHING
+    this.players = []
+=======
     this.id = uuidv4();
     this.players = [];
     this.personPlayers = {};
@@ -12,6 +13,7 @@ class GameService {
       this.personPlayers[player.person.name] = player;
     }
     this.io = io;
+>>>>>>> b208572efbda884cb267026311fd5a79f61e4aff
   }
 
   addPlayer(player) {
@@ -24,6 +26,10 @@ class GameService {
     this.players.splice(this.players.indexOf(player), 1);
   }
 
+<<<<<<< HEAD
+  startGame() {
+    this.gameState = new GameState(this.players);
+=======
   handleStartGame() {
     // TODO: Validate all players have a person
     // TODO: Validate this.players > 1;
@@ -36,61 +42,95 @@ class GameService {
     // XXX: MESSAGE
     let startGameMessage=ServerMessage("The game has started.");
     sendMessage(startGameMessage);
+>>>>>>> b208572efbda884cb267026311fd5a79f61e4aff
   }
 
-  endGame() {
-    // XXX: MESSAGE
-	let endGameMessage=ServerMessage("The game has ended.");
-	sendMessage(endGameMessage);
-  }
+  handleMove(player, space) {
+	_validateTurnStatus(MOVE);
+	_validateCurrentPlayer(player);
+	_validateSpace(space); 
+	_validateSpaceInLoc(space);
 
-  handleMovePerson(player, space) {
-    // TODO: Validate this.gameState.turnStatus == MOVE;
-    // TODO: Validate this.gameState.currentPlayer == player;
-    // TODO: Validate space in this.gameState.spaces;
-    // TODO: Validate space in player.person.location.paths;
+    movePerson(player.person, gameState.spaces[space])
 
-    movePerson(player.person, this.gameState.spaces[space])
+    if (player.person.location in gameState.rooms) {
+      gameState.turnStatus = SUGGEST;
+    } else {
+      gameState.turnStatus = ACCUSE_END;
+    }
   }
 
   handleSuggestion(player, person, weapon, room) {
-    // TODO: Validate this.gameState.turnStatus == SUGGEST;
-    // TODO: Validate this.gameState.currentPlayer == player;
-    // TODO: Validate person in this.gameState.persons;
-    // TODO: Validate weapon in this.gameState.weapons;
-    // TODO: Validate room in this.gameState.rooms;
-    // TODO: Validate player.person.location in this.gameState.rooms[room]
+	
+	_validateTurnStatus(SUGGEST);
+	_validateCurrentPlayer(player);
+	_validatePerson(person);
+	_validateWeapon(weapon);
+	_validateRoom(room);
+	_validatePlayerInRoom(room);
 
-		move(this.gameState.persons[person], this.gameState.rooms[room])
-    move(this.gameState.weapons[weapon], this.gameState.rooms[room])
-		suggest(player, this.gameState.persons[person], this.gameState.weapons[weapon], this.gameState.rooms[room]);
+		move(gameState.persons[person], gameState.rooms[room])
+		suggest(player, gameState.persons[person], gameState.weapons[weapon], gameState.rooms[room]);
+
+    gameState.turnStatus = SUGGEST_RESPONSE;
   }
 
   handleSuggestionResponse(player, clue) {
-    // TODO: Validate this.gameState.turnStatus == SUGGEST_RESPONSE;
-    // TODO: Validate this.gameState.responsePlayer == player;
-    // TODO: Validate clue in this.gameState.clues;
+	_validateTurnStatus(SUGGEST_RESPONSE);
+	_validateCurrentPlayer(player);
+	_validateClue(clue);
 
-    suggestionResponse(player, this.gameState.clues[clue]);
+    player.person.seen.push(clue)
+    gameState.turnStatus = ACCUSE_END
   }
 
   handleAccusation(player, person, weapon, room) {
-    // TODO: Validate this.gameState.turnStatus == ACCUSE_END;
-    // TODO: Validate this.gameState.currentPlayer == player;
-    // TODO: Validate person in this.gameState.persons;
-    // TODO: Validate weapon in this.gameState.weapons;
-    // TODO: Validate room in this.gameState.rooms;
+	_validateTurnStatus(ACCUSE_END);
+	_validateCurrentPlayer(player);
+	_validatePerson(person);
+	_validateWeapon(weapon);
+	_validateRoom(room);
 
-  	accuse(player, this.gameState.persons[person], this.gameState.weapons[weapon], this.gameState.rooms[room]);
+  	accuse(player, gameState.persons[person], gameState.weapons[weapon], gameState.rooms[room]);
+    handleEndTurn(player)
   }
 
   handleEndTurn(player) {
-    // TODO: Validate this.gameState.turnStatus == ACCUSE_END;
-    // TODO: Validate this.gameState.currentPlayer == player;
-
-    endTurn(player);
+    gameState.turnList.push(gameState.turnList.shift())
+    gameState.turnStatus = MOVE
   }
 
+<<<<<<< HEAD
+  movePerson(person, space) {
+	  person.location=space
+  }
+
+  suggest(Player, person, weapon, room) {
+	  gameState.currentSuggestion = [person, weapon, room];
+
+    for (player in gameState.turnList) {
+      for (clue in gameState.currentSuggestion) {
+        if(player.person.clues.includes(clue)) {
+          // TODO: SOCKET SUGGEST
+        }
+      }
+    }
+  }
+
+  suggestionResponse(player, clue) {
+    // TODO:
+  }
+
+  accuse(player, person, weapon, room) {
+    if (person in gameState.solution && weapon in gameState.solution && room in gameState.solution) {
+    	gameState.winner = player;
+    }
+    else {
+    	player.person.hasLost = true;
+    	if(!(player.person.location in gameState.rooms)){
+    		// TODO: SOCKET ACCUSE
+    	}
+=======
   moveClue(clue, space) {
 	  clue.location = space;
 
@@ -214,8 +254,54 @@ class GameService {
       this.io.to(message.to.socket.id).emit(MESSAGE, message);
     } else {
       this.io.to(this.id).emit(MESSAGE, message);
+>>>>>>> b208572efbda884cb267026311fd5a79f61e4aff
     }
   }
+  
+  	_validateTurnStatus(turnStatus){
+		if(this.gameState.turnStatus != turnStatus) 
+		  throw "invalid turn status";
+	 }
+  
+	_validateCurrentPlayer(player){
+		if(this.gameState.currentPlayer != player) 
+		  throw "invalid current player";
+	 }
+	
+	_validateSpace(space){
+		if (space in this.gameState.spaces != true)
+			throw "invalid space"; 
+	}
+	_validateSpaceInPlayerLoc(space){
+	    // TODO: Validate space in player.person.location.paths;
+		if (space in this.gameState.player.person.location.paths != true)
+			throw "invalid space"; 
+	}
+	
+	_validatePerson(person){
+		if (person in this.gameState.persons != true)
+			throw "invalid person"; 
+	}
+	
+	_validateWeapon(weapon){
+		if (weapon in this.gameState.weapons != true)
+			throw "invalid weapon"; 
+	}
+
+	_validateRoom(room){
+		if (room in this.gameState.rooms != true)
+			throw "invalid room"; 
+	}
+
+	_validatePlayerInRoom(room){
+		if (play.person.location != gameState.rooms[room])
+			throw "invalid player location"; 
+	}
+	
+	_validateClue(clue){
+		if (clue in this.gameState.cluses != true)
+			throw "invalid clue"; 
+	}
 }
 
 module.exports = GameService;
