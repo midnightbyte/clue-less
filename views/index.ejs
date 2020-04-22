@@ -104,11 +104,12 @@
         let pname = $('#playername').val();
         let pcharacter = $('#playercharacter option:selected').val();
         let loginInfo = { playername: pname, playercharacter: pcharacter}
-        socket.emit('login', pname, pcharacter);
+        let msg = pname + " has joined as " + pcharacter;
+        socket.emit('createGame', pname, pcharacter, msg);
         $('#loginDialog .close').click();
       });
 
-      socket.on('playerLogin', (data) => {
+      socket.on('createGameResponse', (data) => {
         console.log(data.playername);
         $('#playerslist').append("<p>" + data.playername + " has joined as " + data.character + "</p>")
       });

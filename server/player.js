@@ -56,13 +56,14 @@ Player.connect = function(socket, playerService) {
   let player = new Player(socket, playerService)
   playerService.players[socket.id] = player
 
-  socket.on('createGame', function() {
-    try {
+  socket.on('createGame', function(name, color, msg) {
+   // try {
       player.createLobby();
-      playerService.io.to(socket.id).emit('createGameResponse', true);
-    } catch (error) {
-      playerService.io.to(socket.id).emit('createGameResponse', err);
-    }
+      player.handleCreatePerson(color, name);
+      playerService.io.to(socket.id).emit('createGameResponse', msg);
+    //} catch (error) {
+    //  playerService.io.to(socket.id).emit('createGameResponse', err);
+   // }
   })
   socket.on('joinGame', function(data) {
     try {
