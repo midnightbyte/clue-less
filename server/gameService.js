@@ -6,7 +6,11 @@ import { v4 as uuidv4 } from 'uuid';
 class GameService {
   constructor(playerService) {
     this.id = uuidv4();
-    this.players = []
+    this.players = [];
+    this.personPlayers = {};
+    for (player in players) {
+      this.personPlayers[player.person.name] = player;
+    }
     this.io = io;
   }
 
@@ -23,12 +27,12 @@ class GameService {
   handleStartGame() {
     // TODO: Validate all players have a person
     // TODO: Validate this.players > 1;
-    
+
     this.gameState = new GameState(this.players);
     let currentPlayer = this.gameState.currentPlayer
     this.io.to(currentPlayer.socket.id).emit(this.gameState.turnStatus);
     this.io.to(this.id).emit(GAME_STATE, this.gameState);
-    
+
     // XXX: MESSAGE
     let startGameMessage=ServerMessage("The game has started.");
     sendMessage(startGameMessage);
@@ -89,7 +93,7 @@ class GameService {
 
   moveClue(clue, space) {
 	  clue.location = space;
-	  
+
 	// XXX: MESSAGE
 	 let clueMoveMessage = ServerMessage(clue + " has moved to the " + space + ".");
 	 sendMessage(clueMoveMessage);
@@ -105,7 +109,7 @@ class GameService {
       this.io.to(player.socket.id).emit(this.gameState.turnStatus);
     }
     this.io.to(this.id).emit(GAME_STATE, this.gameState);
-    
+
     // XXX: MESSAGE
 	let playerMoveMessage = ServerMessage(player + "(" + player.person.name + ") has moved to the " + space + ".");
 	sendMessage(playerMoveMessage);
@@ -115,7 +119,7 @@ class GameService {
 	// XXX: MESSAGE
 	let suggestMessage = ServerMessage(player + "(" + player.person.name + ") has suggested " + person + " in the " + room + "with the " + weapon + ".");
 	sendMessage(suggestMessage);
-	
+
 	this.gameState.currentSuggestion = [person, weapon, room];
 
     for (otherPlayer in this.gameState.turnList) {
@@ -126,14 +130,14 @@ class GameService {
           this.io.to(player.socket.id).emit(this.gameState.turnStatus);
           this.io.to(this.gameState.currentSuggestionResponder.socket.id).emit(RESPOND, this.currentSuggestion);
           this.io.to(this.id).emit(GAME_STATE, this.gameState);
-          
+
           // XXX: MESSAGE
           let revealMessage = ServerMessage(otherPlayer + "("  + otherPlayer.person.name + ") revealed a clue to " + this.gameState.currentPlayer + ".");
           sendMessage(revealMessage);
-          
+
           return;
         }
-        
+
         let noMatchMessage = ServerMessage(otherPlayer + "("  + otherPlayer.person.name + ") did not reveal a clue.");
         sendMessage(noMatchMessage);
       }
@@ -141,7 +145,7 @@ class GameService {
     this.gameState.turnStatus = ACCUSE_OR_END;
     this.io.to(player.socket.id).emit(this.gameState.turnStatus);
     this.io.to(this.id).emit(GAME_STATE, this.gameState);
-    
+
     // XXX: MESSAGE
     let endSuggestionMessage = ServerMessage(player + "'s (" + player.person.name + ") suggestion has ended.");
     sendMessage(endSuggestionMessage);
@@ -156,7 +160,7 @@ class GameService {
     this.gameState.turnStatus = ACCUSE_OR_END;
     this.io.to(this.gameState.currentPlayer.socket.id).emit(this.gameState.turnStatus);
     this.io.to(this.id).emit(GAME_STATE, this.gameState);
-    
+
     // XXX: MESSAGE
     let revealMessage = ServerMessage(this.gameState.currentPlayer, player + "(" + player.person.name + ") revealed their " + clue + " clue.");
     sendMessage(revealMessage);
@@ -171,7 +175,7 @@ class GameService {
     	// XXX: MESSAGE
       let winnerMessage = ServerMessage(player + "(" + player.person.name + ") has won!");
       sendMessage(winnerMessage);
-      
+
       this.gameState.winner = player;
       this.io.to(this.id).emit(GAME_STATE, this.gameState);
       endGame();
@@ -180,9 +184,9 @@ class GameService {
       // XXX: MESSAGE
       let loserMessage = ServerMessage(player + "(" + player.person.name + ") has lost.");
       sendMessage(loserMessage);
-      
+
       // TODO: DELETE PLAYER FROM GAME
-      
+
       endTurn();
     }
   }
@@ -191,7 +195,7 @@ class GameService {
 	// XXX: MESSAGE
     let endTurnMessage = ServerMessage(player + "(" + player.person.name + ") has ended their turn.");
     sendMessage(endTurnMessage);
-    
+
     this.gameState.nextCurrentPlayer()
     this.gameState.turnStatus = MOVE
     this.io.to(this.gameState.currentPlayer.socket.id).emit(this.gameState.turnStatus);
@@ -199,9 +203,9 @@ class GameService {
   }
 
   handleSendMessage(player, to, message) {
-    // TODO: Validate to in this.players;
+    // TODO: Validate to in this.personPlayers;
 
-    let message = PlayerMessage(player, to, message);
+    let message = PlayerMessage(player, this.personPlayers[to], message);
     sendMessage(message);
   }
 
