@@ -24,8 +24,7 @@ class GameService {
 	_validateTurnStatus(MOVE);
 	_validateCurrentPlayer(player);
 	_validateSpace(space); 
-	_validateSpaceInPlayerLoc(space);
-    // TODO: Validate space in player.person.location.paths;
+	_validateSpaceInLoc(space);
 
     movePerson(player.person, gameState.spaces[space])
 
@@ -40,10 +39,10 @@ class GameService {
 	
 	_validateTurnStatus(SUGGEST);
 	_validateCurrentPlayer(player);
-    // TODO: Validate person in gameState.persons;
-    // TODO: Validate weapon in gameState.weapons;
-    // TODO: Validate room in gameState.rooms;
-    // TODO: Validate player.person.location in gameState.rooms[room]
+	_validatePerson(person);
+	_validateWeapon(weapon);
+	_validateRoom(room);
+	_validatePlayerInRoom(room);
 
 		move(gameState.persons[person], gameState.rooms[room])
 		suggest(player, gameState.persons[person], gameState.weapons[weapon], gameState.rooms[room]);
@@ -54,7 +53,7 @@ class GameService {
   handleSuggestionResponse(player, clue) {
 	_validateTurnStatus(SUGGEST_RESPONSE);
 	_validateCurrentPlayer(player);
-    // TODO: Validate clue in gameState.clues;
+	_validateClue(clue);
 
     player.person.seen.push(clue)
     gameState.turnStatus = ACCUSE_END
@@ -63,9 +62,9 @@ class GameService {
   handleAccusation(player, person, weapon, room) {
 	_validateTurnStatus(ACCUSE_END);
 	_validateCurrentPlayer(player);
-    // TODO: Validate person in gameState.persons;
-    // TODO: Validate weapon in gameState.weapons;
-    // TODO: Validate room in gameState.rooms;
+	_validatePerson(person);
+	_validateWeapon(weapon);
+	_validateRoom(room);
 
   	accuse(player, gameState.persons[person], gameState.weapons[weapon], gameState.rooms[room]);
     handleEndTurn(player)
@@ -119,26 +118,38 @@ class GameService {
 	 }
 	
 	_validateSpace(space){
-		// TODO: Validate space in gameState.spaces;
+		if (space in this.gameState.spaces != true)
+			throw "invalid space"; 
 	}
 	_validateSpaceInPlayerLoc(space){
 	    // TODO: Validate space in player.person.location.paths;
+		if (space in this.gameState.player.person.location.paths != true)
+			throw "invalid space"; 
 	}
 	
 	_validatePerson(person){
-	    // TODO: Validate person in gameState.persons;
+		if (person in this.gameState.persons != true)
+			throw "invalid person"; 
 	}
 	
 	_validateWeapon(weapon){
-	    // TODO: Validate weapon in gameState.weapons;
+		if (weapon in this.gameState.weapons != true)
+			throw "invalid weapon"; 
 	}
 
 	_validateRoom(room){
-	    // TODO: Validate room in gameState.rooms;
+		if (room in this.gameState.rooms != true)
+			throw "invalid room"; 
 	}
 
 	_validatePlayerInRoom(room){
-	    // TODO: Validate player.person.location in gameState.rooms[room]
+		if (play.person.location != gameState.rooms[room])
+			throw "invalid player location"; 
+	}
+	
+	_validateClue(clue){
+		if (clue in this.gameState.cluses != true)
+			throw "invalid clue"; 
 	}
 }
 

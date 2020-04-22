@@ -1,56 +1,99 @@
-const defaultValues = require('./constants');
+const CONSTANTS = require('./constants');
+const PlayerService = require('./playerService');
 
 class Player {
-  constructor(socket) {
+  constructor(socket, playerService) {
     this.socket = socket;
+    this.playerService = playerService;
     this.gameService = undefined;
     this.person = undefined;
   }
 
-  createGame() {
-    let gameService = new GameService();
-    player.joinGame(game)
-    return true
+  handleCreateGame() {
+    this.playerService.games[gameService.id] = gameService;
+
   }
 
-  joinGame(game) {
-    gameService.addPlayer(this)
-    this.lobby = game
-    return true
+  handleJoinGame(gameId) {
+    // TODO: Validate gameId in playerService.games
+    // TODO: Validate game is not full
+
+    let gameService = playerService.games[gameId];
+    joinGame(gameService);
+    return true;
+  }
+
+  handleCreatePerson(color, name) {
+    // TODO: Validate color in PERSONS
+    // TODO: Validate name not already taken
+
+    createPerson(color, name);
+  }
+
+  createGame() {
+    let gameService = new GameService(this.playerService);
+    player.joinGame(gameService);
+    return true;
+  }
+
+  joinGame(gameService) {
+    gameService.addPlayer(this);
+    this.gameService = gameService;
+    return true;
   }
 
   leaveGame() {
-    gameService.removePlayer(this)
+    gameService.removePlayer(this);
   }
 
-  createPerson() {
-    let person = new Person(color, username)
-    this.person = person
+  createPerson(color, name) {
+    let person = new Person(color, name);
+    this.person = person;
   }
 }
 
 Player.connect = function(socket, playerService) {
-  let player = new Player(socket)
+  let player = new Player(socket, playerService)
   playerService.players[socket.id] = player
 
   socket.on('createGame', function() {
     player.createLobby()
-    playerService.games[player.game.id] = player.game
   })
   socket.on('joinGame', function(data) {
-    let game = playerService.games[data.gameId]
-    player.joinLobby(game)
+    player.handleJoinGame(data.gameId)
   })
   socket.on('createPerson', function(data) {
-    player.createPerson(data.username, data.color)
+    player.handleCreatePerson(data.name, data.color)
   })
+
+  socket.on('startGame', function() {
+    gameService.handleStartGame();
+  })
+
+
   socket.on('move', function(data) {
-    player.move(room)
-    player.createPerson(data.username, data.color)
+    gameService.handleMovePerson(player, data.space);
+  })
+  socket.on('suggest', function(data) {
+    gameService.handleSuggestion(player, data.person, data.weapon, data.room);
+  })
+  socket.on('accuse', function(data) {
+    gameService.handleAccusation(player, data.person, data.weapon, data.room);
+  })
+  socket.on('endTurn', function() {
+    gameService.handleEndTurn();
+  })
+
+  socket.on('respond', function(data) {
+    gameService.handleCreatePerson(player, data.clue)
+  })
+
+  socket.on('sendMessage', function(data) {
+    gameService.handleCreatePerson(player, data.to, data.message)
   })
 }
 
-Player.disconnect = function(socket) {
+Player.disconnect = function(socket, playerService) {
   let player = playerService.players[socket.id]
   if (player.game != undefined) {
     this.leaveGame(socket);
@@ -58,3 +101,4 @@ Player.disconnect = function(socket) {
   delete player;
 }
 
+module.exports = Player;
