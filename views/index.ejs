@@ -109,9 +109,9 @@
         $('#loginDialog .close').click();
       });
 
-      socket.on('createGameResponse', (data) => {
+      socket.on('createGameResponse', (msg) => {
         console.log(data.playername);
-        $('#playerslist').append("<p>" + data.playername + " has joined as " + data.character + "</p>")
+        $('#playerslist').append("<p>" + msg + "</p>")
       });
 
       socket.on('message', function(message) {

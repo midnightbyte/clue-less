@@ -27,7 +27,7 @@ class Player {
     // TODO: Validate color in PERSONS
     // TODO: Validate name not already taken
 
-    createPerson(color, name);
+    //createPerson(color, name);
   }
 
   createGame() {
@@ -58,7 +58,7 @@ Player.connect = function(socket, playerService) {
 
   socket.on('createGame', function(name, color, msg) {
    // try {
-      player.createLobby();
+     // player.createLobby();
       player.handleCreatePerson(color, name);
       playerService.io.to(socket.id).emit('createGameResponse', msg);
     //} catch (error) {
@@ -70,7 +70,7 @@ Player.connect = function(socket, playerService) {
       player.handleJoinGame(data.gameId);
       playerService.io.to(socket.id).emit('joinGameResponse', true);
     } catch (error) {
-      playerService.io.to(socket.id).emit('joinGameResponse', err);
+      playerService.io.sockets(socket.id).emit('joinGameResponse', err);
     }
   })
   socket.on('createPerson', function(data) {
