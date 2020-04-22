@@ -110,7 +110,7 @@
       });
 
       socket.on('createGameResponse', (msg) => {
-        console.log(data.playername);
+        console.log(msg);
         $('#playerslist').append("<p>" + msg + "</p>")
       });
 

@@ -59,8 +59,10 @@ Player.connect = function(socket, playerService) {
   socket.on('createGame', function(name, color, msg) {
    // try {
      // player.createLobby();
+    console.log('create game');
       player.handleCreatePerson(color, name);
-      playerService.io.to(socket.id).emit('createGameResponse', msg);
+      socket.emit('createGameResponse', msg);
+      //playerService.io.to(socket.id).emit('createGameResponse', msg);
     //} catch (error) {
     //  playerService.io.to(socket.id).emit('createGameResponse', err);
    // }
