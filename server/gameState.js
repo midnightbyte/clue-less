@@ -3,7 +3,11 @@ const CONSTANTS = require('./constants')
 
 class GameState {
   constructor(players) {
-    this.players = players
+    this.players = players;
+    this.personPlayers = {};
+    for (player in players) {
+      this.personPlayers[player.person.name] = player;
+    }
 
     this.turnList = players
     shuffle(this.turnList)

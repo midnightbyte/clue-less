@@ -2,18 +2,9 @@ var GameState = require('./gameState');
 
 class GameService {
   constructor(playerService) {
-<<<<<<< HEAD
-    this.id = //TODO: SOMETHING
-    this.players = []
-=======
     this.id = uuidv4();
     this.players = [];
-    this.personPlayers = {};
-    for (player in players) {
-      this.personPlayers[player.person.name] = player;
-    }
     this.io = io;
->>>>>>> b208572efbda884cb267026311fd5a79f61e4aff
   }
 
   addPlayer(player) {
@@ -26,30 +17,28 @@ class GameService {
     this.players.splice(this.players.indexOf(player), 1);
   }
 
-<<<<<<< HEAD
   startGame() {
     this.gameState = new GameState(this.players);
-=======
+  }
+
   handleStartGame() {
-    // TODO: Validate all players have a person
-    // TODO: Validate this.players > 1;
+    _validateAllPlayersCreatedPerson();
+    _validateGreateThanOnePlayers();
 
     this.gameState = new GameState(this.players);
     let currentPlayer = this.gameState.currentPlayer
     this.io.to(currentPlayer.socket.id).emit(this.gameState.turnStatus);
     this.io.to(this.id).emit(GAME_STATE, this.gameState);
 
-    // XXX: MESSAGE
     let startGameMessage=ServerMessage("The game has started.");
     sendMessage(startGameMessage);
->>>>>>> b208572efbda884cb267026311fd5a79f61e4aff
   }
 
   handleMove(player, space) {
-	_validateTurnStatus(MOVE);
-	_validateCurrentPlayer(player);
-	_validateSpace(space); 
-	_validateSpaceInLoc(space);
+  	_validateTurnStatus(MOVE);
+  	_validateCurrentPlayer(player);
+  	_validateSpace(space);
+  	_validateSpaceInLoc(space);
 
     movePerson(player.person, gameState.spaces[space])
 
@@ -61,13 +50,12 @@ class GameService {
   }
 
   handleSuggestion(player, person, weapon, room) {
-	
-	_validateTurnStatus(SUGGEST);
-	_validateCurrentPlayer(player);
-	_validatePerson(person);
-	_validateWeapon(weapon);
-	_validateRoom(room);
-	_validatePlayerInRoom(room);
+  	_validateTurnStatus(SUGGEST);
+  	_validateCurrentPlayer(player);
+  	_validatePerson(person);
+  	_validateWeapon(weapon);
+  	_validateRoom(room);
+  	_validatePlayerInRoom(room);
 
 		move(gameState.persons[person], gameState.rooms[room])
 		suggest(player, gameState.persons[person], gameState.weapons[weapon], gameState.rooms[room]);
@@ -76,20 +64,20 @@ class GameService {
   }
 
   handleSuggestionResponse(player, clue) {
-	_validateTurnStatus(SUGGEST_RESPONSE);
-	_validateCurrentPlayer(player);
-	_validateClue(clue);
+  	_validateTurnStatus(SUGGEST_RESPONSE);
+  	_validateCurrentPlayer(player);
+  	_validateClue(clue);
 
     player.person.seen.push(clue)
     gameState.turnStatus = ACCUSE_END
   }
 
   handleAccusation(player, person, weapon, room) {
-	_validateTurnStatus(ACCUSE_END);
-	_validateCurrentPlayer(player);
-	_validatePerson(person);
-	_validateWeapon(weapon);
-	_validateRoom(room);
+  	_validateTurnStatus(ACCUSE_END);
+  	_validateCurrentPlayer(player);
+  	_validatePerson(person);
+  	_validateWeapon(weapon);
+  	_validateRoom(room);
 
   	accuse(player, gameState.persons[person], gameState.weapons[weapon], gameState.rooms[room]);
     handleEndTurn(player)
@@ -100,43 +88,11 @@ class GameService {
     gameState.turnStatus = MOVE
   }
 
-<<<<<<< HEAD
-  movePerson(person, space) {
-	  person.location=space
-  }
-
-  suggest(Player, person, weapon, room) {
-	  gameState.currentSuggestion = [person, weapon, room];
-
-    for (player in gameState.turnList) {
-      for (clue in gameState.currentSuggestion) {
-        if(player.person.clues.includes(clue)) {
-          // TODO: SOCKET SUGGEST
-        }
-      }
-    }
-  }
-
-  suggestionResponse(player, clue) {
-    // TODO:
-  }
-
-  accuse(player, person, weapon, room) {
-    if (person in gameState.solution && weapon in gameState.solution && room in gameState.solution) {
-    	gameState.winner = player;
-    }
-    else {
-    	player.person.hasLost = true;
-    	if(!(player.person.location in gameState.rooms)){
-    		// TODO: SOCKET ACCUSE
-    	}
-=======
   moveClue(clue, space) {
 	  clue.location = space;
 
-	// XXX: MESSAGE
-	 let clueMoveMessage = ServerMessage(clue + " has moved to the " + space + ".");
-	 sendMessage(clueMoveMessage);
+    let clueMoveMessage = ServerMessage(clue + " has moved to the " + space + ".");
+    sendMessage(clueMoveMessage);
   }
 
   movePlayer(player, space) {
@@ -150,17 +106,15 @@ class GameService {
     }
     this.io.to(this.id).emit(GAME_STATE, this.gameState);
 
-    // XXX: MESSAGE
-	let playerMoveMessage = ServerMessage(player + "(" + player.person.name + ") has moved to the " + space + ".");
-	sendMessage(playerMoveMessage);
+  	let playerMoveMessage = ServerMessage(player + "(" + player.person.name + ") has moved to the " + space + ".");
+  	sendMessage(playerMoveMessage);
   }
 
   suggest(player, person, weapon, room) {
-	// XXX: MESSAGE
-	let suggestMessage = ServerMessage(player + "(" + player.person.name + ") has suggested " + person + " in the " + room + "with the " + weapon + ".");
-	sendMessage(suggestMessage);
+  	let suggestMessage = ServerMessage(player + "(" + player.person.name + ") has suggested " + person + " in the " + room + "with the " + weapon + ".");
+  	sendMessage(suggestMessage);
 
-	this.gameState.currentSuggestion = [person, weapon, room];
+	  this.gameState.currentSuggestion = [person, weapon, room];
 
     for (otherPlayer in this.gameState.turnList) {
       for (clue in this.gameState.currentSuggestion) {
@@ -170,11 +124,6 @@ class GameService {
           this.io.to(player.socket.id).emit(this.gameState.turnStatus);
           this.io.to(this.gameState.currentSuggestionResponder.socket.id).emit(RESPOND, this.currentSuggestion);
           this.io.to(this.id).emit(GAME_STATE, this.gameState);
-
-          // XXX: MESSAGE
-          let revealMessage = ServerMessage(otherPlayer + "("  + otherPlayer.person.name + ") revealed a clue to " + this.gameState.currentPlayer + ".");
-          sendMessage(revealMessage);
-
           return;
         }
 
@@ -185,10 +134,6 @@ class GameService {
     this.gameState.turnStatus = ACCUSE_OR_END;
     this.io.to(player.socket.id).emit(this.gameState.turnStatus);
     this.io.to(this.id).emit(GAME_STATE, this.gameState);
-
-    // XXX: MESSAGE
-    let endSuggestionMessage = ServerMessage(player + "'s (" + player.person.name + ") suggestion has ended.");
-    sendMessage(endSuggestionMessage);
   }
 
   suggestionResponse(player, clue) {
@@ -200,19 +145,15 @@ class GameService {
     this.gameState.turnStatus = ACCUSE_OR_END;
     this.io.to(this.gameState.currentPlayer.socket.id).emit(this.gameState.turnStatus);
     this.io.to(this.id).emit(GAME_STATE, this.gameState);
-
-    // XXX: MESSAGE
-    let revealMessage = ServerMessage(this.gameState.currentPlayer, player + "(" + player.person.name + ") revealed their " + clue + " clue.");
+    let revealMessage = ServerMessage(otherPlayer + "("  + player.person.name + ") revealed a clue to " + this.gameState.currentPlayer.person.name + ".");
     sendMessage(revealMessage);
   }
 
   accuse(player, person, weapon, room) {
-	// XXX: MESSAGE
     let accuseMessage = ServerMessage(player + "(" + player.person.name + ") has accused " + person + " in the " + room + "with the " + weapon + ".");
     sendMessage(accuseMessage);
 
     if (person in this.gameState.solution && weapon in this.gameState.solution && room in this.gameState.solution) {
-    	// XXX: MESSAGE
       let winnerMessage = ServerMessage(player + "(" + player.person.name + ") has won!");
       sendMessage(winnerMessage);
 
@@ -221,7 +162,6 @@ class GameService {
       endGame();
     }
     else {
-      // XXX: MESSAGE
       let loserMessage = ServerMessage(player + "(" + player.person.name + ") has lost.");
       sendMessage(loserMessage);
 
@@ -232,7 +172,6 @@ class GameService {
   }
 
   endTurn(player) {
-	// XXX: MESSAGE
     let endTurnMessage = ServerMessage(player + "(" + player.person.name + ") has ended their turn.");
     sendMessage(endTurnMessage);
 
@@ -243,7 +182,7 @@ class GameService {
   }
 
   handleSendMessage(player, to, message) {
-    // TODO: Validate to in this.personPlayers;
+    _validatePersonPlayer(to);
 
     let message = PlayerMessage(player, this.personPlayers[to], message);
     sendMessage(message);
@@ -254,54 +193,70 @@ class GameService {
       this.io.to(message.to.socket.id).emit(MESSAGE, message);
     } else {
       this.io.to(this.id).emit(MESSAGE, message);
->>>>>>> b208572efbda884cb267026311fd5a79f61e4aff
     }
   }
-  
-  	_validateTurnStatus(turnStatus){
-		if(this.gameState.turnStatus != turnStatus) 
+
+	_validateTurnStatus(turnStatus){
+		if(this.gameState.turnStatus != turnStatus)
 		  throw "invalid turn status";
 	 }
-  
+
 	_validateCurrentPlayer(player){
-		if(this.gameState.currentPlayer != player) 
+		if(this.gameState.currentPlayer != player)
 		  throw "invalid current player";
 	 }
-	
+
 	_validateSpace(space){
 		if (space in this.gameState.spaces != true)
-			throw "invalid space"; 
+			throw "invalid space";
 	}
 	_validateSpaceInPlayerLoc(space){
-	    // TODO: Validate space in player.person.location.paths;
 		if (space in this.gameState.player.person.location.paths != true)
-			throw "invalid space"; 
+			throw "invalid space";
 	}
-	
+
 	_validatePerson(person){
 		if (person in this.gameState.persons != true)
-			throw "invalid person"; 
+			throw "invalid person";
 	}
-	
+
 	_validateWeapon(weapon){
 		if (weapon in this.gameState.weapons != true)
-			throw "invalid weapon"; 
+			throw "invalid weapon";
 	}
 
 	_validateRoom(room){
 		if (room in this.gameState.rooms != true)
-			throw "invalid room"; 
+			throw "invalid room";
 	}
 
 	_validatePlayerInRoom(room){
 		if (play.person.location != gameState.rooms[room])
-			throw "invalid player location"; 
+			throw "invalid player location";
 	}
-	
+
 	_validateClue(clue){
-		if (clue in this.gameState.cluses != true)
-			throw "invalid clue"; 
+		if (clue in this.gameState.clues != true)
+			throw "invalid clue";
 	}
+
+  _validatePersonPlayer(to) {
+    if (to in this.gameState.personPlayers != true)
+      throw "invalid name"
+  }
+
+  _validateAllPlayersCreatedPerson() {
+    for(player in this.players) {
+      if (!player.person) {
+        throw "not all players have created a person"
+      }
+    }
+  }
+  _validateGreateThanOnePlayers() {
+    if(this.players.length<2) {
+      throw "need more than one player to start"
+    }
+  }
 }
 
 module.exports = GameService;
