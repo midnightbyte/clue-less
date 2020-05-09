@@ -13,7 +13,7 @@ a {
   color: #555555;
 }
 .container-fluid {
-  padding-top: 70px;
+  padding-top: 10px;
   padding-bottom: 70px;
 }
 .navbar {
@@ -57,4 +57,21 @@ a {
   left: 50%;
 
   transform: translate(-50%, -50%);
+}
+
+.char-selection li{
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+  border: 2px solid #eee;
+  padding: 10px 0;
+}
+
+.char-selection li.selected{
+  border: 2px solid #158cba;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  border-radius: 5px;
 }
