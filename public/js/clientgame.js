@@ -1,15 +1,29 @@
 
 let selectedChar;
+let socketID;
 
 $(document).ready(function(){
     let socket = io.connect('http://localhost:1234');
-    socket.on('connect', function(data) {
-        socket.emit('joined', 'player has joined');
+
+    socket.on('connected', function(data) {
+        clearGameMessage();
+        displayGameMessage('waiting for players ...')
+        socket.emit('initialize');
     });
 
     // handle player join
     socket.on('playerJoined', function(msg){
+
         displayGameMessage(msg);
+    });
+
+    socket.on('playerDisconnected', function(data){
+      //  $("#messages").load(window.location.href + " #messages" );
+        displayGameMessage('player has left');
+    });
+
+    socket.on('availableCharacters', function(data) {
+        setCharacterList(data.charList);
     });
 
     // handle login dialog submit
@@ -17,9 +31,9 @@ $(document).ready(function(){
         e.preventDefault();
         let pname = $('#playername').val();
         let pcharacter = selectedChar;
-        let loginInfo = { playername: pname, playercharacter: pcharacter}
-        let msg = pname + " has joined as " + pcharacter;
-        socket.emit('createGame', pname, pcharacter, msg);
+        let charInfo = { playername: pname, playercharacter: pcharacter};
+     //   let msg = pname + " has joined as " + pcharacter;
+        socket.emit('selectedCharacter', charInfo);
         $('#loginDialog .close').click();
     });
 

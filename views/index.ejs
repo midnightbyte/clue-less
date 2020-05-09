@@ -19,7 +19,7 @@
       <p><b>Players</b></p>
       <section id="playerslist"></section>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-4" id="messagebox">
       <p><b>Messages</b></p>
       <ul id="messages"></ul>
     </div>
@@ -40,36 +40,8 @@
           <label for="playername">Enter your Name</label>
           <input class="form-control" id="playername" name="playername" required placeholder="Enter your name">
         </div>
-        <div class="form-group">
-          <label for="playercharacter">Select a Character</label>
-<!--          <select id="playercharacter" name="playercharacter" class="form-control">-->
-<!--            <option value="MissScarlet">Miss Scarlet</option>-->
-<!--            <option value="ColonelMustard">Colonel Mustard</option>-->
-<!--            <option value="MrsWhite">Mrs. White</option>-->
-<!--            <option value="MrGreen">Mr. Green</option>-->
-<!--            <option value="MrsPeacock">Mrs. Peacock</option>-->
-<!--            <option value="ProfessorPlum">Professor Plum</option>-->
-<!--          </select>-->
-          <ul class="char-selection">
-            <li data-char="MissScarlet" class="selected">
-              <img src="img/scarlet.jpg" width="70">
-            </li>
-            <li data-char="ColonelMustard">
-              <img src="img/mustard.jpg" width="70">
-            </li>
-            <li data-char="MrsWhite">
-              <img src="img/white.jpg" width="70">
-            </li>
-            <li data-char="MrGreen">
-              <img src="img/green.jpg" width="70">
-            </li>
-            <li data-char="MrsPeacock">
-              <img src="img/peacock.jpg" width="70">
-            </li>
-            <li data-char="ProfessorPlum">
-              <img src="img/plum.jpg" width="70">
-            </li>
-          </ul>
+        <div class="form-group" id="char-selection">
+
         </div>
       </div>
       <div class="modal-footer">
