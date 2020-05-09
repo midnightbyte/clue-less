@@ -8,3 +8,21 @@ $(document).ready(function(){
         selectedChar = $(this).data('char');
     });
 });
+
+
+// handle login dialog open
+$('#loginDialog').dialog({
+    modal: true,
+    overlay: {
+        opacity: 0.7,
+        background: "black"
+    }
+});
+
+
+// handle game messages
+function displayGameMessage (msg) {
+    msg = '<li>' + msg + '</li>';
+    $('#messages').append(msg);
+    //window.scrollTo(0, document.body.scrollHeight);
+}
