@@ -1,7 +1,7 @@
 body {
-  padding: 50px;
+  padding: 5px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  background-image: url('../images/bamboo.jpg');
+  background-image: url('../img/bamboo.jpg');
 }
 
 a {
@@ -14,7 +14,7 @@ a {
 }
 .container-fluid {
   padding-top: 10px;
-  padding-bottom: 70px;
+  padding-bottom: 10px;
 }
 .navbar {
   padding-top: 15px;
