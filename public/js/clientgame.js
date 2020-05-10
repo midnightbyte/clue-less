@@ -29,6 +29,7 @@ $(document).ready(function(){
     socket.on('selectedCharacters', function(data) {
         setCharacterList(data.charList);
         setPlayerList(data.game.players);
+        $('#loginbutton').remove();
     })
 
     // handle login dialog submit
