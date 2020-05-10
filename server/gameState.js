@@ -1,5 +1,5 @@
 const CONSTANTS = require('./constants')
-const character = require('./character');
+const Character = require("./character").Character;
 
 class GameState {
   constructor(gameID) {
@@ -10,12 +10,12 @@ class GameState {
 
     // active character list
     this.characters = [
-        new character.Character("Miss Scarlet"),
-        new character.Character("Colonel Mustard"),
-        new character.Character("Mrs White"),
-        new character.Character("Mr Green"),
-        new character.Character("Mrs Peacock"),
-        new character.Character("Professor Plum")
+        new Character("Miss Scarlet"),
+        new Character("Colonel Mustard"),
+        new Character("Mrs White"),
+        new Character("Mr Green"),
+        new Character("Mrs Peacock"),
+        new Character("Professor Plum")
     ]
   }
 

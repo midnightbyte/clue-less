@@ -19,6 +19,7 @@ function setCharacterList(charlist) {
     for (let i=0; i<charlist.length; i++) {
         let character = charlist[i];
         let n = character.name;
+        console.log(n);
         switch (n) {
             case "Miss Scarlet":  liststring += '<li data-char="Miss Scarlet" class="selected"><img src="img/scarlet.jpg" width="70"></li>'; break;
             case "Colonel Mustard" :  liststring += '<li data-char="Colonel Mustard"><img src="img/mustard.jpg" width="70"></li>'; break;
