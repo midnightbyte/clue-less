@@ -21,7 +21,7 @@ function setCharacterList(charlist) {
         let n = character.name;
         console.log(n);
         switch (n) {
-            case "Miss Scarlet":  liststring += '<li data-char="Miss Scarlet" class="selected"><img src="img/scarlet.jpg" width="70"></li>'; break;
+            case "Miss Scarlet":  liststring += '<li data-char="Miss Scarlet"><img src="img/scarlet.jpg" width="70"></li>'; break;
             case "Colonel Mustard" :  liststring += '<li data-char="Colonel Mustard"><img src="img/mustard.jpg" width="70"></li>'; break;
             case "Mrs White" :  liststring += '<li data-char="Mrs White"><img src="img/white.jpg" width="70"></li>'; break;
             case "Mr Green" :  liststring += '<li data-char="Mr Green"><img src="img/green.jpg" width="70"></li>'; break;
