@@ -2,9 +2,9 @@ const Player = require('./player');
 
 class PlayerService {
   constructor(io) {
-    this.players = [];
-    this.games = [];
-    this.io = io;
+    // this.players = [];
+    // this.games = [];
+    // this.io = io;
   }
 }
 

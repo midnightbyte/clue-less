@@ -26,6 +26,11 @@ $(document).ready(function(){
         setCharacterList(data.charList);
     });
 
+    socket.on('selectedCharacters', function(data) {
+        setCharacterList(data.charList);
+        setPlayerList(data.game.players);
+    })
+
     // handle login dialog submit
     $('#playerLogin').submit(function(e){
         e.preventDefault();

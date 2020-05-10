@@ -1,32 +1,33 @@
 const CONSTANTS = require('./constants')
 const Character = require("./character").Character;
 
-class GameState {
-  constructor(gameID) {
-    this.players = [];
-    this.gameID = gameID;
-    this.activePlayers = 0;
-    this.initialized = false;
+module.exports = {
+    GameState: function(gameID) {
+        this.players = [];
+        this.gameID = gameID;
+        this.activePlayers = 0;
+        this.initialized = false;
 
-    // active character list
-    this.characters = [
-        new Character("Miss Scarlet"),
-        new Character("Colonel Mustard"),
-        new Character("Mrs White"),
-        new Character("Mr Green"),
-        new Character("Mrs Peacock"),
-        new Character("Professor Plum")
-    ]
-  }
-
-  createGame() {
-    // need gameboard
-    // need to deal clue cards
-    for(let i=0; i<this.players.length; i++) {
-      // figure out character list for game
+        // active character list
+        this.characters = [
+            new Character("Miss Scarlet"),
+            new Character("Colonel Mustard"),
+            new Character("Mrs White"),
+            new Character("Mr Green"),
+            new Character("Mrs Peacock"),
+            new Character("Professor Plum")
+        ]
     }
-  }
 }
+
+//   createGame() {
+//     // need gameboard
+//     // need to deal clue cards
+//     for(let i=0; i<this.players.length; i++) {
+//       // figure out character list for game
+//     }
+//   }
+// }
 
 // class GameState {
 //   constructor(players) {
@@ -136,4 +137,4 @@ class GameState {
 //   }
 // }
 
-module.exports = GameState;
+//module.exports = GameState;

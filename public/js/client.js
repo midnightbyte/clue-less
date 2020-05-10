@@ -19,7 +19,7 @@ function setCharacterList(charlist) {
     for (let i=0; i<charlist.length; i++) {
         let character = charlist[i];
         let n = character.name;
-        console.log(n);
+
         switch (n) {
             case "Miss Scarlet":  liststring += '<li data-char="Miss Scarlet"><img src="img/scarlet.jpg" width="70"></li>'; break;
             case "Colonel Mustard" :  liststring += '<li data-char="Colonel Mustard"><img src="img/mustard.jpg" width="70"></li>'; break;
@@ -49,6 +49,15 @@ function setCharacterList(charlist) {
 
 }
 
+function setPlayerList(playerlist) {
+    $('#playerslist').empty();
+    for (let i=0; i<playerlist.length; i++) {
+        let p = playerlist[i];
+        let n = p.name;
+        let c = p.character;
+        displayPlayer(n, c);
+     }
+}
 
 // handle login dialog open
 $('#loginDialog').dialog({
@@ -58,6 +67,28 @@ $('#loginDialog').dialog({
         background: "black"
     }
 });
+
+// handle player listing
+function displayPlayer (name, character) {
+    let msg = formatPlayerListing(name, character);
+    $('#playerslist').append(msg);
+}
+
+// format player listing
+function formatPlayerListing (name, character) {
+    let token;
+
+    switch (character) {
+        case "Miss Scarlet":  token = "<img src=img/red-token.png"; break;
+        case "Colonel Mustard" :  token =  "<img src=img/yellow-token.png"; break;
+        case "Mrs White" :  token = "<img src=img/white-token.png"; break;
+        case "Mr Green" :  token = "<img src=img/green-token.png"; break;
+        case "Mrs Peacock" :  token = "<img src=img/blue-token.png"; break;
+        case "Professor Plum" :  token = "<img src=img/purple-token.png"; break;
+    }
+    msg = token + " width=20>" + name + ' has joined as ' + character + '<br>';
+    return msg;
+}
 
 
 // handle game messages

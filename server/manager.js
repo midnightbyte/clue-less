@@ -4,6 +4,7 @@ let player = require('./player.js');
 let gamestate = require('./gameState.js');
 let character = require('./character');
 const Character = require("./character").Character;
+const Player = require('./player').Player;
 let activeGame = null;
 
 
@@ -29,7 +30,7 @@ function startGame(io) {
     let gameID;
     if (activeGame === null) {
         gameID = Math.floor(Math.random() * 100);     // returns a random integer from 0 to 99
-        activeGame = new gamestate(gameID);
+        activeGame = new gamestate.GameState(gameID);
         console.log('new game ' + activeGame.gameID);
     }
     // put gameid in socket
@@ -46,7 +47,7 @@ function startGame(io) {
 function selectCharacter(io, socket, data) {
     let pname = data.playername;
     let pchar = data.playercharacter;
-    let newplayer = new player(pname, socket.id, pchar);
+    let newplayer = new player.Player(pname, socket.id, pchar);
 
     for (let i=0; i<activeGame.characters.length; i++) {
         let charname = activeGame.characters[i].name;
@@ -60,8 +61,7 @@ function selectCharacter(io, socket, data) {
 
     activeGame.players.push(newplayer);
 
-    io.sockets.emit('availableCharacters', {charList: activeGame.characters});
-
-
+    io.sockets.emit('selectedCharacters', {charList: activeGame.characters, game: activeGame});
 
 }
+

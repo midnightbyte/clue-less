@@ -1,15 +1,15 @@
 const CONSTANTS = require('./constants');
-const PlayerService = require('./playerService');
+//const PlayerService = require('./playerService');
 
-class Player {
-  constructor(name, socketID, character) {
+module.exports = {
+  Player: function(name, socketID, character) {
     this.name = name;
     this.socketID = socketID;
     this.cards = [];
     this.character = character;
     this.currentplayer = true;
   }
-}
+};
 
 // class Player {
 //   constructor(socket, playerService) {
@@ -162,12 +162,12 @@ class Player {
 //   })
 // }
 //
-Player.disconnect = function(socket, playerService) {
-  let player = playerService.players[socket.id]
-  if (player.game != undefined) {
-    this.leaveGame(socket);
-  }
-  delete player;
-}
+// Player.disconnect = function(socket, playerService) {
+//   let player = playerService.players[socket.id]
+//   if (player.game != undefined) {
+//     this.leaveGame(socket);
+//   }
+//   delete player;
+// }
 
-module.exports = Player;
+//module.exports = Player;
