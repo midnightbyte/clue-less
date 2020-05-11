@@ -1,4 +1,3 @@
-const CONSTANTS = require('./constants')
 const Character = require("./character").Character;
 
 module.exports = {
@@ -7,6 +6,7 @@ module.exports = {
         this.gameID = gameID;
         this.activePlayers = 0;
         this.initialized = false;
+        this.solutioncards = {};
 
         // active character list
         this.characters = [
@@ -17,17 +17,61 @@ module.exports = {
             new Character("Mrs Peacock"),
             new Character("Professor Plum")
         ]
+
+        this.createGame = function () {
+
+            // set up first player
+            for (let i=0; i<this.players.length; i++) {
+                if  (this.players[i].character.name === 'Miss Scarlet') {
+                    this.activeplayer = this.players[i];
+                } else {
+                    this.activeplayer = this.players[0];
+                }
+            }
+
+            this.activePlayers = this.players.length;
+
+            // deal cards
+            this.dealClueCards();
+            this.initialized = true;
+            console.log('current player ' + this.activeplayer.name);
+
+        },
+        this.dealClueCards = function() {
+
+            let wclues = ["candlestick","knife","rope","revolver","pipe","wrench"];
+            let sclues = ["Miss Scarlet","Colonel Mustard","Mrs White","Mr Green","Mrs Peacock","Professor Plum"];
+            let rclues = ["ballroom","billiardroom","conservatory","diningroom","hall","kitchen","library","lounge","study"];
+
+            let random1 = Math.floor(Math.random()*sclues.length);
+            this.solutioncards['suspect'] = sclues[random1];
+            sclues.splice(random1, 1);
+            console.log('suspect ' + this.solutioncards['suspect']);
+
+            let random2 = Math.floor(Math.random()*wclues.length);
+            this.solutioncards['weapon'] = wclues[random2];
+            wclues.splice(random2, 1);
+            console.log('weapon ' + this.solutioncards['weapon']);
+
+            let random3 = Math.floor(Math.random()*rclues.length);
+            this.solutioncards['room'] = rclues[random3];
+            rclues.splice(random3, 1);
+            console.log('room ' + this.solutioncards['room']);
+
+
+            let clueList = sclues.concat(wclues).concat(rclues);
+
+            let playerCounter = 0;
+            while (clueList.length) {
+                playerCounter = playerCounter % this.players.length;
+                let clue = Math.floor(Math.random()*clueList.length);
+                this.players[playerCounter].cards.push(clueList[clue]);
+                clueList.splice(clue, 1);
+                playerCounter += 1;
+            }
+        }
     }
 }
-
-//   createGame() {
-//     // need gameboard
-//     // need to deal clue cards
-//     for(let i=0; i<this.players.length; i++) {
-//       // figure out character list for game
-//     }
-//   }
-// }
 
 // class GameState {
 //   constructor(players) {
@@ -107,30 +151,7 @@ module.exports = {
 //     }
 //   }
 //
-//   _dealClues() {
-//     let personsList = Object.keys(this.persons)
-//     let weaponsList = Object.keys(this.weapons)
-//     let roomsList = Object.keys(this.rooms)
-//     shuffle(personsList)
-//     shuffle(weaponsList)
-//     shuffle(roomsList)
 //
-//     this.solution = {
-//         "person": this.clues[personsList.pop()]
-//         "weapon": this.clues[weaponsList.pop()]
-//         "room": this.clues[roomsList.pop()]
-//     }
-//
-//     let clueList = [];
-//     clueList.concat(personsList).concat(weaponsList).concat(roomsList)
-//     shuffle(clueList)
-//
-//     playerCounter = 0;
-//     while (clueList.length) {
-//       let clue = this.clues[clueList.pop()]
-//       this.players[playerCounter].person.clues.push(clue)
-//     }
-//   }
 //   nextCurrentPlayer() {
 //     this.turnList.push(this.turnList.shift());
 //     this.currentPlayer = this.turnList[0];

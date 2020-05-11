@@ -1,20 +1,8 @@
-class Space {
-  constructor(id) {
-    this.id = id;
-    this.paths = undefined;
+module.exports = {
+  Space: function(name, isRoom, characters) {
+    this.name = name;
+    this.isRoom = isRoom;
+    this.characters = characters;
+    this.nextSpaces = [];
   }
-}
-
-class RoomSpace extends Space {
-  constructor(id) {
-    super(id);
-  }
-}
-
-class HallwaySpace extends Space {
-  constructor(id) {
-    super(id);
-  }
-}
-
-module.exports = Space;
+};

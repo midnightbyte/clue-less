@@ -17,16 +17,20 @@ exports.initialize = function(io, socket) {
 
     socket.on('initialize', function(data) {
         io.sockets.emit('playerJoined', 'player has joined');
-        startGame(io);
+        initialize(io);
     });
 
     socket.on('selectedCharacter', function(data) {
         console.log('selected character ' + data.playercharacter);
         selectCharacter(io, socket, data);
+    });
+
+    socket.on('startgame', function(data) {
+        startGame(io, socket, data);
     })
 }
 
-function startGame(io) {
+function initialize(io) {
     let gameID;
     if (activeGame === null) {
         gameID = Math.floor(Math.random() * 100);     // returns a random integer from 0 to 99
@@ -63,5 +67,12 @@ function selectCharacter(io, socket, data) {
 
     io.sockets.emit('selectedCharacters', {charList: activeGame.characters, game: activeGame});
 
+}
+
+function startGame(io, socket, data) {
+    console.log('game started by ' + socket.id);
+    if (activeGame.initialized === false) {
+        activeGame.createGame();
+    }
 }
 

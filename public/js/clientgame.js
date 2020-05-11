@@ -46,6 +46,14 @@ $(document).ready(function(){
         $('#loginDialog .close').click();
     });
 
+    // handle start game submit
+    $('#startGame').click(function(e){
+        e.preventDefault();
+        console.log("game started");
+        socket.emit('startgame');
+    });
+
+
     socket.on('createGameResponse', (msg) => {
         console.log(msg);
         $('#playerslist').append("<p>" + msg + "</p>")
