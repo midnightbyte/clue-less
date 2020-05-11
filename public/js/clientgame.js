@@ -30,6 +30,9 @@ $(document).ready(function(){
         setCharacterList(data.charList);
         setPlayerList(data.game.players);
         $('#loginbutton').remove();
+        if (data.game.players.length >= 2) {
+            $('#startbutton').toggle();
+        }
     })
 
     // handle login dialog submit
