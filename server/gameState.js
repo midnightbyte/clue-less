@@ -1,4 +1,5 @@
 const Character = require("./character").Character;
+const gamelayout = require('./gameboard');
 
 module.exports = {
     GameState: function(gameID) {
@@ -7,6 +8,7 @@ module.exports = {
         this.activePlayers = 0;
         this.initialized = false;
         this.solutioncards = {};
+        this.gameBoard = new gamelayout.Gameboard();
 
         // active character list
         this.characters = [
@@ -23,9 +25,9 @@ module.exports = {
             // set up first player
             for (let i=0; i<this.players.length; i++) {
                 if  (this.players[i].character.name === 'Miss Scarlet') {
-                    this.activeplayer = this.players[i];
+                    this.currentplayer = this.players[i];
                 } else {
-                    this.activeplayer = this.players[0];
+                    this.currentplayer = this.players[0];
                 }
             }
 
@@ -33,10 +35,13 @@ module.exports = {
 
             // deal cards
             this.dealClueCards();
-            this.initialized = true;
-            console.log('current player ' + this.activeplayer.name);
+            // lay out game board
+            this.gameBoard.boardlayout();
 
+            this.initialized = true;
+            console.log('current player ' + this.currentplayer.name);
         },
+
         this.dealClueCards = function() {
 
             let wclues = ["candlestick","knife","rope","revolver","pipe","wrench"];
@@ -69,6 +74,44 @@ module.exports = {
                 clueList.splice(clue, 1);
                 playerCounter += 1;
             }
+        }
+
+        this.currentPlayerLocation = function(){
+            return this.gameBoard.getCharacterLocation(this.currentplayer.character);
+        }
+
+        this.getMoves = function(){
+            let moves = [];
+            moves.push("Make Accusation");
+            //
+            // let ch = this.currentplayer.character;
+            // let chLocation = this.gameBoard.getCharacterLocation(this.currentplayer.character);
+            //
+            // console.log('cname ' + ch);
+            // console.log('clocation ' + chLocation);
+            // let nextRooms = chLocation.nextSpaces;
+            //
+            // if(!location.isRoom){
+            //     console.log("Suspect in Hallway");
+            //     console.log("NextRooms: "+ nextRooms)
+            //     for(var i = 0; i< nextRooms.length; i++){
+            //         moves.push("Move: "+nextRooms[i]);
+            //     }
+            //
+            // }else{
+            //     if(character.active){
+            //         moves.push("Make Suggestion");
+            //         character.active = false;
+            //     }
+                // for(var i = 0; i< nextRooms.length; i++){
+                //     if(!this.gameBoard.isOccupiedHallway(nextRooms[i])){
+                //         moves.push("Move: "+nextRooms[i]);
+                //     }
+                // }
+
+      //      }
+            //console.log("Options: " + options);
+            return moves;
         }
     }
 }

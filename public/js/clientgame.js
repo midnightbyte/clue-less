@@ -53,6 +53,13 @@ $(document).ready(function(){
         socket.emit('startgame');
     });
 
+    socket.on('showGame', function(data) {
+        $('#startbutton').toggle();
+        $('#checklist').toggle();
+        displayGameMessage(data.msg);
+
+    })
+
 
     socket.on('createGameResponse', (msg) => {
         console.log(msg);

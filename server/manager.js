@@ -5,7 +5,7 @@ let gamestate = require('./gameState.js');
 let character = require('./character');
 const Character = require("./character").Character;
 const Player = require('./player').Player;
-let activeGame = null;
+let currentGame = null;
 
 
 
@@ -32,16 +32,16 @@ exports.initialize = function(io, socket) {
 
 function initialize(io) {
     let gameID;
-    if (activeGame === null) {
+    if (currentGame === null) {
         gameID = Math.floor(Math.random() * 100);     // returns a random integer from 0 to 99
-        activeGame = new gamestate.GameState(gameID);
-        console.log('new game ' + activeGame.gameID);
+        currentGame = new gamestate.GameState(gameID);
+        console.log('new game ' + currentGame.gameID);
     }
     // put gameid in socket
     io.sockets.gameID = gameID;
 
-    if (activeGame.initialized === false) {
-        io.sockets.emit('availableCharacters', {charList: activeGame.characters});
+    if (currentGame.initialized === false) {
+        io.sockets.emit('availableCharacters', {charList: currentGame.characters});
     } else {
         io.sockets.emit('displayGameBoard');
     }
@@ -53,26 +53,38 @@ function selectCharacter(io, socket, data) {
     let pchar = data.playercharacter;
     let newplayer = new player.Player(pname, socket.id, pchar);
 
-    for (let i=0; i<activeGame.characters.length; i++) {
-        let charname = activeGame.characters[i].name;
+    for (let i=0; i<currentGame.characters.length; i++) {
+        let charname = currentGame.characters[i].name;
         let selcharname = pchar;
 
         if (charname === selcharname) {
-            activeGame.characters.splice(i,1);
+            currentGame.characters.splice(i,1);
             // need a check if no characters left
         }
     }
 
-    activeGame.players.push(newplayer);
+    currentGame.players.push(newplayer);
 
-    io.sockets.emit('selectedCharacters', {charList: activeGame.characters, game: activeGame});
+    io.sockets.emit('selectedCharacters', {charList: currentGame.characters, game: currentGame});
 
 }
 
 function startGame(io, socket, data) {
     console.log('game started by ' + socket.id);
-    if (activeGame.initialized === false) {
-        activeGame.createGame();
+    if (currentGame.initialized === false) {
+        currentGame.createGame();
     }
+
+    // let currentLocation = currentGame.currentPlayerLocation();
+    // console.log('location ' + currentLocation);
+    // let moves = currentGame.getMoves();
+    let msg = "Game started."
+
+    // io.sockets.emit('showGame', {
+    //     msg: msg, game: currentGame,
+    //     currentPlayer: currentGame.currentPlayer,
+     //   currentLocation: currentGame.currentPlayerLocation(),
+     //   moves: currentGame.getMoves()
+ //   });
 }
 

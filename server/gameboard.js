@@ -3,6 +3,7 @@ let character = require('./character');
 
 module.exports = {
     Gameboard: function() {
+        this.characterLocations = {};
 
         this.boardlayout = function() {
             // define rooms
@@ -34,6 +35,13 @@ module.exports = {
             let loungeToCons = new space.Space("Lounge to Conservatory", false, [], "");
             let studyToKitchen = new space.Space("Study to Kitchen", false, [], "");
 
+            // character start point and images
+            let scarlet = new space.Space("Scarlet", false, [new character.Character("Miss Scarlet")], "red-token.png");
+            let mustard = new space.Space("Mustard", false, [new character.Character("Colonel Mustard")], "yellow-token.png");
+            let white = new space.Space("White", false, [new character.Character("Mrs White")], "white-token.png");
+            let green = new space.Space("Green", false, [new character.Character("Mr Green")], "green-token.png");
+            let peacock = new space.Space("Peacock", false, [new character.Character("Mrs Peacock")], "blue-token.png");
+            let plum = new space.Space("Plum", false, [new character.Character("Professor Plum")], "purple-token.png");
 
             // define next door spaces for rooms
             ballroom.nextSpaces = [consToBallroom, billiardToBallroom, ballroomToKitchen];
@@ -64,18 +72,25 @@ module.exports = {
             loungeToCons.nextSpaces = [conservatory];
             studyToKitchen.nextSpaces = [kitchen];
 
+            scarlet.nextSpaces = [hall, lounge];
+            mustard.nextSpaces = [lounge, diningroom];
+            white.nextSpaces = [ballroom, kitchen];
+            green.nextSpaces = [conservatory, ballroom];
+            peacock.nextSpaces = [library, conservatory];
+            plum.nextSpaces = [study, library];
+
             this.characterLocations = {
-                "Miss Scarlet": hallToLounge,
-                "Colonel Mustard": loungeToDining,
-                "Mrs White": ballroomToKitchen,
-                "Mr Green": consToBallroom,
-                "Mrs Peacock": libraryToCons,
-                "Professor Plum": studyToLibrary
+                "Miss Scarlet": scarlet,
+                "Colonel Mustard": mustard,
+                "Mrs White": white,
+                "Mr Green": green,
+                "Mrs Peacock": peacock,
+                "Professor Plum": plum
             };
-        }
+        },
 
         this.getCharacterLocation = function(character) {
-            return this.characterLocations[character.name]
+            return this.characterLocations[character.name];
         }
 
 

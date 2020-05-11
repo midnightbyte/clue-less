@@ -75,3 +75,13 @@ a {
   border-radius: 5px;
   border-radius: 5px;
 }
+
+td {
+  text-align: center;
+  padding-left: 3px;
+  padding-right: 3px;
+  font-weight: bold;
+  white-space: nowrap;
+
+}
+
