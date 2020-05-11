@@ -2,182 +2,185 @@
 <html>
 <body>
 
-<form> 
-  <p>Room checklist</p>
-  <Legend>Ballroom:</Legend>
-  <input type="radio" id="Guilty" name="ballroom" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="ballroom" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="ballroom" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-  
-  <Legend>Billiard Room:</Legend>
-  <input type="radio" id="Valid" name="billiard_room" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="billiard_room" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="billiard_room" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
+<p>Room Checklist</p>
+<table border="1">
+<tr>
+<td></td> 
+<td>Guilty</td>
+<td>Suspicious</td>
+<td>Unknown</td>
+<td>Innocent</td>
+</tr>
+<tr>
+<td>Ballroom</td> 
+<td><input type="radio" name="ballroom" value="guilty"></td>
+<td><input type="radio" name="ballroom" value="suspicious"></td> 
+<td><input type="radio" name="ballroom" value="maybe" checked></td> 
+<td><input type="radio" name="ballroom" value="not_guilty"></td> 
+</tr>
+<tr> 
+<td>Billiard Room</td> 
+<td><input type="radio" name="billiard_room" value="guilty"></td>
+<td><input type="radio" name="billiard_room" value="suspicious"></td> 
+<td><input type="radio" name="billiard_room" value="maybe" checked></td> 
+<td><input type="radio" name="billiard_room" value="not_guilty"></td> 
+</tr>
+<tr>
+<td>Conservatory</td> 
+<td><input type="radio" name="conservatory" value="guilty"></td>
+<td><input type="radio" name="conservatory" value="suspicious"></td> 
+<td><input type="radio" name="conservatory" value="maybe" checked></td> 
+<td><input type="radio" name="conservatory" value="not_guilty"></td> 
+</tr>
+<tr>
+<td>Dining Room</td> 
+<td><input type="radio" name="dining_room" value="guilty"></td>
+<td><input type="radio" name="dining_room" value="suspicious"></td>
+<td><input type="radio" name="dining_room" value="maybe" checked></td> 
+<td><input type="radio" name="dining_room" value="not_guilty"></td> 
+</tr>
+<tr>
+<td>Hall</td> 
+<td><input type="radio" name="hall" value="guilty"></td>
+<td><input type="radio" name="hall" value="suspicious"></td> 
+<td><input type="radio" name="hall" value="maybe" checked></td> 
+<td><input type="radio" name="hall" value="not_guilty"></td> 
+</tr>
+<tr>
+<td>Kitchen</td> 
+<td><input type="radio" name="kitchen" value="guilty"></td>
+<td><input type="radio" name="kitchen" value="suspicious"></td>
+<td><input type="radio" name="kitchen" value="maybe" checked></td> 
+<td><input type="radio" name="kitchen" value="not_guilty"></td> 
+</tr>
+<tr>
+<td>Library</td> 
+<td><input type="radio" name="library" value="guilty"></td>
+<td><input type="radio" name="library" value="suspicious"></td>
+<td><input type="radio" name="library" value="maybe" checked></td> 
+<td><input type="radio" name="library" value="not_guilty"></td> 
+</tr>
+<tr>
+<td>Lounge</td> 
+<td><input type="radio" name="lounge" value="guilty"></td>
+<td><input type="radio" name="lounge" value="suspicious"></td>
+<td><input type="radio" name="lounge" value="maybe" checked></td> 
+<td><input type="radio" name="lounge" value="not_guilty"></td> 
+</tr>
+<tr>
+<td>Study</td> 
+<td><input type="radio" name="study" value="guilty"></td>
+<td><input type="radio" name="study" value="suspicious"></td>
+<td><input type="radio" name="study" value="maybe" checked></td> 
+<td><input type="radio" name="study" value="not_guilty"></td> 
+</tr>
+</table>
 
-  <Legend>Conservatory:</Legend>
-  <input type="radio" id="Valid" name="conservatory" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="conservatory" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="conservatory" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
+<p>Person Checklist</p>
+<table border="1">
+<tr>
+<td></td> 
+<td>Guilty</td>
+<td>Suspicious</td>
+<td>Unknown</td>
+<td>Innocent</td>
+</tr>
+<tr>
+<td>Ms Scarlet</td> 
+<td><input type="radio" name="Ms Scarlet" value="guilty"></td>
+<td><input type="radio" name="Ms Scarlet" value="suspicious"></td> 
+<td><input type="radio" name="Ms Scarlet" value="maybe" checked></td> 
+<td><input type="radio" name="Ms Scarlet" value="not_guilty"></td> 
+</tr>
+<tr> 
+<td>Prof Plum</td> 
+<td><input type="radio" name="Prof Plum" value="guilty"></td>
+<td><input type="radio" name="Prof Plum" value="suspicious"></td> 
+<td><input type="radio" name="Prof Plum" value="maybe" checked></td> 
+<td><input type="radio" name="Prof Plum" value="not_guilty"></td> 
+</tr>
+<tr>
+<td>Col Mustard</td> 
+<td><input type="radio" name="Col Mustard" value="guilty"></td>
+<td><input type="radio" name="Col Mustard" value="suspicious"></td> 
+<td><input type="radio" name="Col Mustard" value="maybe" checked></td> 
+<td><input type="radio" name="Col Mustard" value="not_guilty"></td> 
+</tr>
+<tr>
+<td>Mrs Peacock</td> 
+<td><input type="radio" name="Mrs Peacock" value="guilty"></td>
+<td><input type="radio" name="Mrs Peacock" value="suspicious"></td>
+<td><input type="radio" name="Mrs Peacock" value="maybe" checked></td> 
+<td><input type="radio" name="Mrs Peacock" value="not_guilty"></td> 
+</tr>
+<tr>
+<td>Mr Green</td> 
+<td><input type="radio" name="Mr Green" value="guilty"></td>
+<td><input type="radio" name="Mr Green" value="suspicious"></td> 
+<td><input type="radio" name="Mr Green" value="maybe" checked></td> 
+<td><input type="radio" name="Mr Green" value="not_guilty"></td> 
+</tr>
+<tr>
+<td>Mr White</td> 
+<td><input type="radio" name="Mr White" value="guilty"></td>
+<td><input type="radio" name="Mr White" value="suspicious"></td>
+<td><input type="radio" name="Mr White" value="maybe" checked></td> 
+<td><input type="radio" name="Mr White" value="not_guilty"></td> 
+</tr>
+</table>
 
-  <Legend>Dining Room:</Legend>
-  <input type="radio" id="Valid" name="dining_room" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="dining_room" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="dining_room" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-  
-  <Legend>Hall:</Legend>
-  <input type="radio" id="Valid" name="hall" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="hall" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="hall" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-  
-  <Legend>Kitchen:</Legend>
-  <input type="radio" id="Valid" name="kitchen" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="kitchen" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="kitchen" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-  
-  <Legend>Library:</Legend>
-  <input type="radio" id="Valid" name="library" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="library" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="library" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-  
-  <Legend>Lounge:</Legend>
-  <input type="radio" id="Valid" name="lounge" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="lounge" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="lounge" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-  
-  <Legend>Study:</Legend>
-  <input type="radio" id="Valid" name="study" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="study" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="study" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-</form>
-
-<form> 
-  <p>Person checklist</p>
-  <Legend>Ms Scarlet:</Legend>
-  <input type="radio" id="Valid" name="ms_scarlet" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="ms_scarlet" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="ms_scarlet" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-  
-  <Legend>Professor Plum:</Legend>
-  <input type="radio" id="Valid" name="prof_plum" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="prof_plum" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="prof_plum" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-
-  <Legend>Colonel Mustard:</Legend>
-  <input type="radio" id="Valid" name="col_mustard" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="col_mustard" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="col_mustard" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-
-  <Legend>Mrs Peacock:</Legend>
-  <input type="radio" id="Valid" name="mrs_peacock" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="mrs_peacock" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="mrs_peacock" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-  
-  <Legend>Mr Green:</Legend>
-  <input type="radio" id="Valid" name="mr_green" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="mr_green" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="mr_green" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-  
-  <Legend>Mr White:</Legend>
-  <input type="radio" id="Valid" name="mr_white" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="mr_white" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="mr_white" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-</form>
-
-<form> 
-  <p>Weapon checklist</p>
-  <Legend>Candlestick:</Legend>
-  <input type="radio" id="Valid" name="candlestick" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="candlestick" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="candlestick" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-  
-  <Legend>Knife:</Legend>
-  <input type="radio" id="Valid" name="knife" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="knife" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="knife" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-
-  <Legend>Pipe:</Legend>
-  <input type="radio" id="Valid" name="pipe" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="pipe" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="pipe" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-
-  <Legend>Revolver:</Legend>
-  <input type="radio" id="Valid" name="revolver" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="revolver" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="revolver" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-  
-  <Legend>Rope:</Legend>
-  <input type="radio" id="Valid" name="rope" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="rope" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="rope" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-  
-  <Legend>Wrench:</Legend>
-  <input type="radio" id="Valid" name="wrench" value="guilty">
-  <label for="Guilty">Guilty</label>
-  <input type="radio" id="Maybe" name="wrench" value="maybe" checked>
-  <label for="Maybe">Maybe</label>
-  <input type="radio" id="Not Valid" name="wrench" value="not_guilty">
-  <label for="Not Valid">Not Guilty</label><br>
-</form>
+<p>Weapon Checklist</p>
+<table border="1">
+<tr>
+<td></td> 
+<td>Guilty</td>
+<td>Suspicious</td>
+<td>Unknown</td>
+<td>Innocent</td>
+</tr>
+<tr>
+<td>Candlestick</td> 
+<td><input type="radio" name="Candlestick" value="guilty"></td>
+<td><input type="radio" name="Candlestick" value="suspicious"></td> 
+<td><input type="radio" name="Candlestick" value="maybe" checked></td> 
+<td><input type="radio" name="Candlestick" value="not_guilty"></td> 
+</tr>
+<tr> 
+<td>Knife</td> 
+<td><input type="radio" name="Knife" value="guilty"></td>
+<td><input type="radio" name="Knife" value="suspicious"></td> 
+<td><input type="radio" name="Knife" value="maybe" checked></td> 
+<td><input type="radio" name="Knife" value="not_guilty"></td> 
+</tr>
+<tr>
+<td>Pipe</td> 
+<td><input type="radio" name="Pipe" value="guilty"></td>
+<td><input type="radio" name="Pipe" value="suspicious"></td> 
+<td><input type="radio" name="Pipe" value="maybe" checked></td> 
+<td><input type="radio" name="Pipe" value="not_guilty"></td> 
+</tr>
+<tr>
+<td>Revolver</td> 
+<td><input type="radio" name="Revolver" value="guilty"></td>
+<td><input type="radio" name="Revolver" value="suspicious"></td>
+<td><input type="radio" name="Revolver" value="maybe" checked></td> 
+<td><input type="radio" name="Revolver" value="not_guilty"></td> 
+</tr>
+<tr>
+<td>Rope</td> 
+<td><input type="radio" name="Rope" value="guilty"></td>
+<td><input type="radio" name="Rope" value="suspicious"></td> 
+<td><input type="radio" name="Rope" value="maybe" checked></td> 
+<td><input type="radio" name="Rope" value="not_guilty"></td> 
+</tr>
+<tr>
+<td>Wrench</td> 
+<td><input type="radio" name="Wrench" value="guilty"></td>
+<td><input type="radio" name="Wrench" value="suspicious"></td>
+<td><input type="radio" name="Wrench" value="maybe" checked></td> 
+<td><input type="radio" name="Wrench" value="not_guilty"></td> 
+</tr>
+</table>
 
 </body>
 </html>
