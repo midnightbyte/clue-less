@@ -62,6 +62,9 @@ $(document).ready(function(){
     socket.on('showGame', function(data) {
         $('#startbutton').toggle();
         $('#checklist').toggle();
+        $('#suggestButton').toggle();
+        $('#accuseButton').toggle();
+        $('#endTurnButton').toggle();
         $("#gameBoardContainer").toggle();
         displayGameMessage(data.msg);
         if (data.game.players.length > 0) {
@@ -72,12 +75,14 @@ $(document).ready(function(){
                 if (data.firstPlayer === mysocketID) {
                     let thisplayer = data.game.players[i];
                     if (data.game.whosturn.id === thisplayer.id) {
-                        displayGameMessage(thisplayer.character + ' - ' + thisplayer.name + ' goes first!');
-                        // this is where we tell whos turn it is - needs to be moved
+                        displayGameMessage('<b><font color="red">Your turn!</font></b>');
                     }
                     let player = data.game.players[i];
                     displayCards(player);
+                } else {
+                    displayGameMessage('<b><font color="red">' + thisplayer.character + ' goes first!</font></b>');
                 }
+
             }
         }
     });
