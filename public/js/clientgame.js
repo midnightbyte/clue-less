@@ -83,6 +83,7 @@ $(document).ready(function(){
                 } else {
                     if (data.game.players[i].mysocket === mysocketID) {
                         thisplayer = data.game.players[i];
+                        displayCards(thisplayer);
                         displayGameMessage('<b><font color="red">' + thisplayer.character + ' goes first!</font></b>');
                     }
                 }
