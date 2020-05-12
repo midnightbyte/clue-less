@@ -1,36 +1,42 @@
-let io;
-let socket;
+
 let player = require('./player.js');
 let gamestate = require('./gameState.js');
 let character = require('./character');
 const Character = require("./character").Character;
 const Player = require('./player').Player;
 let currentGame = null;
+let io;
+let gsocket;
 
+exports.initialize = function(gio, socket) {
+    io = gio;
+    gsocket = socket;
+    console.log('socket ID ' + gsocket.id);
+    gsocket.emit('connected', {id: socket.id});
 
+    gsocket.on('initialize', initialize);
+    gsocket.on('selectedCharacter', selectCharacter);
 
-exports.initialize = function(io, socket) {
-    this.io = io;
-    this.socket = socket;
-    console.log('socket ID ' + this.socket.id);
-    this.io.sockets.emit('connected', {id: socket.id});
+    // gsocket.on('initialize', function(data) {
+    //     io.sockets.emit('playerJoined', 'player has joined');
+    //     initialize();
+    // });
 
-    socket.on('initialize', function(data) {
-        io.sockets.emit('playerJoined', 'player has joined');
-        initialize(io);
-    });
+    // gsocket.on('selectedCharacter', function(data) {
+    //     console.log('selected character ' + data.playercharacter);
+    //    // selectCharacter(io, socket, data);
+    //     selectCharacter(data);
+    // });
 
-    socket.on('selectedCharacter', function(data) {
-        console.log('selected character ' + data.playercharacter);
-        selectCharacter(io, socket, data);
-    });
-
-    socket.on('startgame', function(data) {
-        startGame(io, socket, data);
+    gsocket.on('startgame', function(data) {
+       // startGame(io, socket, data);
+        startGame(data);
     })
 }
 
-function initialize(io) {
+function initialize(data) {
+    io.sockets.emit('playerJoined', 'player has joined');
+
     let gameID;
     if (currentGame === null) {
         gameID = Math.floor(Math.random() * 100);     // returns a random integer from 0 to 99
@@ -38,20 +44,24 @@ function initialize(io) {
         console.log('new game ' + currentGame.gameID);
     }
     // put gameid in socket
-    io.sockets.gameID = gameID;
+    this.join(this.gameID);
+   // io.sockets.gameID = gameID;
 
     if (currentGame.initialized === false) {
-        io.sockets.emit('availableCharacters', {charList: currentGame.characters});
+        this.emit('availableCharacters', {charList: currentGame.characters});
     } else {
-        io.sockets.emit('displayGameBoard');
+        this.emit('showGame', {
+            game: currentGame,
+            currentPlayerLocation: currentGame.currentPlayer,
+            currentLocation: currentGame.currentPlayerLocation(),
+            moves: []});
     }
-
 }
 
-function selectCharacter(io, socket, data) {
+function selectCharacter(data) {
     let pname = data.playername;
     let pchar = data.playercharacter;
-    let newplayer = new player.Player(pname, socket.id, pchar);
+    let newplayer = new player.Player(pname, gsocket.id, pchar);
 
     for (let i=0; i<currentGame.characters.length; i++) {
         let charname = currentGame.characters[i].name;
@@ -69,22 +79,20 @@ function selectCharacter(io, socket, data) {
 
 }
 
-function startGame(io, socket, data) {
-    console.log('game started by ' + socket.id);
+function startGame(data) {
+    console.log('game started by ' + gsocket.id);
     if (currentGame.initialized === false) {
         currentGame.createGame();
     }
 
-    // let currentLocation = currentGame.currentPlayerLocation();
-    // console.log('location ' + currentLocation);
-    // let moves = currentGame.getMoves();
-    let msg = "Game started."
+    let currentLocation = currentGame.currentPlayerLocation();
+    let moves = currentGame.getMoves();
+    console.log('moves' + moves);
+    let msg = 'Game started.';
 
-    // io.sockets.emit('showGame', {
-    //     msg: msg, game: currentGame,
-    //     currentPlayer: currentGame.currentPlayer,
-     //   currentLocation: currentGame.currentPlayerLocation(),
-     //   moves: currentGame.getMoves()
- //   });
+    io.sockets.emit('showGame', {
+        msg: msg, game: currentGame,
+        currentPlayer: currentGame.currentPlayer,
+        currentLocation: currentLocation, moves: moves});
 }
 

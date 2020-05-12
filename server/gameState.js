@@ -1,5 +1,6 @@
 const Character = require("./character").Character;
 const gamelayout = require('./gameboard');
+const Space = require('./space');
 
 module.exports = {
     GameState: function(gameID) {
@@ -77,39 +78,33 @@ module.exports = {
         }
 
         this.currentPlayerLocation = function(){
-            return this.gameBoard.getCharacterLocation(this.currentplayer.character);
+            return this.gameBoard.getCharacterLocation(this.currentplayer.character.toString());
         }
 
         this.getMoves = function(){
             let moves = [];
-            moves.push("Make Accusation");
-            //
-            // let ch = this.currentplayer.character;
-            // let chLocation = this.gameBoard.getCharacterLocation(this.currentplayer.character);
-            //
-            // console.log('cname ' + ch);
-            // console.log('clocation ' + chLocation);
-            // let nextRooms = chLocation.nextSpaces;
-            //
-            // if(!location.isRoom){
-            //     console.log("Suspect in Hallway");
-            //     console.log("NextRooms: "+ nextRooms)
-            //     for(var i = 0; i< nextRooms.length; i++){
-            //         moves.push("Move: "+nextRooms[i]);
-            //     }
-            //
-            // }else{
-            //     if(character.active){
-            //         moves.push("Make Suggestion");
-            //         character.active = false;
-            //     }
-                // for(var i = 0; i< nextRooms.length; i++){
-                //     if(!this.gameBoard.isOccupiedHallway(nextRooms[i])){
+            moves.push("Make Accusation!");
+
+            let ch = this.currentplayer.character;
+            let chLocation = this.gameBoard.getCharacterLocation(this.currentplayer.character);
+
+            let nextRooms = chLocation.nextSpaces;
+
+            if(!chLocation.isRoom) {
+                for (var i = 0; i < nextRooms.length; i++) {
+                    moves.push("Move: " + nextRooms[i].name);
+                }
+            }
+            if(ch.active){
+                moves.push("Make Suggestion");
+                ch.active = false;
+            }
+            //for(var i = 0; i< nextRooms.length; i++){
+            //if(!this.gameBoard.isOccupiedHallway(nextRooms[i])){
                 //         moves.push("Move: "+nextRooms[i]);
                 //     }
                 // }
 
-      //      }
             //console.log("Options: " + options);
             return moves;
         }

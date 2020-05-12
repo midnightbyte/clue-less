@@ -56,7 +56,7 @@ $(document).ready(function(){
     socket.on('showGame', function(data) {
         $('#startbutton').toggle();
         $('#checklist').toggle();
-        displayGameMessage(data.msg);
+        //displayGameMessage(data.msg);
 
     })
 

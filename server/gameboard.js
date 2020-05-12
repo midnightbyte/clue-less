@@ -4,8 +4,10 @@ let character = require('./character');
 module.exports = {
     Gameboard: function() {
         this.characterLocations = {};
+        this.gameLocations = {};
 
         this.boardlayout = function() {
+
             // define rooms
             let ballroom = new space.Space("Ballroom", true, [], "ballroom-board.jpg");
             let billiardroom = new space.Space("BilliardRoom", true, [], "billiardroom-board.jpg");
@@ -18,30 +20,33 @@ module.exports = {
             let study = new space.Space("Study", true, [], "study-board.jpg");
 
             // define hallways between rooms and starting positions of characters
-            let studyToHall = new space.Space("Study to Hall", false, [], "hall-horizontal.jpg");
-            let hallToLounge = new space.Space("Hall to Lounge", false, [new character.Character("Miss Scarlet")], "hall-horizontal.jpg");
-            let libraryToBilliard = new space.Space("Library to Billiard Room", false, [], "hall-horizontal.jpg");
-            let billiardToDining = new space.Space("Billiard Room to Dining Room", false, [], "hall-horizontal.jpg");
-            let consToBallroom = new space.Space("Conservatory to Ballroom", false, [new character.Character("Mr Green")], "hall-horizontal.jpg");
-            let ballroomToKitchen = new space.Space("Ballroom to Kitchen", false, [new character.Character("Mrs White")], "hall-horizontal.jpg");
-            let studyToLibrary = new space.Space("Study to Library", false, [new character.Character("Professor Plum")], "hall-vertical.jpg");
-            let libraryToCons = new space.Space("Library to Conservatory", false, [new character.Character("Mrs Peacock")], "hall-vertical.jpg");
-            let hallToBilliard = new space.Space("Hall to Billiard Room", false, [], "hall-vertical.jpg");
-            let billiardToBallroom = new space.Space("Billiard Room to Ballroom", false, [], "hall-vertical.jpg");
-            let loungeToDining = new space.Space("Lounge to DiningRoom", false, [new character.Character("Colonel Mustard")], "hall-vertical.jpg");
-            let diningToKitchen = new space.Space("Dining Room to Kitchen", false, [], "hall-vertical.jpg");
-            let consToLounge = new space.Space("Conservatory to Lounge", false, [], "");
-            let kitchenToStudy = new space.Space("Kitchen to Study", false, [], "");
-            let loungeToCons = new space.Space("Lounge to Conservatory", false, [], "");
-            let studyToKitchen = new space.Space("Study to Kitchen", false, [], "");
+            let studyToHall = new space.Space("StudytoHall", false, [], "hall-horizontal.jpg");
+            let hallToLounge = new space.Space("HalltoLounge", false, [new character.Character("Miss Scarlet")], "hall-horizontal.jpg");
+            let libraryToBilliard = new space.Space("LibrarytoBilliardRoom", false, [], "hall-horizontal.jpg");
+            let billiardToDining = new space.Space("BilliardRoomtoDiningRoom", false, [], "hall-horizontal.jpg");
+            let consToBallroom = new space.Space("ConservatorytoBallroom", false, [new character.Character("Mr Green")], "hall-horizontal.jpg");
+            let ballroomToKitchen = new space.Space("BallroomtoKitchen", false, [new character.Character("Mrs White")], "hall-horizontal.jpg");
+            let studyToLibrary = new space.Space("StudytoLibrary", false, [new character.Character("Professor Plum")], "hall-vertical.jpg");
+            let libraryToCons = new space.Space("LibrarytoConservatory", false, [new character.Character("Mrs Peacock")], "hall-vertical.jpg");
+            let hallToBilliard = new space.Space("HalltoBilliardRoom", false, [], "hall-vertical.jpg");
+            let billiardToBallroom = new space.Space("BilliardRoomtoBallroom", false, [], "hall-vertical.jpg");
+            let loungeToDining = new space.Space("LoungetoDiningRoom", false, [new character.Character("Colonel Mustard")], "hall-vertical.jpg");
+            let diningToKitchen = new space.Space("DiningRoomtoKitchen", false, [], "hall-vertical.jpg");
+            let consToLounge = new space.Space("ConservatorytoLounge", false, [], "");
+            let kitchenToStudy = new space.Space("KitchentoStudy", false, [], "");
+            let loungeToCons = new space.Space("LoungetoConservatory", false, [], "");
+            let studyToKitchen = new space.Space("StudytoKitchen", false, [], "");
 
-            // character start point and images
-            let scarlet = new space.Space("Scarlet", false, [new character.Character("Miss Scarlet")], "red-token.png");
-            let mustard = new space.Space("Mustard", false, [new character.Character("Colonel Mustard")], "yellow-token.png");
-            let white = new space.Space("White", false, [new character.Character("Mrs White")], "white-token.png");
-            let green = new space.Space("Green", false, [new character.Character("Mr Green")], "green-token.png");
-            let peacock = new space.Space("Peacock", false, [new character.Character("Mrs Peacock")], "blue-token.png");
-            let plum = new space.Space("Plum", false, [new character.Character("Professor Plum")], "purple-token.png");
+
+
+
+            // // character start point and images
+            // let scarlet = new space.Space("Scarlet", false, [new character.Character("Miss Scarlet")], "red-token.png");
+            // let mustard = new space.Space("Mustard", false, [new character.Character("Colonel Mustard")], "yellow-token.png");
+            // let white = new space.Space("White", false, [new character.Character("Mrs White")], "white-token.png");
+            // let green = new space.Space("Green", false, [new character.Character("Mr Green")], "green-token.png");
+            // let peacock = new space.Space("Peacock", false, [new character.Character("Mrs Peacock")], "blue-token.png");
+            // let plum = new space.Space("Plum", false, [new character.Character("Professor Plum")], "purple-token.png");
 
             // define next door spaces for rooms
             ballroom.nextSpaces = [consToBallroom, billiardToBallroom, ballroomToKitchen];
@@ -71,26 +76,58 @@ module.exports = {
             kitchenToStudy.nextSpaces = [study];
             loungeToCons.nextSpaces = [conservatory];
             studyToKitchen.nextSpaces = [kitchen];
-
-            scarlet.nextSpaces = [hall, lounge];
-            mustard.nextSpaces = [lounge, diningroom];
-            white.nextSpaces = [ballroom, kitchen];
-            green.nextSpaces = [conservatory, ballroom];
-            peacock.nextSpaces = [library, conservatory];
-            plum.nextSpaces = [study, library];
+            //
+            // scarlet.nextSpaces = [hall, lounge];
+            // mustard.nextSpaces = [lounge, diningroom];
+            // white.nextSpaces = [ballroom, kitchen];
+            // green.nextSpaces = [conservatory, ballroom];
+            // peacock.nextSpaces = [library, conservatory];
+            // plum.nextSpaces = [study, library];
 
             this.characterLocations = {
-                "Miss Scarlet": scarlet,
-                "Colonel Mustard": mustard,
-                "Mrs White": white,
-                "Mr Green": green,
-                "Mrs Peacock": peacock,
-                "Professor Plum": plum
+                "Miss Scarlet": hallToLounge,
+                "Colonel Mustard": loungeToDining,
+                "Mrs White": ballroomToKitchen,
+                "Mr Green": consToBallroom,
+                "Mrs Peacock": libraryToCons,
+                "Professor Plum": studyToLibrary
             };
+
+            this.gameLocations = {
+                "Ballroom": ballroom,
+                "BilliardRoom": billiardroom,
+                "Conservatory": conservatory,
+                "DiningRoom": diningroom,
+                "Hall": hall,
+                "Kitchen": kitchen,
+                "Library": library,
+                "Lounge": lounge,
+                "Study": study,
+                "StudytoHall": studyToHall,
+                "HalltoLounge": hallToLounge,
+                "LibrarytoBilliardRoom": libraryToBilliard,
+                "BilliardRoomtoDiningRoom": billiardToDining,
+                "ConservatorytoBallroom": consToBallroom,
+                "BallroomtoKitchen": ballroomToKitchen,
+                "StudytoLibrary": studyToLibrary,
+                "LibrarytoConservatory": libraryToCons,
+                "HalltoBilliardRoom": hallToBilliard,
+                "BilliardRoomtoBallroom": billiardToBallroom,
+                "LoungetoDiningRoom": loungeToDining,
+                "DiningRoomtoKitcken": diningToKitchen,
+                "ConservatorytoLounge": consToLounge,
+                "KitchentoStudy": kitchenToStudy,
+                "LoungetoConservatory": loungeToCons,
+                "StudytoKitchen": studyToKitchen
+            };
+
+
+
         },
 
-        this.getCharacterLocation = function(character) {
-            return this.characterLocations[character.name];
+        this.getCharacterLocation = function(charactername) {
+            let y = charactername;
+            return this.characterLocations[y];
         }
 
 
