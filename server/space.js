@@ -4,6 +4,6 @@ module.exports = {
     this.isRoom = isRoom;   // if not a room, it's a hallway
     this.whoHere = whoHere; // who is on this space
     this.nextSpaces = [];   // list of next door spaces
-    this.imageFile = imageFile;  // image card for this space
+  //  this.imageFile = imageFile;  // image card for this space
   }
 };

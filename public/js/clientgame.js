@@ -1,6 +1,9 @@
 
 let selectedChar;
 let socketID;
+let gameStarted = false;
+let playerData;
+
 
 $(document).ready(function(){
     let socket = io.connect('http://localhost:1234');
@@ -29,8 +32,10 @@ $(document).ready(function(){
     socket.on('selectedCharacters', function(data) {
         setCharacterList(data.charList);
         setPlayerList(data.game.players);
+
+
         $('#loginbutton').remove();
-        if (data.game.players.length >= 2) {
+        if (data.game.players.length >= 3) {
             $('#startbutton').toggle();
         }
     })
@@ -41,7 +46,7 @@ $(document).ready(function(){
         let pname = $('#playername').val();
         let pcharacter = selectedChar;
         let charInfo = { playername: pname, playercharacter: pcharacter};
-     //   let msg = pname + " has joined as " + pcharacter;
+
         socket.emit('selectedCharacter', charInfo);
         $('#loginDialog .close').click();
     });
@@ -56,7 +61,13 @@ $(document).ready(function(){
     socket.on('showGame', function(data) {
         $('#startbutton').toggle();
         $('#checklist').toggle();
-        //displayGameMessage(data.msg);
+        $("#gameBoardContainer").toggle();
+        displayGameMessage(data.msg);
+        if (data.game.players.length > 0) {
+            for (let i=0; i<data.game.players.length; i++) {
+                setToken(data.game.players[i].character);
+            }
+        }
 
     })
 

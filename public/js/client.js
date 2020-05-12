@@ -39,14 +39,6 @@ function setCharacterList(charlist) {
         $(this).addClass('selected');
         selectedChar = $(this).data('char');
     });
-    //      <select id="playercharacter" name="playercharacter" class="form-control">
-        //       <option value="MissScarlet">Miss Scarlet</option>-->
-        //      <option value="ColonelMustard">Colonel Mustard</option>-->
-        //     <option value="MrsWhite">Mrs. White</option>-->
-        //            <option value="MrGreen">Mr. Green</option>-->
-        //           <option value="MrsPeacock">Mrs. Peacock</option>-->
-        //          </select>
-
 }
 
 function setPlayerList(playerlist) {
@@ -100,4 +92,9 @@ function displayGameMessage (msg) {
 
 function clearGameMessage() {
     $('#messages').empty();
+}
+
+function setToken(character) {
+    displayGameMessage(character + ' has been added to the board');
+    $('div#gameBoardContainer').prepend($('<character id="' + character +'"">'));
 }

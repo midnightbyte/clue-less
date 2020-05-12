@@ -4,42 +4,44 @@ let gamestate = require('./gameState.js');
 let character = require('./character');
 const Character = require("./character").Character;
 const Player = require('./player').Player;
+
 let currentGame = null;
 let io;
-let gsocket;
+let socket;
+let suggestion = {};
 
-exports.initialize = function(gio, socket) {
-    io = gio;
-    gsocket = socket;
-    console.log('socket ID ' + gsocket.id);
+exports.initialize = function(io, socket) {
+    this.io = io;
+    this.socket = socket;
+    console.log('socket ID ' + socket.id);
     io.sockets.emit('connected', {id: socket.id});
 
-    gsocket.on('initialize', function(data) {
+    socket.on('initialize', function(data) {
         io.sockets.emit('playerJoined', 'player has joined');
-        initialize();
+        initialize(io);
     });
 
-    gsocket.on('selectedCharacter', function(data) {
+    socket.on('selectedCharacter', function(data) {
         console.log('selected character ' + data.playercharacter);
        // selectCharacter(io, socket, data);
-        selectCharacter(data);
+        selectCharacter(io, socket, data);
     });
 
-    gsocket.on('startgame', function(data) {
+    socket.on('startgame', function(data) {
        // startGame(io, socket, data);
-        startGame(data);
+        startGame(io, socket, data);
     })
 }
 
-function initialize() {
-    let gameID;
-    if (currentGame === null) {
-        gameID = Math.floor(Math.random() * 100);     // returns a random integer from 0 to 99
-        currentGame = new gamestate.GameState(gameID);
-        console.log('new game ' + currentGame.gameID);
-    }
+function initialize(io) {
+     let gameID;
+     if (currentGame === null) {
+         gameID = Math.floor(Math.random() * 100);     // returns a random integer from 0 to 99
+         currentGame = new gamestate.GameState(gameID);
+         console.log('new game ' + currentGame.gameID);
+     }
     // put gameid in socket
-    io.sockets.gameID = gameID;
+    //io.sockets.gameID = gameID;
 
     if (currentGame.initialized === false) {
         io.sockets.emit('availableCharacters', {charList: currentGame.characters});
@@ -53,10 +55,10 @@ function initialize() {
 
 }
 
-function selectCharacter(data) {
+function selectCharacter(io, socket, data) {
     let pname = data.playername;
     let pchar = data.playercharacter;
-    let newplayer = new player.Player(pname, gsocket.id, pchar);
+    socket.player = new Player(pname, pchar);
 
     for (let i=0; i<currentGame.characters.length; i++) {
         let charname = currentGame.characters[i].name;
@@ -68,26 +70,20 @@ function selectCharacter(data) {
         }
     }
 
-    currentGame.players.push(newplayer);
+    currentGame.players.push(socket.player);
 
     io.sockets.emit('selectedCharacters', {charList: currentGame.characters, game: currentGame});
 
 }
 
-function startGame(data) {
-    console.log('game started by ' + gsocket.id);
+function startGame(io, socket, data) {
+    console.log('game started by ' + socket.id);
     if (currentGame.initialized === false) {
         currentGame.createGame();
     }
 
-    let currentLocation = currentGame.currentPlayerLocation();
-    let moves = currentGame.getMoves();
-    console.log('moves' + moves);
-    let msg = 'Game started.';
-
     io.sockets.emit('showGame', {
-        msg: msg, game: currentGame,
-        currentPlayer: currentGame.currentPlayer,
-        currentLocation: currentLocation, moves: moves});
+        msg: 'Game Started!', game: currentGame,
+        firstPlayer: currentGame.currentPlayer});
 }
 

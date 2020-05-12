@@ -9,7 +9,8 @@ module.exports = {
         this.activePlayers = 0;
         this.initialized = false;
         this.solutioncards = {};
-        this.gameBoard = new gamelayout.Gameboard();
+        this.currentplayer = null;
+        //this.gameBoard = new gamelayout.Gameboard();
 
         // active character list
         this.characters = [
@@ -37,7 +38,7 @@ module.exports = {
             // deal cards
             this.dealClueCards();
             // lay out game board
-            this.gameBoard.boardlayout();
+           // this.gameBoard.boardlayout();
 
             this.initialized = true;
             console.log('current player ' + this.currentplayer.name);
@@ -77,37 +78,47 @@ module.exports = {
             }
         }
 
-        this.currentPlayerLocation = function(){
-            return this.gameBoard.getCharacterLocation(this.currentplayer.character.toString());
+        this.getNextPlayer = function () {
+            let nextPlayer;
+            while(!nextPlayer) {
+                let potential = this.players.filter(function(player) {
+                    return player.id = player
+                })
+            }
+
         }
 
-        this.getMoves = function(){
-            let moves = [];
-            moves.push("Make Accusation!");
-
-            let ch = this.currentplayer.character;
-            let chLocation = this.gameBoard.getCharacterLocation(this.currentplayer.character);
-
-            let nextRooms = chLocation.nextSpaces;
-
-            if(!chLocation.isRoom) {
-                for (var i = 0; i < nextRooms.length; i++) {
-                    moves.push("Move: " + nextRooms[i].name);
-                }
-            }
-            if(ch.active){
-                moves.push("Make Suggestion");
-                ch.active = false;
-            }
-            //for(var i = 0; i< nextRooms.length; i++){
-            //if(!this.gameBoard.isOccupiedHallway(nextRooms[i])){
-                //         moves.push("Move: "+nextRooms[i]);
-                //     }
-                // }
-
-            //console.log("Options: " + options);
-            return moves;
-        }
+        // this.currentPlayerLocation = function(){
+        //     return this.gameBoard.getCharacterLocation(this.currentplayer.character.toString());
+        // }
+        //
+        // this.getMoves = function(){
+        //     let moves = [];
+        //     moves.push("Make Accusation!");
+        //
+        //     let ch = this.currentplayer.character;
+        //     let chLocation = this.gameBoard.getCharacterLocation(this.currentplayer.character);
+        //
+        //     let nextRooms = chLocation.nextSpaces;
+        //
+        //     if(!chLocation.isRoom) {
+        //         for (var i = 0; i < nextRooms.length; i++) {
+        //             moves.push("Move: " + nextRooms[i].name);
+        //         }
+        //     }
+        //     if(ch.active){
+        //         moves.push("Make Suggestion");
+        //         ch.active = false;
+        //     }
+        //     //for(var i = 0; i< nextRooms.length; i++){
+        //     //if(!this.gameBoard.isOccupiedHallway(nextRooms[i])){
+        //         //         moves.push("Move: "+nextRooms[i]);
+        //         //     }
+        //         // }
+        //
+        //     //console.log("Options: " + options);
+        //     return moves;
+        // }
     }
 }
 

@@ -2,14 +2,49 @@ const CONSTANTS = require('./constants');
 //const PlayerService = require('./playerService');
 
 module.exports = {
-  Player: function(name, socketID, character) {
+  Player: function(name, character) {
     this.name = name;
-    this.socketID = socketID;
-    this.cards = [];
+    let cards;
     this.character = character;
-    this.currentplayer = true;
+    let currentplayer;
+    let id = null;
+
+    this.createPlayer = function (name, character) {
+      this.name = name;
+      this.character = character;
+      this.cards = [];
+      this.currentplayer = true;
+
+      switch (character) {
+        case 'MissScarlet':
+          this.location = 'Hall--Lounge';
+          this.id = 0;
+          break;
+        case 'ColonelMustard' :
+          this.location = 'Lounge--DiningRoom';
+          this.id = 1;
+          break;
+        case 'MrsWhite' :
+          this.location = 'Ballroom--Kitchen';
+          this.id = 2;
+          break;
+        case 'MrGreen' :
+          this.location = 'Conservatory--Ballroom';
+          this.id = 3;
+          break;
+        case 'MrsPeacock' :
+          this.location = 'Library--Conservatory';
+          this.id = 4;
+          break;
+        case 'ProfessorPlum' :
+          this.location = 'Study--Library';
+          this.id = 5;
+          break;
+      }
+    }
+    this.createPlayer(this.name, this.character);
   }
-};
+}
 
 // class Player {
 //   constructor(socket, playerService) {

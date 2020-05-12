@@ -85,3 +85,122 @@ td {
 
 }
 
+canvas#Study {
+  background: url("../img/study-board.jpg");
+}
+
+canvas#Library {
+  background: url("../img/library-board.jpg");
+}
+
+canvas#Conservatory {
+  background: url("../img/conservatory-board.jpg");
+}
+
+canvas#Hall {
+  background: url("../img/hall-board.jpg");
+}
+
+canvas#BilliardRoom {
+  background: url("../img/billiardroom-board.jpg");
+}
+
+canvas#Ballroom {
+  background: url("../img/ballroom-board.jpg");
+}
+
+canvas#Lounge {
+  background: url("../img/lounge-board.jpg");
+}
+
+canvas#DiningRoom {
+  background: url("../img/diningroom-board.jpg");
+}
+
+canvas#Kitchen {
+  background: url("../img/kitchen-board.jpg");
+}
+
+#gameBoardContainer canvas.hallway.horizontal{
+  background: url("../img/hall-horizontal.png");
+  background-size: 100% 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+#gameBoardContainer canvas.hallway.vertical{
+  background: url("../img/hall-vertical.png");
+  background-size: 50% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+div#gameBoardContainer character{
+  position: absolute;
+  display: inline-flex;
+  width: 7.5% !important;
+  height: 7.5% !important;
+  z-index: 3;
+  vertical-align: middle;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: .9;
+}
+
+div#gameBoardContainer character.myCharacter:hover{
+  cursor:pointer;
+  opacity: 1;
+  width: 10% !important;
+  height: 10% !important;
+}
+
+character#MissScarlet{
+  background: url("../img/red-token.png");
+}
+
+character#ColonelMustard{
+  background: url("../img/yellow-token.png");
+}
+
+character#MrsWhite{
+  background: url("../img/white-token.png");
+}
+
+character#MrGreen{
+  background: url("../img/green-token.png");
+}
+
+character#MrsPeacock{
+  background: url("../img/blue-token.png");
+}
+
+character#ProfessorPlum{
+  background: url("../img/purple-token.png");
+}
+
+.gameBoardColumn{
+  display: inline-block;
+  float: left;
+  height: 100%;
+  width: 20%;
+}
+
+div#gameBoardContainer{
+  position: relative;
+  display: inline-flex;
+  width: 60vw;
+  height: 62vh;
+}
+
+#gameBoardContainer canvas {
+  position: relative;
+  display: inline-flex;
+  width: 80%;
+  height: 19%;
+}
+
+#gameBoardContainer canvas.room {
+  background-size: 100% 100%;
+}
+
+

@@ -35,8 +35,44 @@
 </div>
 <div class="row">&nbsp;</div>
 <div class="row">
-  <div class="col-sm-8" id="gameboard"></div>
-  <div class="col=sm-2" id="playercards"></div>
+  <div class="col-sm-7" id="gameBoardContainer" style="display:none;">
+    <div id="gameColumn1" class="gameBoardColumn">
+      <canvas id="Study" class="room"></canvas>
+      <canvas id="Study_Library" class="hallway vertical"></canvas>
+      <canvas id="Library" class="room"></canvas>
+      <canvas id="Library_Conservatory" class="hallway vertical"></canvas>
+      <canvas id="Conservatory" class="room"></canvas>
+    </div>
+    <div id="gameColumn2" class="gameBoardColumn">
+      <canvas id="Study_Hall" class="hallway horizontal"></canvas>
+      <canvas></canvas>
+      <canvas id="Library_BilliardRoom" class="hallway horizontal"></canvas>
+      <canvas></canvas>
+      <canvas id="Conservatory_Ballroom" class="hallway horizontal"></canvas>
+    </div>
+    <div id="gameColumn3" class="gameBoardColumn">
+      <canvas id="Hall" class="room"></canvas>
+      <canvas id="Hall_BilliardRoom" class="hallway vertical"></canvas>
+      <canvas id="BilliardRoom" class="room"></canvas>
+      <canvas id="BilliardRoom_Ballroom" class="hallway vertical"></canvas>
+      <canvas id="Ballroom" class="room"></canvas>
+    </div>
+    <div id="gameColumn4" class="gameBoardColumn">
+      <canvas id="Hall_Lounge" class="hallway horizontal"></canvas>
+      <canvas></canvas>
+      <canvas id="BilliardRoom_DiningRoom" class="hallway horizontal"></canvas>
+      <canvas></canvas>
+      <canvas id="Ballroom_Kitchen" class="hallway horizontal"></canvas>
+    </div>
+    <div id="gameColumn5" class="gameBoardColumn">
+      <canvas id="Lounge" class="room"></canvas>
+      <canvas id="Lounge_DiningRoom" class="hallway vertical"></canvas>
+      <canvas id="DiningRoom" class="room"></canvas>
+      <canvas id="DiningRoom_Kitchen" class="hallway vertical"></canvas>
+      <canvas id="Kitchen" class="room"></canvas>
+    </div>
+  </div>
+  <div class="col=sm-2" id="cardContainer"></div>
   <div class="col-sm-2" id="checklist" style="display:none;"> <% include partials/checklist %></div>
 </div>
 
