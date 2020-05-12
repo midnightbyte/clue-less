@@ -17,27 +17,27 @@ module.exports = {
 
       switch (character) {
         case 'MissScarlet':
-          this.location = 'Hall--Lounge';
+          this.location = 'Hall_Lounge';
           this.id = 0;
           break;
         case 'ColonelMustard' :
-          this.location = 'Lounge--DiningRoom';
+          this.location = 'Lounge_DiningRoom';
           this.id = 1;
           break;
         case 'MrsWhite' :
-          this.location = 'Ballroom--Kitchen';
+          this.location = 'Ballroom_Kitchen';
           this.id = 2;
           break;
         case 'MrGreen' :
-          this.location = 'Conservatory--Ballroom';
+          this.location = 'Conservatory_Ballroom';
           this.id = 3;
           break;
         case 'MrsPeacock' :
-          this.location = 'Library--Conservatory';
+          this.location = 'Library_Conservatory';
           this.id = 4;
           break;
         case 'ProfessorPlum' :
-          this.location = 'Study--Library';
+          this.location = 'Study_Library';
           this.id = 5;
           break;
       }
