@@ -12,21 +12,18 @@ exports.initialize = function(gio, socket) {
     io = gio;
     gsocket = socket;
     console.log('socket ID ' + gsocket.id);
-    gsocket.emit('connected', {id: socket.id});
+    io.sockets.emit('connected', {id: socket.id});
 
-    gsocket.on('initialize', initialize);
-    gsocket.on('selectedCharacter', selectCharacter);
+    gsocket.on('initialize', function(data) {
+        io.sockets.emit('playerJoined', 'player has joined');
+        initialize();
+    });
 
-    // gsocket.on('initialize', function(data) {
-    //     io.sockets.emit('playerJoined', 'player has joined');
-    //     initialize();
-    // });
-
-    // gsocket.on('selectedCharacter', function(data) {
-    //     console.log('selected character ' + data.playercharacter);
-    //    // selectCharacter(io, socket, data);
-    //     selectCharacter(data);
-    // });
+    gsocket.on('selectedCharacter', function(data) {
+        console.log('selected character ' + data.playercharacter);
+       // selectCharacter(io, socket, data);
+        selectCharacter(data);
+    });
 
     gsocket.on('startgame', function(data) {
        // startGame(io, socket, data);
@@ -34,9 +31,7 @@ exports.initialize = function(gio, socket) {
     })
 }
 
-function initialize(data) {
-    io.sockets.emit('playerJoined', 'player has joined');
-
+function initialize() {
     let gameID;
     if (currentGame === null) {
         gameID = Math.floor(Math.random() * 100);     // returns a random integer from 0 to 99
@@ -44,18 +39,18 @@ function initialize(data) {
         console.log('new game ' + currentGame.gameID);
     }
     // put gameid in socket
-    this.join(this.gameID);
-   // io.sockets.gameID = gameID;
+    io.sockets.gameID = gameID;
 
     if (currentGame.initialized === false) {
-        this.emit('availableCharacters', {charList: currentGame.characters});
+        io.sockets.emit('availableCharacters', {charList: currentGame.characters});
     } else {
-        this.emit('showGame', {
+        io.sockets.emit('showGame', {
             game: currentGame,
             currentPlayerLocation: currentGame.currentPlayer,
             currentLocation: currentGame.currentPlayerLocation(),
             moves: []});
-    }
+     }
+
 }
 
 function selectCharacter(data) {
