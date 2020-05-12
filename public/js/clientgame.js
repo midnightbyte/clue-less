@@ -91,4 +91,24 @@ $(document).ready(function(){
     socket.on('message', function(message) {
         alert('server message: ' + message);
     });
+
+    $('#suggestForm').click(function(e){
+        e.preventDefault();
+        console.log("suggestion");
+        $('#suggestDialog').toggle();
+        socket.emit('suggestion');
+    });
+
+    $('#accuseForm').click(function(e){
+        e.preventDefault();
+        console.log("accusation");
+        $('#accuseDialog').toggle();
+        socket.emit('accusation');
+    });
+
+    $('#endTurnForm').click(function(e){
+        e.preventDefault();
+        console.log("endTurn");
+        socket.emit('endTurn');
+    });
 });
