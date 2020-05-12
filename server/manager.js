@@ -48,11 +48,9 @@ function initialize(io) {
         io.sockets.emit('availableCharacters', {charList: currentGame.characters});
     } else {
         io.sockets.emit('showGame', {
-            game: currentGame,
-            currentPlayerLocation: currentGame.currentPlayer,
-            currentLocation: currentGame.currentPlayerLocation(),
-            moves: []});
-     }
+            msg: 'Game Started!', game: currentGame,
+            firstPlayer: currentGame.currentplayer.id});
+    }
 
 }
 
@@ -60,6 +58,7 @@ function selectCharacter(io, socket, data) {
     let pname = data.playername;
     let pchar = data.playercharacter;
     socket.player = new Player(pname, pchar);
+    socket.player.mysocket = socket.id;
 
     for (let i=0; i<currentGame.characters.length; i++) {
         let charname = currentGame.characters[i].name;
@@ -85,6 +84,6 @@ function startGame(io, socket, data) {
 
     io.sockets.emit('showGame', {
         msg: 'Game Started!', game: currentGame,
-        firstPlayer: currentGame.currentPlayer});
+        firstPlayer: currentGame.currentplayer.mysocket});
 }
 
