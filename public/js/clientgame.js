@@ -73,7 +73,7 @@ $(document).ready(function(){
                     let thisplayer = data.game.players[i];
                     if (data.game.whosturn.id === thisplayer.id) {
                         displayGameMessage(thisplayer.character + ' - ' + thisplayer.name + ' goes first!');
-                        // this is where we tell whos turn it is
+                        // this is where we tell whos turn it is - needs to be moved
                     }
                     let player = data.game.players[i];
                     displayCards(player);
