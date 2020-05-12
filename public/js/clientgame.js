@@ -70,6 +70,11 @@ $(document).ready(function(){
                 console.log('firstplayer id' + data.firstPlayer);
                 console.log('socket id' + mysocketID)
                 if (data.firstPlayer === mysocketID) {
+                    let thisplayer = data.game.players[i];
+                    if (data.game.whosturn.id === thisplayer.id) {
+                        displayGameMessage(thisplayer.character + ' - ' + thisplayer.name + ' goes first!');
+                        // this is where we tell whos turn it is
+                    }
                     let player = data.game.players[i];
                     displayCards(player);
                 }

@@ -9,7 +9,7 @@ module.exports = {
         this.activePlayers = 0;
         this.initialized = false;
         this.solutioncards = {};
-        this.currentplayer = null;
+        this.whosturn = null;
         //this.gameBoard = new gamelayout.Gameboard();
 
         // active character list
@@ -26,10 +26,11 @@ module.exports = {
 
             // set up first player
             for (let i=0; i<this.players.length; i++) {
-                if  (this.players[i].character.name === 'Miss Scarlet') {
-                    this.currentplayer = this.players[i];
+                let charname = this.players[i].character;
+                if  (charname.localeCompare("Miss Scarlet")) {
+                    this.whosturn = this.players[0];
                 } else {
-                    this.currentplayer = this.players[0];
+                    this.whosturn = this.players[i];
                 }
             }
 
@@ -41,7 +42,7 @@ module.exports = {
            // this.gameBoard.boardlayout();
 
             this.initialized = true;
-            console.log('current player ' + this.currentplayer.name);
+            console.log('current player ' + this.whosturn.name);
         },
 
         this.dealClueCards = function() {

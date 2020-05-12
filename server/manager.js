@@ -84,6 +84,6 @@ function startGame(io, socket, data) {
 
     io.sockets.emit('showGame', {
         msg: 'Game Started!', game: currentGame,
-        firstPlayer: currentGame.currentplayer.mysocket});
+        firstPlayer: currentGame.whosturn.mysocket});
 }
 
