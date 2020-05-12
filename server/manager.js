@@ -18,7 +18,7 @@ exports.initialize = function(io, socket) {
     socket.emit('connected', {id: socket.id});
 
     socket.on('initialize', function(data) {
-        io.sockets.emit('playerJoined');
+     //   io.sockets.emit('playerJoined');
         initialize(io);
     });
 
