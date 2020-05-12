@@ -98,3 +98,45 @@ function setToken(character) {
     displayGameMessage(character + ' has been added to the board');
     $('div#gameBoardContainer').prepend($('<character id="' + character +'"">'));
 }
+
+function validMove(currentLocation, targetLocation){
+    var validMoves = {
+        Study : ['Study_Hall', 'Study_Library', 'Kitchen'],
+        Hall : ['Study_Hall', 'Hall_Lounge', 'Hall_BilliardRoom'],
+        Lounge : ['Hall_Lounge', 'Lounge_DiningRoom', 'Conservatory'],
+        Library : ['Study_Library', 'Library_BilliardRoom', 'Library_Conservatory'],
+        BilliardRoom : ['Library_BilliardRoom', 'Hall_BilliardRoom', 'BilliardRoom_DiningRoom', 'BilliardRoom_Ballroom'],
+        DiningRoom : ['Lounge_DiningRoom', 'BilliardRoom_DiningRoom', 'DiningRoom_Kitchen'],
+        Conservatory : ['Library_Conservatory', 'Conservatory_Ballroom', 'Lounge'],
+        Ballroom : ['Conservatory_Ballroom', 'BilliardRoom_Ballroom', 'Ballroom_Kitchen'],
+        Kitchen : ['Ballroom_Kitchen', 'DiningRoom_Kitchen', 'Study'],
+        Study_Hall : ['Study', 'Hall'],
+        Hall_Lounge : ['Hall', 'Lounge'],
+        Study_Library : ['Study', 'Library'],
+        Hall_BilliardRoom : ['Hall', 'BilliardRoom'],
+        Lounge_DiningRoom : ['Lounge', 'DiningRoom'],
+        Library_BilliardRoom : ['Library', 'BilliardRoom'],
+        BilliardRoom_DiningRoom : ['BilliardRoom', 'DiningRoom'],
+        Library_Conservatory : ['Library', 'Conservatory'],
+        BilliardRoom_Ballroom : ['BilliardRoom', 'Ballroom'] ,
+        DiningRoom_Kitchen :  ['DiningRoom', 'Kitchen'],
+        Conservatory_Ballroom : ['Conservatory', 'Ballroom'],
+        Ballroom_Kitchen : ['Ballroom', 'Kitchen']
+    }
+
+    return (validMoves[currentLocation] && validMoves[currentLocation].indexOf(targetLocation.id) !== -1);
+}
+
+function displayCards (player) {
+    $('div#cardContainer').empty();
+    $.each(player.cards, function(i, card){
+        var cardNode = '<card id="' + card + '"></card>';
+        if($('card#' + card).length === 0){
+            $('div#cardContainer').append(cardNode);
+            $('card#' + card).css('background',  'url("/img/cards/' + card + '.jpg")');
+            $('card#' + card).css('background-size',  '100% 100%');
+            $('card#' + card).css('background-repeat',  'no-repeat');
+        }
+    });
+}
+

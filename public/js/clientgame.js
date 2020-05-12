@@ -64,12 +64,17 @@ $(document).ready(function(){
         $("#gameBoardContainer").toggle();
         displayGameMessage(data.msg);
         if (data.game.players.length > 0) {
-            for (let i=0; i<data.game.players.length; i++) {
+            for (let i = 0; i < data.game.players.length; i++) {
                 setToken(data.game.players[i].character);
+                console.log('firstplayer id' + data.firstPlayer.id);
+                console.log('socket id' + socket.player.id)
+                if (data.firstPlayer.id === socket.player.id) {
+                    socket.player = player;
+                    displayCards(player);
+                }
             }
         }
-
-    })
+    });
 
 
     socket.on('createGameResponse', (msg) => {

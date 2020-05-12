@@ -46,9 +46,9 @@ module.exports = {
 
         this.dealClueCards = function() {
 
-            let wclues = ["candlestick","knife","rope","revolver","pipe","wrench"];
-            let sclues = ["Miss Scarlet","Colonel Mustard","Mrs White","Mr Green","Mrs Peacock","Professor Plum"];
-            let rclues = ["ballroom","billiardroom","conservatory","diningroom","hall","kitchen","library","lounge","study"];
+            let wclues = ["Candlestick","Knife","Rope","Revolver","Pipe","Wrench"];
+            let sclues = ["MissScarlet","ColonelMustard","MrsWhite","MrGreen","MrsPeacock","ProfessorPlum"];
+            let rclues = ["Ballroom","BilliardRoom","Conservatory","DiningRoom","Hall","Kitchen","Library","Lounge","Study"];
 
             let random1 = Math.floor(Math.random()*sclues.length);
             this.solutioncards['suspect'] = sclues[random1];
