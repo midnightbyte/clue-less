@@ -62,9 +62,7 @@ $(document).ready(function(){
     socket.on('showGame', function(data) {
         $('#startbutton').toggle();
         $('#checklist').toggle();
-        $('#suggestButton').toggle();
-        $('#accuseButton').toggle();
-        $('#endTurnButton').toggle();
+
         $("#gameBoardContainer").toggle();
         displayGameMessage(data.msg);
         let thisplayer;
@@ -79,12 +77,16 @@ $(document).ready(function(){
                     displayCards(thisplayer);
                     if (data.game.whosturn.id === thisplayer.id) {
                         displayGameMessage('<b><font color="red" size="+2">Your turn!</font></b>');
+                        $('#suggestButton').toggle();
+                        $('#accuseButton').toggle();
+                        $('#endTurnButton').toggle();
                     }
                 } else {
                     if (data.game.players[i].mysocket === mysocketID) {
                         thisplayer = data.game.players[i];
                         displayCards(thisplayer);
-                        displayGameMessage('<b><font color="red">' + thisplayer.character + ' goes first!</font></b>');
+                        displayGameMessage('<b><font color="red">' + data.game.whosturn.character + ' goes first!</font></b>');
+                        $('#accuseButton').toggle();
                     }
                 }
             }
