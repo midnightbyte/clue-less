@@ -76,7 +76,7 @@ $(document).ready(function(){
                     thisplayer = data.game.players[i];
                     displayCards(thisplayer);
                     if (data.game.whosturn.id === thisplayer.id) {
-                        displayGameMessage('<b><font color="red" size="+2">Your turn!</font></b>');
+                        displayGameMessage('<b><font color="red" size="+2">'+ thisplayer.character + ' - Your turn!</font></b>');
                         $('#suggestButton').toggle();
                         $('#accuseButton').toggle();
                         $('#endTurnButton').toggle();
