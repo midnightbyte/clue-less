@@ -8,6 +8,8 @@ module.exports = {
     this.character = character;
     let currentplayer;
     let id = null;
+    let location;
+    let mysocket;
 
     this.createPlayer = function (name, character) {
       this.name = name;
@@ -16,27 +18,27 @@ module.exports = {
       this.currentplayer = true;
 
       switch (character) {
-        case 'MissScarlet':
+        case 'Miss Scarlet':
           this.location = 'Hall_Lounge';
           this.id = 0;
           break;
-        case 'ColonelMustard' :
+        case 'Colonel Mustard' :
           this.location = 'Lounge_DiningRoom';
           this.id = 1;
           break;
-        case 'MrsWhite' :
+        case 'Mrs White' :
           this.location = 'Ballroom_Kitchen';
           this.id = 2;
           break;
-        case 'MrGreen' :
+        case 'Mr Green' :
           this.location = 'Conservatory_Ballroom';
           this.id = 3;
           break;
-        case 'MrsPeacock' :
+        case 'Mrs Peacock' :
           this.location = 'Library_Conservatory';
           this.id = 4;
           break;
-        case 'ProfessorPlum' :
+        case 'Professor Plum' :
           this.location = 'Study_Library';
           this.id = 5;
           break;
