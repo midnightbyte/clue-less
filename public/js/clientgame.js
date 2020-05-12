@@ -1,6 +1,6 @@
 
 let selectedChar;
-let socketID;
+let mysocketID;
 let gameStarted = false;
 let playerData;
 
@@ -11,13 +11,14 @@ $(document).ready(function(){
     socket.on('connected', function(data) {
         clearGameMessage();
         displayGameMessage('waiting for players ...')
+        mysocketID = data.id;
         socket.emit('initialize');
     });
 
     // handle player join
-    socket.on('playerJoined', function(msg){
+    socket.on('playerJoined', function(data){
 
-        displayGameMessage(msg);
+     //   displayGameMessage(msg);
     });
 
     socket.on('playerDisconnected', function(data){

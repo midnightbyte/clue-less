@@ -14,10 +14,11 @@ exports.initialize = function(io, socket) {
     this.io = io;
     this.socket = socket;
     console.log('socket ID ' + socket.id);
-    io.sockets.emit('connected', {id: socket.id});
+    //io.sockets.emit('connected', {id: socket.id});
+    socket.emit('connected', {id: socket.id});
 
     socket.on('initialize', function(data) {
-        io.sockets.emit('playerJoined', 'player has joined');
+        io.sockets.emit('playerJoined');
         initialize(io);
     });
 
