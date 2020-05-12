@@ -203,4 +203,18 @@ div#gameBoardContainer{
   background-size: 100% 100%;
 }
 
+#cardContainer{
+  position: relative;
+  display: inline-flex;
+  width: 35%;
+  height: 16.5vh;
+}
+
+card{
+  position: relative;
+  display: inline-flex;
+  width: 15%;
+  height: 100%;
+}
+
 

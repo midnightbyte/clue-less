@@ -32,6 +32,10 @@ exports.initialize = function(io, socket) {
        // startGame(io, socket, data);
         startGame(io, socket, data);
     })
+
+    socket.on('updateNeeded', function(data) {
+        updateNeeded(io, socket,data);
+    })
 }
 
 function initialize(io) {
@@ -49,7 +53,7 @@ function initialize(io) {
     } else {
         io.sockets.emit('showGame', {
             msg: 'Game Started!', game: currentGame,
-            firstPlayer: currentGame.currentplayer.id});
+            firstPlayer: currentGame.whosturn.mysocket});
     }
 
 }
@@ -87,3 +91,8 @@ function startGame(io, socket, data) {
         firstPlayer: currentGame.whosturn.mysocket});
 }
 
+function updateNeeded(io, socket, data) {
+    console.log('update board ');
+
+    io.sockets.emit('updateBoard', {game: currentGame});
+}

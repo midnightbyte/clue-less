@@ -67,25 +67,87 @@ $(document).ready(function(){
         $('#endTurnButton').toggle();
         $("#gameBoardContainer").toggle();
         displayGameMessage(data.msg);
+        let thisplayer;
         if (data.game.players.length > 0) {
             for (let i = 0; i < data.game.players.length; i++) {
                 setToken(data.game.players[i].character);
                 console.log('firstplayer id' + data.firstPlayer);
                 console.log('socket id' + mysocketID)
-                if (data.firstPlayer === mysocketID) {
-                    let thisplayer = data.game.players[i];
-                    if (data.game.whosturn.id === thisplayer.id) {
-                        displayGameMessage('<b><font color="red">Your turn!</font></b>');
-                    }
-                    let player = data.game.players[i];
-                    displayCards(player);
-                } else {
-                    displayGameMessage('<b><font color="red">' + thisplayer.character + ' goes first!</font></b>');
-                }
 
+                if (data.firstPlayer === mysocketID) {
+                    thisplayer = data.game.players[i];
+                    displayCards(thisplayer);
+                    if (data.game.whosturn.id === thisplayer.id) {
+                        displayGameMessage('<b><font color="red" size="+2">Your turn!</font></b>');
+                    }
+                } else {
+                    if (data.game.players[i].mysocket === mysocketID) {
+                        thisplayer = data.game.players[i];
+                        displayGameMessage('<b><font color="red">' + thisplayer.character + ' goes first!</font></b>');
+                    }
+                }
             }
         }
+        socket.emit('updateNeeded');
+
+        //Allows player to drag character
+        $('character#' + thisplayer.character).addClass('draggable');
+        $('character#' + thisplayer.character).draggable({
+            containment: "#gameBoardContainer",
+            snap: "canvas",
+            snapMode: "inner",
+            stop: function (event, ui) {
+                if(socket.moveable){
+                    var possibleTargets = $('canvas').filter(function(index) {
+                        return ($(this).offset().left <= ui.offset.left && $(this).offset().top <= ui.offset.top);
+                    });
+
+
+                    var currentPlayerData = data.game.players.filter(function (data){
+                        return data.id === currentPlayerData.mysocket;
+                    })[0];
+
+                    var target = possibleTargets[possibleTargets.length-1];
+
+                    if(validMove(currentPlayerData.location, target)){
+                        if(possibleTargets.length > 0 && target.id){
+                            //if the target is a hallway then check to make sure it isn't occupied
+                            if(target.id.indexOf('_') != -1){
+                                $('button#makeSuggestion').hide();
+                                var occupiedLocation = playerData.filter(function (data){
+                                    return data.location == target.id;
+                                });
+                                if(occupiedLocation.length == 0){
+                                    socket.emit('moveTo', player.character, target.id);
+                                    socket.moveable = false;
+                                }
+                            }
+                            else{
+                                $("select#suggestionRoomSelect").val(target.id);
+                                $("select#suggestionRoomSelect").attr('disabled', 'disabled');
+                                $('button#makeSuggestion').show();
+                                socket.emit('moveTo', player.character, target.id);
+                                socket.moveable = false;
+                            }
+                        }
+                    }
+                    else{
+                        alert('Please make a valid move');
+                    }
+                }
+                else{
+                    alert('Player is unable to move at this time');
+                }
+                socket.emit('triggerUpdate');
+            }
+        });
     });
+
+    socket.on('updateBoard', function(data) {
+        console.log('updating the game board');
+        updateGameBoard(data);
+    });
+
 
 
     socket.on('createGameResponse', (msg) => {

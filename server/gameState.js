@@ -79,17 +79,30 @@ module.exports = {
             }
         }
 
-        this.getNextPlayer = function () {
-            let nextPlayer;
-            while(!nextPlayer) {
-                let potential = this.players.filter(function(player) {
-                    return player.id = player
-                })
+        this.getNextPlayer = function (playerId, forAnsweringSuggestion) {
+                var nextPlayer;
+
+                while(!nextPlayer){
+                    var potential = players.filter(function(player){
+                        return player.id === playerId;
+                    });
+
+                    if(potential.length > 0 && (forAnsweringSuggestion || potential[0].currentplayer)){
+                        nextPlayer = potential[0];
+                    }
+                    else if(playerId > 5){
+                        playerId = 0;
+                    }
+                    else{
+                        playerId++;
+                    }
+                }
+
+                return nextPlayer;
             }
 
-        }
 
-        // this.currentPlayerLocation = function(){
+            // this.currentPlayerLocation = function(){
         //     return this.gameBoard.getCharacterLocation(this.currentplayer.character.toString());
         // }
         //

@@ -128,11 +128,11 @@ function validMove(currentLocation, targetLocation){
 }
 
 function displayCards (player) {
-    $('div#cardContainer').empty();
+    $('#cardContainer').empty();
     $.each(player.cards, function(i, card){
         var cardNode = '<card id="' + card + '"></card>';
         if($('card#' + card).length === 0){
-            $('div#cardContainer').append(cardNode);
+            $('#cardContainer').append(cardNode);
             $('card#' + card).css('background',  'url("/img/cards/' + card + '.jpg")');
             $('card#' + card).css('background-size',  '100% 100%');
             $('card#' + card).css('background-repeat',  'no-repeat');
@@ -140,3 +140,21 @@ function displayCards (player) {
     });
 }
 
+function updateGameBoard (data) {
+    playerData = data.game.players;
+
+    $.each(playerData, function(i, player){
+        if($('character[id="' + player.character+'"]').length === 0){
+            setToken(player.character);
+        }
+        var position = $('#' + player.location).position();
+        var roomOccupancy = playerData.filter(function(index) {
+            return index.location === player.location;
+        });
+        position.left = ((roomOccupancy.indexOf(player)%3) * $('character[id="' + player.character+'"]').width()) + position.left ;
+        if(roomOccupancy.indexOf(player) > 2){
+            position.top = $('character[id="' + player.character+'"]').height()*1.5 + position.top;
+        }
+        $('character[id="' + player.character +'"]').css({'top': position.top, 'left': position.left});
+    });
+}
