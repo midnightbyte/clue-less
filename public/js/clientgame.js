@@ -80,6 +80,7 @@ $(document).ready(function(){
                         $('#suggestButton').toggle();
                         $('#accuseButton').toggle();
                         $('#endTurnButton').toggle();
+                        socket.moveable = true;
                     }
                 } else {
                     if (data.game.players[i].mysocket === mysocketID) {
@@ -87,6 +88,7 @@ $(document).ready(function(){
                         displayCards(thisplayer);
                         displayGameMessage('<b><font color="red">' + data.game.whosturn.character + ' goes first!</font></b>');
                         $('#accuseButton').toggle();
+                        socket.moveable = false;
                     }
                 }
             }
@@ -116,11 +118,11 @@ $(document).ready(function(){
                         if(possibleTargets.length > 0 && target.id){
                             //if the target is a hallway then check to make sure it isn't occupied
                             if(target.id.indexOf('_') != -1){
-                                $('button#makeSuggestion').hide();
+                                $('button#suggestButton').toggle();
                                 var occupiedLocation = playerData.filter(function (data){
-                                    return data.location == target.id;
+                                    return data.location === target.id;
                                 });
-                                if(occupiedLocation.length == 0){
+                                if(occupiedLocation.length === 0){
                                     socket.emit('moveTo', player.character, target.id);
                                     socket.moveable = false;
                                 }

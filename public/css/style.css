@@ -217,4 +217,21 @@ card{
   height: 100%;
 }
 
+#gameBoardContainer character{
+  position: absolute;
+  display: inline-flex;
+  width: 7.5% !important;
+  height: 7.5% !important;
+  z-index: 3;
+  vertical-align: middle;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  opacity: .9;
+}
 
+div#gameBoardContainer character.myCharacter:hover{
+  cursor:pointer;
+  opacity: 1;
+  width: 10% !important;
+  height: 10% !important;
+}

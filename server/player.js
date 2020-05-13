@@ -18,27 +18,27 @@ module.exports = {
       this.currentplayer = true;
 
       switch (character) {
-        case 'Miss Scarlet':
+        case 'MissScarlet':
           this.location = 'Hall_Lounge';
           this.id = 0;
           break;
-        case 'Colonel Mustard' :
+        case 'ColonelMustard' :
           this.location = 'Lounge_DiningRoom';
           this.id = 1;
           break;
-        case 'Mrs White' :
+        case 'MrsWhite' :
           this.location = 'Ballroom_Kitchen';
           this.id = 2;
           break;
-        case 'Mr Green' :
+        case 'MrGreen' :
           this.location = 'Conservatory_Ballroom';
           this.id = 3;
           break;
-        case 'Mrs Peacock' :
+        case 'MrsPeacock' :
           this.location = 'Library_Conservatory';
           this.id = 4;
           break;
-        case 'Professor Plum' :
+        case 'ProfessorPlum' :
           this.location = 'Study_Library';
           this.id = 5;
           break;

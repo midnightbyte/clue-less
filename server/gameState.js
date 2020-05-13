@@ -14,12 +14,12 @@ module.exports = {
 
         // active character list
         this.characters = [
-            new Character("Miss Scarlet"),
-            new Character("Colonel Mustard"),
-            new Character("Mrs White"),
-            new Character("Mr Green"),
-            new Character("Mrs Peacock"),
-            new Character("Professor Plum")
+            new Character("MissScarlet"),
+            new Character("ColonelMustard"),
+            new Character("MrsWhite"),
+            new Character("MrGreen"),
+            new Character("MrsPeacock"),
+            new Character("ProfessorPlum")
         ]
 
         this.createGame = function () {
@@ -27,7 +27,7 @@ module.exports = {
             // set up first player
             for (let i=0; i<this.players.length; i++) {
                 let charname = this.players[i].character;
-                if  (charname.localeCompare("Miss Scarlet")) {
+                if  (charname.localeCompare("MissScarlet")) {
                     this.whosturn = this.players[0];
                 } else {
                     this.whosturn = this.players[i];
