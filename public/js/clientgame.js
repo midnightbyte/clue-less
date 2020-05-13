@@ -74,13 +74,14 @@ $(document).ready(function(){
 
                 if (data.firstPlayer === mysocketID) {
                     thisplayer = data.game.players[i];
+                    socket.moveable = true;
                     if (data.game.whosturn.id === thisplayer.id) {
                         displayCards(thisplayer);
                         displayGameMessage('<b><font color="red" size="+2">'+ thisplayer.character + ' - Your turn!</font></b>');
                         $('#suggestButton').toggle();
                         $('#accuseButton').toggle();
                         $('#endTurnButton').toggle();
-                        socket.moveable = true;
+
                     }
                 } else {
                     if (data.game.players[i].mysocket === mysocketID) {
@@ -143,7 +144,7 @@ $(document).ready(function(){
                 else{
                     alert('Player is unable to move at this time');
                 }
-                socket.emit('triggerUpdate');
+                socket.emit('updateNeeded');
             }
         });
     });
