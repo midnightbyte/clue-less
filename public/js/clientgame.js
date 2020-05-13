@@ -74,8 +74,8 @@ $(document).ready(function(){
 
                 if (data.firstPlayer === mysocketID) {
                     thisplayer = data.game.players[i];
-                    displayCards(thisplayer);
                     if (data.game.whosturn.id === thisplayer.id) {
+                        displayCards(thisplayer);
                         displayGameMessage('<b><font color="red" size="+2">'+ thisplayer.character + ' - Your turn!</font></b>');
                         $('#suggestButton').toggle();
                         $('#accuseButton').toggle();
